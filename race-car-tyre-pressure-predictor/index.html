@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Data-driven race car tire pressure predictor. Calculate optimal cold starting pressures, formation lap bleed, and pressure build-up from telemetry or Excel data.">
+    <meta name="keywords" content="race car tire pressure predictor, tire pressure prediction, cold pressure calculator, formation lap bleed, racing tires, pressure build-up">
+    <meta name="author" content="LVilla Engineering">
+    <meta name="robots" content="index, follow">
+    <meta name="language" content="English">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="/race-car-tire-pressure-predictor/">
+    <meta property="og:title" content="Race Car Tire Pressure Predictor | Data-Driven Cold Pressure Calculation">
+    <meta property="og:description" content="Data-driven race car tire pressure predictor. Calculate optimal cold starting pressures, formation lap bleed, and pressure build-up from telemetry or Excel data.">
+    <meta property="og:image" content="/og-image.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:site_name" content="Tire Pressure Predictor">
+    <meta property="og:locale" content="en_US">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="/race-car-tire-pressure-predictor/">
+    <meta name="twitter:title" content="Race Car Tire Pressure Predictor | Data-Driven Cold Pressure Calculation">
+    <meta name="twitter:description" content="Data-driven race car tire pressure predictor. Calculate optimal cold starting pressures, formation lap bleed, and pressure build-up from telemetry or Excel data.">
+    <meta name="twitter:image" content="/og-image.png">
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="/race-car-tire-pressure-predictor/">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="/logo.svg">
+    <link rel="manifest" href="/site.webmanifest">
+    <meta name="theme-color" content="#DC0000">
+
+    <title>Race Car Tire Pressure Predictor | Data-Driven Cold Pressure Calculation</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="/styles.css">
+
+    <!-- JSON-LD FAQPage -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Is this a race car tire pressure predictor?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. This tool is specifically designed for race cars competing in series like Ferrari Challenge, GT racing, and similar motorsport categories. It uses your historical telemetry data to predict optimal cold tire pressures for reaching target hot pressures during sessions."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do you predict cold pressures from real data analysis?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The predictor builds a statistical model from your historical sessions. It analyzes the relationship between cold starting pressures and resulting hot pressures across different tracks, compounds, and conditions. When you input a target hot pressure, the model calculates the cold pressure needed to reach that target based on patterns learned from your actual data."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How does the tool clean and validate incoming data?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The processor automatically filters out unreliable data before training. It detects and excludes: wet condition runs (via rain light or wiper activation), pre-heated tire runs (tire temperature significantly above ambient at start), aborted laps (detected by abnormal lap time jumps), pressure bleeds during pit stops, and laps with anomalous length (outlaps, in-laps, incomplete laps). Sensor spikes in pressure, temperature, and speed data are also removed. This ensures the ML model trains only on clean, representative dry-condition data."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do you calculate formation lap/grid pressure bleed?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Engineers start formation laps with higher pressures to prevent bead unseating and aid tire warm-up. On the grid, they bleed down to optimal race pressures. The bleed calculation uses the thermal gain coefficient (k = ΔP/ΔT) from formation lap telemetry, processed separately from ML training data. The system computes the exact bleed to reach the predictor's suggested cold pressures."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I use an Excel file with manually inserted input/output points?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. Beyond automated telemetry processing, you can create an Excel spreadsheet with your own cold/hot pressure pairs from manual measurements. The predictor imports this data and builds the same statistical model, giving you flexibility when full telemetry is unavailable."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can it predict cold pressure on a new track/circuit I have never raced on?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. The track similarity matching feature compares the new circuit's characteristics (corner count, lap length, surface type) against tracks in your database. It finds the most similar tracks and uses their data to provide baseline cold pressure predictions, giving you a reliable starting point for the first session."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Does it handle long run vs short run pressure build-up differences?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. Pressure build-up behavior differs between qualifying (short runs with cool-down laps) and race stints (continuous long runs). The predictor accounts for session type when calculating cold pressures, ensuring accurate predictions whether you're setting up for a 15-minute qualifying or a 30-minute race stint."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What data formats are supported?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The predictor accepts telemetry exports as ZIP archives containing CSV files organized by track folder. For WinTAX4 users, a dedicated export template (tirepressurepredictor.ech) ensures correct channel selection. Qualifying and testing sessions are used for ML model training, while formation lap data is processed separately for thermal gain coefficient calculation only. For vehicles without TPMS or when using tire heaters, the Excel template (Pressures_Database_Template.xlsx) allows manual data entry."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How accurate are the pressure predictions?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Accuracy depends on data quality and quantity. With sufficient historical sessions (typically 5+ per track), predictions typically fall within 0.02-0.05 bar of actual results. The system provides confidence intervals showing prediction reliability and warns when data is insufficient for reliable predictions."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Does it work with vehicles without TPMS or when using tire heaters?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. For vehicles without TPMS (e.g. F4 or other single-seater cars) or when using tire heaters/blankets, you can use the Excel template (Pressures_Database_Template.xlsx) to input cold/hot pressure pairs manually. This is common in Ferrari Challenge and similar series where tire blankets pre-heat the tires. The predictor builds the same statistical model from this manual data, requiring columns for pressures, track, ambient temperature, tire temperatures, and lap count."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Why should the whole team use the predictor?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Team-wide adoption creates a centralized database where all engineers contribute data. This means the model learns from collective experience rather than individual knowledge. New engineers joining the team immediately benefit from years of accumulated data, avoiding trial-and-error. It also ensures consistency: everyone works from the same data-driven baseline rather than personal preferences, reducing setup variability across the team."
+          }
+        }
+      ]
+    }
+    </script>
+
+    <!-- JSON-LD Article -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "headline": "Race Car Tire Pressure Predictor: Data-Driven Cold Pressure Calculation",
+      "description": "Learn how a data-driven tire pressure predictor calculates optimal cold starting pressures, formation lap bleed, and handles new track predictions for race cars.",
+      "author": {
+        "@type": "Organization",
+        "name": "LVilla Engineering"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "LVilla Engineering",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "/logo.svg"
+        }
+      },
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "/race-car-tire-pressure-predictor/"
+      }
+    }
+    </script>
+</head>
+<body>
+    <!-- ==================== HEADER ==================== -->
+    <header class="header">
+        <div class="container header-content">
+            <div class="logo">
+                <a href="/" style="display: flex; align-items: center; gap: 10px; text-decoration: none;">
+                    <span class="logo-icon">
+                        <img src="/logo.svg" alt="Tire Pressure Predictor" width="32" height="32">
+                    </span>
+                    <span class="logo-text">Tire Pressure Predictor</span>
+                </a>
+            </div>
+            <nav class="nav">
+                <a href="/">Home</a>
+                <a href="/#how-it-works">How It Works</a>
+                <a href="/#features">Features</a>
+                <a href="/#contact" class="btn btn-primary btn-small">Request Demo</a>
+            </nav>
+            <button class="mobile-menu-btn" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </header>
+
+    <!-- ==================== HERO / INTRO ==================== -->
+    <section class="hero" style="padding-bottom: 60px;">
+        <div class="container hero-content">
+            <p style="margin-bottom: 16px;">
+                <a href="/" style="color: var(--ferrari-red); font-weight: 500;">&larr; Back to Home</a>
+            </p>
+            <h1 style="white-space: nowrap;">Race Car Tire Pressure Predictor</h1>
+            <p class="hero-subtitle">
+                A data-driven tool that analyzes your historical telemetry to predict optimal cold tire starting pressures. Input your target hot pressures, the track and the number of laps, the predictor calculates the exact cold values needed to reach those targets during the session.
+            </p>
+        </div>
+    </section>
+
+    <!-- ==================== MAIN CONTENT ==================== -->
+    <section class="section section-light">
+        <div class="container">
+
+            <!-- Section 1: Racing tires cold pressure prediction -->
+            <h2 class="section-title" style="text-align: left; margin-bottom: 16px;">Racing Tires Cold Pressure Prediction (Data-Driven)</h2>
+            <p style="margin-bottom: 24px; color: var(--gray-700); line-height: 1.8;">
+                Traditional cold pressure selection relies on experience and general guidelines. A racing tires cold pressure predictor takes a different approach: it learns from your actual data. By processing historical sessions where you recorded both starting (cold) and ending (hot) pressures, the system builds a statistical model specific to your car, tires, and driving style. This data-driven method eliminates guesswork and provides predictions grounded in real-world measurements from your own racing history.
+            </p>
+            <p style="margin-bottom: 48px; color: var(--gray-700); line-height: 1.8;">
+                The predictor doesn't use generic lookup tables. Instead, it captures the unique pressure build-up characteristics of your specific setup. Whether you're running Pirelli DHE in Ferrari Challenge or Michelin slicks in GT racing, the model adapts to the actual behavior observed in your telemetry.
+            </p>
+
+            <!-- Section 2: Optimal starting pressure -->
+            <h2 class="section-title" style="text-align: left; margin-bottom: 16px;">Optimal Starting Pressure (Cold-to-Hot Target)</h2>
+            <p style="margin-bottom: 24px; color: var(--gray-700); line-height: 1.8;">
+                Every racing tire has an optimal operating window, a hot pressure range where grip and consistency are maximized. The challenge is determining the optimal starting pressure (cold) that will land you in that window once the tires heat up. Set too low and you'll be under-inflated mid-stint; set too high and you'll overshoot the target, losing grip and increasing wear.
+            </p>
+            <p style="margin-bottom: 48px; color: var(--gray-700); line-height: 1.8;">
+                The cold pressure predictor solves this by reversing the relationship: you specify your target hot pressures (based on tire manufacturer recommendations or your own testing), and the system calculates the corresponding cold values. This hot-to-cold calculation accounts for thermal expansion, carcass heating, and track-specific factors derived from your historical data.
+            </p>
+
+            <!-- Section 3: Formation lap pressure bleed -->
+            <h2 class="section-title" style="text-align: left; margin-bottom: 16px;">Formation Lap Pressure Bleed: How It's Calculated</h2>
+            <p style="margin-bottom: 24px; color: var(--gray-700); line-height: 1.8;">
+                For race stints (long runs), the predictor suggests relatively low cold starting pressures. However, starting the formation lap with such low pressures creates two risks: bead unseating (tire coming off the rim) due to under-inflation during aggressive weaving, and a softer carcass structure that makes it harder to generate heat in the tire. Engineers address this by intentionally setting higher pressures for the formation lap.
+            </p>
+            <p style="margin-bottom: 24px; color: var(--gray-700); line-height: 1.8;">
+                Once the car reaches the grid after the formation lap, the engineer performs a pressure bleed to bring the tires down to the optimal values suggested by the predictor. The bleed calculation uses the thermal gain coefficient (k = ΔP/ΔT), extracted specifically from formation lap telemetry uploads. This data is processed separately and not used for ML model training, since warm-up lap thermal behavior differs from racing conditions.
+            </p>
+            <ul style="margin-bottom: 48px; color: var(--gray-700); line-height: 2; padding-left: 24px;">
+                <li>Start formation lap with higher pressures for safety and faster warm-up</li>
+                <li>Calculate track-specific thermal gain coefficient (k = ΔP/ΔT) from historical data</li>
+                <li>Compute exact bleed amount to reach optimal race pressures on the grid</li>
+                <li>Prevent bead unseating risk during aggressive formation lap weaving</li>
+            </ul>
+
+            <!-- Section 4: Excel workflow -->
+            <h2 class="section-title" style="text-align: left; margin-bottom: 16px;">Excel Workflow (User-Inserted Input/Output Points)</h2>
+            <p style="margin-bottom: 24px; color: var(--gray-700); line-height: 1.8;">
+                Not every team has full telemetry logging. Vehicles without TPMS (Tire Pressure Monitoring System) or teams using tire heaters/blankets cannot rely on automated pressure build-up logging. The cold pressure predictor from Excel file containing input/output user-inserted points supports this workflow. Using the provided template (Pressures_Database_Template.xlsx), you record cold pressures, hot pressures, track name, ambient temperature, tire temperatures during pressurization, and number of laps.
+            </p>
+            <p style="margin-bottom: 48px; color: var(--gray-700); line-height: 1.8;">
+                The system imports this Excel data and builds the same statistical model used for telemetry-based predictions. Required columns include cold/hot pressures for all four corners, track name, ambient temperature, and lap count. Suggested columns like individual lap times improve analysis accuracy. This flexibility means you can start using the predictor immediately with historical notes from your pit board.
+            </p>
+
+            <!-- Section 5: New track prediction -->
+            <h2 class="section-title" style="text-align: left; margin-bottom: 16px;">New Track/Circuit Prediction (Baseline from Similarity)</h2>
+            <p style="margin-bottom: 24px; color: var(--gray-700); line-height: 1.8;">
+                Racing at a new circuit presents a challenge: you have no historical data for that track. How can you predict cold pressure for a new racetrack you've never visited? The track similarity matching feature addresses this by comparing the new circuit's characteristics against all tracks in your database.
+            </p>
+            <p style="margin-bottom: 24px; color: var(--gray-700); line-height: 1.8;">
+                The matching algorithm considers factors like corner count, lap length and average speed. It identifies the most similar tracks and uses weighted data from those circuits to generate baseline predictions. This gives you a reliable starting point for your first practice session, which you can then refine as you collect track-specific data.
+            </p>
+
+
+            <!-- Section 6: Long run vs short run -->
+            <h2 class="section-title" style="text-align: left; margin-bottom: 16px;">Pressure Build-Up: Long Run vs Short Run</h2>
+            <p style="margin-bottom: 24px; color: var(--gray-700); line-height: 1.8;">
+                Race car pressure build-up differs substantially between session types.
+            </p>
+            <p style="margin-bottom: 24px; color: var(--gray-700); line-height: 1.8;">
+                The pressure prediction for long run vs short runs accounts for these differences. You can select the Number of Laps to account for qualifying, race, or practice, the model applies the appropriate pressure build-up curves. This ensures your cold pressure recommendations are calibrated for whether you're chasing a single flying lap or managing tire performance over a race stint.
+            </p>
+            <p style="margin-bottom: 48px; color: var(--gray-700); line-height: 1.8;">
+                Understanding this distinction is critical: setting qualifying pressures for a race will leave you over-inflated by mid-stint, while race pressures in qualifying will compromise single-lap grip because of the under-inflation.
+            </p>
+
+            <!-- Section 7: Data accumulation -->
+            <h2 class="section-title" style="text-align: left; margin-bottom: 16px;">Building Accuracy Through Consistent Usage</h2>
+            <p style="margin-bottom: 24px; color: var(--gray-700); line-height: 1.8;">
+                The predictor's accuracy improves with every session you upload. A statistical model trained on 5 sessions will provide reasonable estimates, but one trained on 50+ sessions across multiple tracks and conditions becomes highly reliable. Regular usage transforms the tool from a useful guide into a precision instrument calibrated specifically for your car and team.
+            </p>
+            <p style="margin-bottom: 24px; color: var(--gray-700); line-height: 1.8;">
+                Team-wide adoption amplifies this effect. When all engineers contribute data to a shared database, the model learns from collective experience rather than individual knowledge. A new engineer joining the team immediately benefits from years of accumulated data, avoiding the trial-and-error phase that typically accompanies onboarding. This centralization also prevents inconsistent practices: everyone works from the same data-driven baseline rather than personal preferences or outdated rules of thumb.
+            </p>
+            <ul style="margin-bottom: 48px; color: var(--gray-700); line-height: 2; padding-left: 24px;">
+                <li>More sessions uploaded = narrower confidence intervals and more precise predictions</li>
+                <li>Centralized team database captures institutional knowledge</li>
+                <li>New engineers start with proven baselines instead of guessing</li>
+                <li>Reduces variability between engineer setups across the team</li>
+                <li>Historical data remains valuable even as personnel changes</li>
+            </ul>
+
+            <!-- Inputs / Outputs Table -->
+            <h2 class="section-title" style="text-align: left; margin-bottom: 24px;">Inputs and Outputs</h2>
+            <div class="need-get-grid" style="margin-bottom: 48px;">
+                <div class="need-get-card" style="background: linear-gradient(135deg, #fff5f5 0%, #ffe0e0 100%); border-left: 4px solid var(--ferrari-red);">
+                    <h3 style="color: var(--ferrari-red);">Inputs (Hot Targets)</h3>
+                    <ul class="need-get-list">
+                        <li><strong>Telemetry files</strong> (ZIP archive containing Run exports from different data-analysis softwares (WinDarab, WinTax, Motec, PiToolbox etc.) or Excel spreadsheet with manual measurements</li>
+                        <li><strong>Target hot pressures</strong> (your desired operating pressures)</li>
+                        <li><strong>Number of laps</strong> (stint length affects pressure build-up)</li>
+                        <li><strong>Track/circuit</strong> (selected from database or new track entry)</li>
+                        <li><strong>Ambient temperature</strong> and <strong>tire temperatures</strong> (if different from ambient) will apply a Thermal Correction</li>
+                    </ul>
+                </div>
+                <div class="need-get-card" style="background: linear-gradient(135deg, #f0f7ff 0%, #dbeafe 100%); border-left: 4px solid #3b82f6;">
+                    <h3 style="color: #1d4ed8;">Outputs (Cold Pressures)</h3>
+                    <ul class="need-get-list">
+                        <li><strong>Optimal cold pressures</strong> (per wheel position)</li>
+                        <li><strong>Confidence/quality indicator</strong> (based on data quantity)</li>
+                        <li><strong>Suggested grid bleed</strong> (for race starts)</li>
+                        <li><strong>Prediction intervals</strong> (showing expected variance)</li>
+                        <li><strong>Pressure build-up graph</strong> (showing pressure values per lap)</li>						
+                        <li><strong>Data warnings</strong> (when input data is insufficient)</li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ==================== FAQ SECTION ==================== -->
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title">Frequently Asked Questions</h2>
+            <p class="section-subtitle">Common questions about race car tire pressure prediction</p>
+
+            <style>
+                .faq-accordion { max-width: 800px; margin: 0 auto; }
+                .faq-accordion details { margin-bottom: 12px; background: var(--gray-100); border-radius: 12px; overflow: hidden; }
+                .faq-accordion summary { padding: 20px 24px; font-size: 17px; font-weight: 600; color: var(--gray-900); cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center; transition: background 0.2s; }
+                .faq-accordion summary::-webkit-details-marker { display: none; }
+                .faq-accordion summary::after { content: '+'; font-size: 24px; font-weight: 400; color: var(--ferrari-red); transition: transform 0.2s; }
+                .faq-accordion details[open] summary::after { content: '−'; }
+                .faq-accordion summary:hover { background: var(--gray-200); }
+                .faq-accordion .faq-answer { padding: 0 24px 20px 24px; color: var(--gray-700); line-height: 1.7; }
+            </style>
+
+            <div class="faq-accordion">
+
+                <details>
+                    <summary>Is this a race car tire pressure predictor?</summary>
+                    <p class="faq-answer">Yes. This tool is specifically designed for race cars competing in series like Ferrari Challenge, GT racing, and similar motorsport categories. It uses your historical telemetry data to predict optimal cold tire pressures for reaching target hot pressures during sessions.</p>
+                </details>
+
+                <details>
+                    <summary>How do you predict cold pressures from real data analysis?</summary>
+                    <p class="faq-answer">The predictor builds a statistical model from your historical sessions. It analyzes the relationship between cold starting pressures and resulting hot pressures across different tracks, compounds, and conditions. When you input a target hot pressure, the model calculates the cold pressure needed to reach that target based on patterns learned from your actual data.</p>
+                </details>
+
+                <details>
+                    <summary>How does the tool clean and validate incoming data?</summary>
+                    <p class="faq-answer">The processor automatically filters out unreliable data before training. It detects and excludes: wet condition runs (via rain light or wiper activation), pre-heated tire runs (tire temperature significantly above ambient at start), aborted laps (detected by abnormal lap time jumps), pressure bleeds during pit stops, and laps with anomalous length (outlaps, in-laps, incomplete laps). Sensor spikes in pressure, temperature, and speed data are also removed. This ensures the ML model trains only on clean, representative dry-condition data.</p>
+                </details>
+
+                <details>
+                    <summary>How do you calculate formation lap/grid pressure bleed?</summary>
+                    <p class="faq-answer">Engineers start formation laps with higher pressures to prevent bead unseating and aid tire warm-up. On the grid, they bleed down to optimal race pressures. The bleed calculation uses the thermal gain coefficient (k = ΔP/ΔT) from formation lap telemetry, processed separately from ML training data. The system computes the exact bleed to reach the predictor's suggested cold pressures.</p>
+                </details>
+
+                <details>
+                    <summary>Can I use an Excel file with manually inserted input/output points?</summary>
+                    <p class="faq-answer">Yes. Beyond automated telemetry processing, you can create an Excel spreadsheet with your own cold/hot pressure pairs from manual measurements. The predictor imports this data and builds the same statistical model, giving you flexibility when full telemetry is unavailable.</p>
+                </details>
+
+                <details>
+                    <summary>Can it predict cold pressure on a new track/circuit I have never raced on?</summary>
+                    <p class="faq-answer">Yes. The track similarity matching feature compares the new circuit's characteristics (corner count, lap length, surface type) against tracks in your database. It finds the most similar tracks and uses their data to provide baseline cold pressure predictions, giving you a reliable starting point for the first session.</p>
+                </details>
+
+                <details>
+                    <summary>Does it handle long run vs short run pressure build-up differences?</summary>
+                    <p class="faq-answer">Yes. Pressure build-up behavior differs between qualifying (short runs with cool-down laps) and race stints (continuous long runs). The predictor accounts for session type when calculating cold pressures, ensuring accurate predictions whether you're setting up for a 15-minute qualifying or a 30-minute race stint.</p>
+                </details>
+
+                <details>
+                    <summary>What data formats are supported?</summary>
+                    <p class="faq-answer">The predictor accepts telemetry exports as ZIP archives containing files organized by track folder. A dedicated export template ensures correct channel selection in your data. Qualifying and testing sessions are used for ML model training, while formation lap data is processed separately for thermal gain coefficient calculation only. For vehicles without TPMS or when using tire heaters, the Excel template (Pressures_Database_Template.xlsx) allows manual data entry.</p>
+                </details>
+
+                <details>
+                    <summary>How accurate are the pressure predictions?</summary>
+                    <p class="faq-answer">Accuracy depends on data quality and quantity. With sufficient historical sessions (typically 5+ per track), predictions typically fall within 0.02-0.05 bar of actual results. The system provides confidence intervals showing prediction reliability and warns when data is insufficient for reliable predictions.</p>
+                </details>
+
+                <details>
+                    <summary>Why should the whole team use the predictor?</summary>
+                    <p class="faq-answer">Team-wide adoption creates a centralized database where all engineers contribute data. This means the model learns from collective experience rather than individual knowledge. New engineers joining the team immediately benefit from years of accumulated data, avoiding trial-and-error. It also ensures consistency: everyone works from the same data-driven baseline rather than personal preferences, reducing setup variability across the team.</p>
+                </details>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== CTA SECTION ==================== -->
+    <section class="section section-dark">
+        <div class="container" style="text-align: center;">
+            <h2 class="section-title">Ready to Optimize Your Tire Setup?</h2>
+            <p class="section-subtitle">See how data-driven pressure predictions can improve your racing consistency</p>
+            <a href="/#contact" class="btn btn-primary btn-large">Request a Demo</a>
+        </div>
+    </section>
+
+
+    <script src="/script.js"></script>
+</body>
+</html>

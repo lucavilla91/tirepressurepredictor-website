@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Tire pressure predictor for race cars. Upload telemetry or Excel data, get optimal cold pressures with confidence intervals and grid bleed recommendations.">
+    <meta name="keywords" content="tire pressure, tyre pressure, motorsport, racing, telemetry, Ferrari Challenge, prediction, ML, machine learning, racing setup, data analysis">
+    <meta name="author" content="LVilla Engineering">
+    <meta name="robots" content="index, follow">
+    <meta name="language" content="English">
+    <meta name="revisit-after" content="7 days">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://tirepressurepredictor.com">
+    <meta property="og:title" content="Tire Pressure Predictor for Race Cars">
+    <meta property="og:description" content="Upload telemetry or Excel data, get optimal cold pressures with confidence intervals and grid bleed recommendations.">
+    <meta property="og:image" content="https://tirepressurepredictor.com/og-image.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:site_name" content="Tire Pressure Predictor">
+    <meta property="og:locale" content="en_US">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://tirepressurepredictor.com">
+    <meta name="twitter:title" content="Tire Pressure Predictor for Race Cars">
+    <meta name="twitter:description" content="Upload telemetry or Excel data, get optimal cold pressures with confidence intervals and grid bleed recommendations.">
+    <meta name="twitter:image" content="https://tirepressurepredictor.com/og-image.png">
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://tirepressurepredictor.com">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="/logo.svg">
+    <link rel="manifest" href="/site.webmanifest">
+    <meta name="theme-color" content="#DC0000">
+
+    <title>Tire Pressure Predictor | Cold Pressure Calculator for Race Cars</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="styles.css">
+
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Tire Pressure Predictor",
+      "applicationCategory": "BusinessApplication",
+      "operatingSystem": "Windows, macOS, Linux",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "5",
+        "ratingCount": "1"
+      },
+      "description": "Desktop application for motorsport teams to predict optimal cold tire pressures from telemetry data with confidence intervals and grid bleed calculations.",
+      "screenshot": "https://tirepressurepredictor.com/screenshot.png",
+      "softwareVersion": "1.0.0",
+      "author": {
+        "@type": "Organization",
+        "name": "LVilla Engineering",
+        "email": "lvillaengineering@gmail.com"
+      },
+      "provider": {
+        "@type": "Organization",
+        "name": "LVilla Engineering",
+        "url": "https://tirepressurepredictor.com"
+      }
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What data do I need to start?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Telemetry exports (ZIP from WinTAX4, MoTeC, etc.) or manual Excel entries with hot/cold pressures, track name, and lap count. More sessions = better predictions."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I use it without TPMS?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. If you record pressures manually (pre-session cold, post-session hot), the Excel workflow works perfectly. TPMS just automates data collection."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Does it work for long runs vs qualifying?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. The model distinguishes session types. Long runs and qualifying have different thermal profiles, and the app accounts for this when predicting."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I get started?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Request a demo. We'll walk you through setup, data import, and your first prediction."
+          }
+        }
+      ]
+    }
+    </script>
+</head>
+<body>
+    <!-- ==================== HEADER ==================== -->
+    <header class="header">
+        <div class="container header-content">
+            <div class="logo">
+                <span class="logo-icon">
+                    <img src="logo.svg" alt="Tire Pressure Predictor" width="32" height="32">
+                </span>
+                <span class="logo-text">Tire Pressure Predictor</span>
+            </div>
+            <nav class="nav">
+                <a href="#how-it-works">How It Works</a>
+                <a href="#screenshots">Screenshots</a>
+                <a href="#faq">FAQ</a>
+                <a href="/race-car-tyre-pressure-predictor/">Technical Guide</a>
+                <a href="#contact" class="btn btn-primary btn-small">Request Demo</a>
+            </nav>
+            <button class="mobile-menu-btn" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </header>
+
+    <!-- ==================== HERO SECTION ==================== -->
+    <section class="hero">
+        <div class="container hero-content">
+            <h1>Tire Pressure Predictor for Race Cars</h1>
+            <p class="hero-subtitle">
+                Telemetry or Excel in &rarr; Optimal cold starting pressures out (with confidence + grid bleed).
+            </p>
+            <ul class="hero-outcomes">
+                <li><strong>Cold pressures per corner</strong> to hit your target hot pressures</li>
+                <li><strong>Confidence indicator</strong> + prediction intervals based on data quality</li>
+                <li><strong>Grid bleed recommendation</strong> for formation lap / race start</li>
+            </ul>
+            <div class="hero-cta">
+                <a href="#contact" class="btn btn-primary btn-large">Request a Demo</a>
+                <a href="/race-car-tyre-pressure-predictor/" class="btn btn-link">Read the Technical Guide &rarr;</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== INPUT → OUTPUT ==================== -->
+    <section class="section section-light">
+        <div class="container">
+            <h2 class="section-title">Input &rarr; Output</h2>
+
+            <div class="need-get-grid">
+                <div class="need-get-card" style="background: linear-gradient(135deg, #fff5f5 0%, #ffe0e0 100%); border-left: 4px solid var(--ferrari-red); border-color: var(--ferrari-red);">
+                    <div class="need-get-icon">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#DC0000" stroke-width="1.5">
+                            <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/>
+                            <polyline points="13 2 13 9 20 9"/>
+                        </svg>
+                    </div>
+                    <h3 style="color: var(--ferrari-red);">Inputs You Provide</h3>
+                    <ul class="need-get-list">
+                        <li><strong>Telemetry ZIP</strong> (WinTAX4, MoTeC, Pi Toolbox) <em>or</em> Excel manual entries</li>
+                        <li><strong>Track name</strong> + number of laps</li>
+                        <li><strong>Target hot pressures</strong> (FL/FR/RL/RR)</li>
+                        <li><strong>Ambient temp</strong> (and tire temp if available)</li>
+                    </ul>
+                </div>
+
+                <div class="need-get-card" style="background: linear-gradient(135deg, #f0f7ff 0%, #dbeafe 100%); border-left: 4px solid #3b82f6; border-color: #3b82f6;">
+                    <div class="need-get-icon">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="1.5">
+                            <polyline points="20 6 9 17 4 12"/>
+                        </svg>
+                    </div>
+                    <h3 style="color: #1d4ed8;">Outputs You Get</h3>
+                    <ul class="need-get-list">
+                        <li><strong>Optimal cold pressures</strong> (FL/FR/RL/RR)</li>
+                        <li><strong>Confidence / data quality</strong> indicator</li>
+                        <li><strong>Prediction intervals</strong> (range of likely values)</li>
+                        <li><strong>Grid bleed suggestion</strong> for race start</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== WHO IT'S FOR ==================== -->
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title">Who It's For</h2>
+
+            <div class="audience-bullets">
+                <div class="audience-item">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#DC0000" stroke-width="2">
+                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                        <circle cx="9" cy="7" r="4"/>
+                        <path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/>
+                    </svg>
+                    <span><strong>Race engineers & teams</strong> optimizing tire strategy with data</span>
+                </div>
+                <div class="audience-item">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#DC0000" stroke-width="2">
+                        <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+                        <line x1="8" y1="21" x2="16" y2="21"/>
+                        <line x1="12" y1="17" x2="12" y2="21"/>
+                    </svg>
+                    <span><strong>Data analysts</strong> processing telemetry for actionable insights</span>
+                </div>
+                <div class="audience-item">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#DC0000" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"/>
+                        <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/>
+                    </svg>
+                    <span><strong>Drivers with structured notes</strong> &mdash; even without TPMS</span>
+                </div>
+            </div>
+
+            <p class="not-for-you"><em>Not a generic street-car tire pressure calculator.</em></p>
+        </div>
+    </section>
+
+    <!-- ==================== WHY IT'S USEFUL ==================== -->
+    <section id="features" class="section section-light">
+        <div class="container">
+            <h2 class="section-title">Why It's Useful</h2>
+
+            <div class="value-grid">
+                <div class="value-item">
+                    <div class="value-icon">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#DC0000" stroke-width="1.5">
+                            <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+                        </svg>
+                    </div>
+                    <div class="value-text">
+                        <strong>Data-driven</strong>
+                        <span>Learns from your sessions, not generic tables</span>
+                    </div>
+                </div>
+                <div class="value-item">
+                    <div class="value-icon">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#DC0000" stroke-width="1.5">
+                            <circle cx="12" cy="12" r="10"/>
+                            <path d="M12 6v6l4 2"/>
+                        </svg>
+                    </div>
+                    <div class="value-text">
+                        <strong>Reduces guesswork</strong>
+                        <span>Less setup variance session-to-session</span>
+                    </div>
+                </div>
+                <div class="value-item">
+                    <div class="value-icon">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#DC0000" stroke-width="1.5">
+                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                            <circle cx="9" cy="7" r="4"/>
+                            <path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/>
+                        </svg>
+                    </div>
+                    <div class="value-text">
+                        <strong>Team-wide consistency</strong>
+                        <span>Centralized knowledge, same process for everyone</span>
+                    </div>
+                </div>
+                <div class="value-item">
+                    <div class="value-icon">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#DC0000" stroke-width="1.5">
+                            <line x1="12" y1="20" x2="12" y2="10"/>
+                            <line x1="18" y1="20" x2="18" y2="4"/>
+                            <line x1="6" y1="20" x2="6" y2="16"/>
+                        </svg>
+                    </div>
+                    <div class="value-text">
+                        <strong>Continuous improvement</strong>
+                        <span>More data uploaded = better predictions</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== HOW IT WORKS (3 STEPS) ==================== -->
+    <section id="how-it-works" class="section">
+        <div class="container">
+            <h2 class="section-title">How It Works</h2>
+            <p class="section-subtitle">Three steps from raw data to race-ready pressures</p>
+
+            <div class="workflow-simple">
+                <div class="workflow-step-simple">
+                    <div class="step-number-large">1</div>
+                    <h3>Data Input</h3>
+                    <p>Upload telemetry ZIP or fill Excel template with your pressure notes.</p>
+                </div>
+                <div class="workflow-arrow">
+                    <svg width="40" height="24" viewBox="0 0 40 24" fill="none">
+                        <path d="M0 12h36M28 4l8 8-8 8" stroke="#DC0000" stroke-width="2"/>
+                    </svg>
+                </div>
+                <div class="workflow-step-simple">
+                    <div class="step-number-large">2</div>
+                    <h3>Processing</h3>
+                    <p>Data cleaning, filtering, and statistical model training per track.</p>
+                </div>
+                <div class="workflow-arrow">
+                    <svg width="40" height="24" viewBox="0 0 40 24" fill="none">
+                        <path d="M0 12h36M28 4l8 8-8 8" stroke="#DC0000" stroke-width="2"/>
+                    </svg>
+                </div>
+                <div class="workflow-step-simple highlight">
+                    <div class="step-number-large">3</div>
+                    <h3>Prediction</h3>
+                    <p>Cold pressures + confidence intervals + grid bleed ready to use.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== SCREENSHOTS ==================== -->
+    <section id="screenshots" class="section section-light">
+        <div class="container">
+            <h2 class="section-title">See It in Action</h2>
+
+            <div class="screenshots-grid screenshots-grid-3">
+                <div class="screenshot-item">
+                    <img src="images/app-main.png" alt="Main prediction interface" loading="lazy" class="screenshot-clickable" data-screenshot="images/app-main.png">
+                    <div class="screenshot-caption">
+                        <h4>Prediction Interface</h4>
+                        <p>Select track, enter targets, get cold pressures instantly</p>
+                    </div>
+                    <div class="click-hint">Click to enlarge</div>
+                </div>
+
+                <div class="screenshot-item">
+                    <img src="images/app-bleed.png" alt="Grid bleed calculation" loading="lazy" class="screenshot-clickable" data-screenshot="images/app-bleed.png">
+                    <div class="screenshot-caption">
+                        <h4>Grid Bleed</h4>
+                        <p>Formation lap warm-up accounted for race start</p>
+                    </div>
+                    <div class="click-hint">Click to enlarge</div>
+                </div>
+
+                <div class="screenshot-item">
+                    <img src="images/app-setup.png" alt="Channel mapping" loading="lazy" class="screenshot-clickable" data-screenshot="images/app-setup.png">
+                    <div class="screenshot-caption">
+                        <h4>Data Setup</h4>
+                        <p>Flexible mapping for any telemetry export format</p>
+                    </div>
+                    <div class="click-hint">Click to enlarge</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== FAQ ==================== -->
+    <section id="faq" class="section">
+        <div class="container">
+            <h2 class="section-title">FAQ</h2>
+
+            <div class="faq-simple">
+                <details class="faq-item">
+                    <summary>What data do I need to start?</summary>
+                    <div class="faq-answer">
+                        Telemetry exports (ZIP from WinTAX4, MoTeC, etc.) or manual Excel entries with hot/cold pressures, track name, and lap count. More sessions = better predictions.
+                    </div>
+                </details>
+
+                <details class="faq-item">
+                    <summary>Can I use it without TPMS?</summary>
+                    <div class="faq-answer">
+                        Yes. If you record pressures manually (pre-session cold, post-session hot), the Excel workflow works perfectly. TPMS just automates data collection.
+                    </div>
+                </details>
+
+                <details class="faq-item">
+                    <summary>Does it work for long runs vs qualifying?</summary>
+                    <div class="faq-answer">
+                        Yes. The model distinguishes session types. Long runs and qualifying have different thermal profiles, and the app accounts for this when predicting.
+                    </div>
+                </details>
+
+                <details class="faq-item">
+                    <summary>How do I get started?</summary>
+                    <div class="faq-answer">
+                        Request a demo below. We'll walk you through setup, data import, and your first prediction.
+                    </div>
+                </details>
+            </div>
+
+            <p class="faq-more">
+                More details? <a href="/race-car-tyre-pressure-predictor/">Read the Technical Guide</a>
+            </p>
+        </div>
+    </section>
+
+    <!-- ==================== CONTACT / CTA ==================== -->
+    <section id="contact" class="section section-dark">
+        <div class="container">
+            <h2 class="section-title">Request a Demo</h2>
+            <p class="section-subtitle">See the Tire Pressure Predictor in action</p>
+
+            <form class="contact-form" id="contactForm" action="https://formsubmit.co/lvillaengineering@gmail.com" method="POST">
+                <input type="text" name="_honey" style="display:none">
+                <input type="hidden" name="_captcha" value="false">
+                <input type="hidden" name="_next" value="https://tirepressurepredictor.com?success=true">
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="name">Name <span class="required">*</span></label>
+                        <input type="text" id="name" name="name" required placeholder="John Smith">
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email <span class="required">*</span></label>
+                        <input type="email" id="email" name="email" required placeholder="john@racingteam.com">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="organization">Team <span class="optional">(optional)</span></label>
+                    <input type="text" id="organization" name="organization" placeholder="Racing Team Name">
+                </div>
+
+                <div class="form-group">
+                    <label for="message">Message <span class="required">*</span></label>
+                    <textarea id="message" name="message" rows="3" required placeholder="What series do you compete in? What's your current setup process?"></textarea>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-large btn-full">
+                    <span>Request Demo</span>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="5" y1="12" x2="19" y2="12"/>
+                        <polyline points="12 5 19 12 12 19"/>
+                    </svg>
+                </button>
+            </form>
+
+            <p class="contact-email">Or email directly: <a href="mailto:lvillaengineering@gmail.com">lvillaengineering@gmail.com</a></p>
+        </div>
+    </section>
+
+    <!-- ==================== LIGHTBOX MODAL ==================== -->
+    <div id="lightbox" class="lightbox">
+        <span class="lightbox-close">&times;</span>
+        <img class="lightbox-content" id="lightbox-img" alt="Screenshot enlarged">
+        <div class="lightbox-caption" id="lightbox-caption"></div>
+    </div>
+
+
+    <script src="script.js"></script>
+</body>
+</html>

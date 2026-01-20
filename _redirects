@@ -1,0 +1,16 @@
+# Netlify redirects file
+# https://docs.netlify.com/routing/redirects/
+
+# Redirect www to non-www
+https://www.tirepressurepredictor.com/*  https://tirepressurepredictor.com/:splat  301!
+
+# Redirect HTTP to HTTPS
+http://tirepressurepredictor.com/*  https://tirepressurepredictor.com/:splat  301!
+
+# SPA fallback (not needed for single page, but useful for future expansion)
+# /*  /index.html  200
+
+# Short URLs (examples for future use)
+# /demo  /#contact  302
+# /contact  /#contact  302
+# /features  /#features  302

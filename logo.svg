@@ -1,0 +1,24 @@
+<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+  <!-- Outer tire (rubber) -->
+  <circle cx="50" cy="50" r="45" fill="#2C2C2C" stroke="#1A1A1A" stroke-width="2"/>
+  <!-- Tire tread pattern -->
+  <circle cx="50" cy="50" r="45" fill="none" stroke="#444444" stroke-width="1" stroke-dasharray="8 4"/>
+  <!-- Inner tire wall -->
+  <circle cx="50" cy="50" r="35" fill="#3A3A3A" stroke="#2C2C2C" stroke-width="1"/>
+  <!-- Wheel rim -->
+  <circle cx="50" cy="50" r="28" fill="#AAAAAA" stroke="#999999" stroke-width="1.5"/>
+  <!-- Rim spokes -->
+  <g stroke="#CCCCCC" stroke-width="2" fill="none">
+    <line x1="50" y1="22" x2="50" y2="35" />
+    <line x1="66" y1="29" x2="60" y2="40" />
+    <line x1="71" y1="50" x2="58" y2="50" />
+    <line x1="66" y1="71" x2="60" y2="60" />
+    <line x1="50" y1="78" x2="50" y2="65" />
+    <line x1="34" y1="71" x2="40" y2="60" />
+    <line x1="29" y1="50" x2="42" y2="50" />
+    <line x1="34" y1="29" x2="40" y2="40" />
+  </g>
+  <!-- Center cap -->
+  <circle cx="50" cy="50" r="8" fill="#BBBBBB" stroke="#666666" stroke-width="1"/>
+  <circle cx="50" cy="50" r="4" fill="#DC0000"/>
+</svg>

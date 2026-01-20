@@ -1,0 +1,21 @@
+{
+    "name": "Tire Pressure Predictor",
+    "short_name": "TPP",
+    "description": "ML-powered desktop app for motorsport teams to predict optimal tire pressures",
+    "icons": [
+        {
+            "src": "/favicon-192x192.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "/favicon-512x512.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ],
+    "theme_color": "#DC0000",
+    "background_color": "#ffffff",
+    "display": "standalone",
+    "start_url": "/"
+}
