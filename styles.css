@@ -1029,6 +1029,29 @@ a:hover {
     min-height: 120px;
 }
 
+.form-buttons {
+    display: flex;
+    gap: 16px;
+    margin-top: 8px;
+}
+
+.form-buttons .btn {
+    flex: 1;
+}
+
+.form-hint {
+    text-align: center;
+    margin-top: 16px;
+    font-size: 14px;
+    color: var(--gray-400);
+}
+
+@media (max-width: 600px) {
+    .form-buttons {
+        flex-direction: column;
+    }
+}
+
 .contact-email {
     text-align: center;
     margin-top: 32px;

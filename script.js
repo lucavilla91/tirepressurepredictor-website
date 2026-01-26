@@ -40,6 +40,108 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
+    // ==================== DOWNLOAD BUTTON ====================
+    const downloadBtn = document.getElementById('downloadBtn');
+    const DOWNLOAD_URL = 'https://github.com/lucavilla91/TirePressurePredictor/releases/download/v2.1.0/Tire.Pressure.Predictor.Setup.2.1.0.exe';
+
+    if (downloadBtn) {
+        downloadBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+
+            const emailField = document.getElementById('email');
+            const emailValue = emailField.value.trim();
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+            // Validate email
+            if (!emailValue) {
+                alert('Please enter your email address to download the app.');
+                emailField.focus();
+                emailField.style.borderColor = '#DC0000';
+                return;
+            }
+
+            if (!emailRegex.test(emailValue)) {
+                alert('Please enter a valid email address.');
+                emailField.focus();
+                emailField.style.borderColor = '#DC0000';
+                return;
+            }
+
+            // Clear error styling
+            emailField.style.borderColor = '';
+
+            // Get optional fields
+            const nameField = document.getElementById('name');
+            const orgField = document.getElementById('organization');
+
+            // Send notification email via formsubmit (in background)
+            const formData = new FormData();
+            formData.append('email', emailValue);
+            formData.append('name', nameField ? nameField.value : '');
+            formData.append('organization', orgField ? orgField.value : '');
+            formData.append('_subject', 'New Download Request - Tire Pressure Predictor');
+            formData.append('message', 'User requested app download.');
+
+            fetch('https://formsubmit.co/ajax/lvillaengineering@gmail.com', {
+                method: 'POST',
+                body: formData
+            }).catch(err => console.log('Form submit error:', err));
+
+            // Start download
+            window.location.href = DOWNLOAD_URL;
+
+            // Show confirmation
+            showDownloadMessage(emailValue);
+        });
+    }
+
+    function showDownloadMessage(email) {
+        const msgDiv = document.createElement('div');
+        msgDiv.style.cssText = `
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #ffffff;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            text-align: center;
+            z-index: 10001;
+            max-width: 450px;
+        `;
+
+        msgDiv.innerHTML = `
+            <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="2" style="margin-bottom: 20px;">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                <polyline points="7 10 12 15 17 10"/>
+                <line x1="12" y1="15" x2="12" y2="3"/>
+            </svg>
+            <h3 style="font-size: 24px; color: #1a202c; margin-bottom: 12px;">Download Started!</h3>
+            <p style="color: #4a5568; margin-bottom: 16px;">Your download should begin automatically.</p>
+            <p style="color: #718096; font-size: 14px; margin-bottom: 24px;">A license key will be sent to <strong>${email}</strong> after verification.</p>
+            <button onclick="this.parentElement.remove(); document.getElementById('downloadOverlay').remove();"
+                style="background: #DC0000; color: white; border: none; padding: 12px 32px; border-radius: 8px; cursor: pointer; font-size: 16px; font-weight: 600;">
+                Close
+            </button>
+        `;
+
+        const overlay = document.createElement('div');
+        overlay.id = 'downloadOverlay';
+        overlay.style.cssText = `
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 10000;
+        `;
+
+        document.body.appendChild(overlay);
+        document.body.appendChild(msgDiv);
+    }
+
     // ==================== FORM VALIDATION ====================
     const contactForm = document.getElementById('contactForm');
 
