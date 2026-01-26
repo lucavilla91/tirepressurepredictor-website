@@ -87,8 +87,14 @@ document.addEventListener('DOMContentLoaded', function() {
                 body: formData
             }).catch(err => console.log('Form submit error:', err));
 
-            // Start download
-            window.location.href = DOWNLOAD_URL;
+            // Start download using a temporary link
+            const downloadLink = document.createElement('a');
+            downloadLink.href = DOWNLOAD_URL;
+            downloadLink.download = 'Tire Pressure Predictor Setup 2.1.0.exe';
+            downloadLink.target = '_blank';
+            document.body.appendChild(downloadLink);
+            downloadLink.click();
+            document.body.removeChild(downloadLink);
 
             // Show confirmation
             showDownloadMessage(emailValue);
