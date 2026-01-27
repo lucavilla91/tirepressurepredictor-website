@@ -42,7 +42,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // ==================== DOWNLOAD BUTTON ====================
     const downloadBtn = document.getElementById('downloadBtn');
-    const DOWNLOAD_URL = 'https://github.com/lucavilla91/TirePressurePredictor/releases/download/v2.1.0/Tire.Pressure.Predictor.Setup.2.1.0.exe';
+    const DOWNLOAD_URL = 'https://github.com/lucavilla91/TirePressurePredictor/releases/download/v2.1.1/Tire.Pressure.Predictor.Setup.2.1.1.exe';
 
     if (downloadBtn) {
         downloadBtn.addEventListener('click', function(e) {
