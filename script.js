@@ -74,18 +74,18 @@ document.addEventListener('DOMContentLoaded', function() {
             const nameField = document.getElementById('name');
             const orgField = document.getElementById('organization');
 
-            // Send notification email via formsubmit (in background)
-            const formData = new FormData();
-            formData.append('email', emailValue);
-            formData.append('name', nameField ? nameField.value : '');
-            formData.append('organization', orgField ? orgField.value : '');
-            formData.append('_subject', 'New Download Request - Tire Pressure Predictor');
-            formData.append('message', 'User requested app download.');
+            // Send license request to Supabase Edge Function
+            const requestData = {
+                email: emailValue,
+                name: nameField ? nameField.value : '',
+                organization: orgField ? orgField.value : ''
+            };
 
-            fetch('https://formsubmit.co/ajax/lvillaengineering@gmail.com', {
+            fetch('https://ivvxbkpkefryyiiqqbxt.supabase.co/functions/v1/hyper-responder', {
                 method: 'POST',
-                body: formData
-            }).catch(err => console.log('Form submit error:', err));
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(requestData)
+            }).catch(err => console.log('License request error:', err));
 
             // Start download - open GitHub release URL directly
             window.open(DOWNLOAD_URL, '_blank');
