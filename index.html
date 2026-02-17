@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- SEO Meta Tags -->
-    <meta name="description" content="Tire pressure predictor for race cars. Upload telemetry or Excel data, get optimal cold pressures with confidence intervals and grid bleed recommendations.">
-    <meta name="keywords" content="tire pressure, tyre pressure, motorsport, racing, telemetry, Ferrari Challenge, prediction, ML, machine learning, racing setup, data analysis">
+    <meta name="description" content="Tire pressure predictor for race cars. Upload telemetry or Excel data, get optimal cold pressures with confidence intervals and grid bleed recommendations. Features race tires management, prediction history, plateau detection, and cross-track analysis.">
+    <meta name="keywords" content="tire pressure, tyre pressure, motorsport, racing, telemetry, Ferrari Challenge, prediction, ML, machine learning, racing setup, data analysis, race tires management, prediction history, plateau detection, track relations matrix, WinDarab, WinTax4, MoTeC, tire compound, K factor">
     <meta name="author" content="LVilla Engineering">
     <meta name="robots" content="index, follow">
     <meta name="language" content="English">
@@ -16,7 +16,7 @@
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://tirepressurepredictor.com">
     <meta property="og:title" content="Tire Pressure Predictor for Race Cars">
-    <meta property="og:description" content="Upload telemetry or Excel data, get optimal cold pressures with confidence intervals and grid bleed recommendations.">
+    <meta property="og:description" content="Upload telemetry or Excel data, get optimal cold pressures with confidence intervals and grid bleed recommendations. Features race tires management, prediction history, plateau detection, and cross-track analysis.">
     <meta property="og:image" content="https://tirepressurepredictor.com/og-image.png">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
@@ -27,7 +27,7 @@
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:url" content="https://tirepressurepredictor.com">
     <meta name="twitter:title" content="Tire Pressure Predictor for Race Cars">
-    <meta name="twitter:description" content="Upload telemetry or Excel data, get optimal cold pressures with confidence intervals and grid bleed recommendations.">
+    <meta name="twitter:description" content="Upload telemetry or Excel data, get optimal cold pressures with confidence intervals and grid bleed recommendations. Features race tires management, prediction history, plateau detection, and cross-track analysis.">
     <meta name="twitter:image" content="https://tirepressurepredictor.com/og-image.png">
 
     <!-- Canonical URL -->
@@ -38,7 +38,7 @@
     <link rel="icon" type="image/x-icon" sizes="16x16 32x32 48x48" href="/favicon.ico">
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <link rel="manifest" href="/site.webmanifest">
-    <meta name="theme-color" content="#DC0000">
+    <meta name="theme-color" content="#000000">
 
     <title>Tire Pressure Predictor | Cold Pressure Calculator for Race Cars</title>
 
@@ -56,7 +56,7 @@
       "@type": "SoftwareApplication",
       "name": "Tire Pressure Predictor",
       "applicationCategory": "BusinessApplication",
-      "operatingSystem": "Windows, macOS, Linux",
+      "operatingSystem": "Windows 10/11",
       "offers": {
         "@type": "Offer",
         "price": "0",
@@ -67,9 +67,9 @@
         "ratingValue": "5",
         "ratingCount": "1"
       },
-      "description": "Desktop application for motorsport teams to predict optimal cold tire pressures from telemetry data with confidence intervals and grid bleed calculations.",
+      "description": "Desktop application for motorsport teams to predict optimal cold tire pressures from telemetry data. Features race tires management with compound tracking and K factors, auto-detection of telemetry formats (WinTax4, WinDarab, MoTeC), prediction history with verification, plateau detection with auto-save, and cross-track relations matrix.",
       "screenshot": "https://tirepressurepredictor.com/screenshot.png",
-      "softwareVersion": "2.1.2",
+      "softwareVersion": "2.6.5",
       "author": {
         "@type": "Organization",
         "name": "LVilla Engineering",
@@ -118,6 +118,30 @@
             "@type": "Answer",
             "text": "Request a demo. We'll walk you through setup, data import, and your first prediction."
           }
+        },
+        {
+          "@type": "Question",
+          "name": "What is Race Tires Management?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Race Tires Management lets you track tire compounds, visualize pressure build-up with ΔP vs ΔT and ΔP vs Laps charts, and automatically calculate K factors (thermal gain coefficients) via linear regression. It includes an OptimumG-based pressure calculator for converting between hot and cold pressures using the ideal gas law."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What is Plateau Detection?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Plateau Detection automatically identifies when tire pressures have stabilized during a run (reached 97% of total build-up). These stabilized runs are auto-saved to your Prediction History as verified baselines, giving you reliable reference data without manual work."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I transfer pressure data between tracks?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. The Track Relations Matrix generates cross-track coefficients that let you transfer pressure knowledge between circuits. It uses bilinear interpolation within the data range and linear extrapolation outside it, providing reliable starting points even for tracks with limited data."
+          }
         }
       ]
     }
@@ -135,6 +159,7 @@
             </div>
             <nav class="nav">
                 <a href="#how-it-works">How It Works</a>
+                <a href="#features">Features</a>
                 <a href="#screenshots">Screenshots</a>
                 <a href="#faq">FAQ</a>
                 <a href="/race-car-tyre-pressure-predictor/">Technical Guide</a>
@@ -148,8 +173,8 @@
         </div>
     </header>
 
-    <!-- ==================== HERO SECTION ==================== -->
-    <section class="hero">
+    <!-- ==================== HERO SECTION (FIXED PARALLAX) ==================== -->
+    <section class="hero" id="hero">
         <div class="container hero-content">
             <h1>Tire Pressure Predictor for Race Cars</h1>
             <p class="hero-subtitle">
@@ -167,13 +192,19 @@
         </div>
     </section>
 
-    <!-- ==================== INPUT → OUTPUT ==================== -->
-    <section class="section section-light">
+    <!-- Scroll spacer for parallax effect -->
+    <div class="hero-scroll-spacer"></div>
+
+    <!-- ==================== MAIN CONTENT ==================== -->
+    <div class="main-content">
+
+    <!-- ==================== INPUT -> OUTPUT ==================== -->
+    <section class="section">
         <div class="container">
             <h2 class="section-title">Input &rarr; Output</h2>
 
             <div class="need-get-grid">
-                <div class="need-get-card" style="background: linear-gradient(135deg, #fff5f5 0%, #ffe0e0 100%); border-left: 4px solid var(--ferrari-red); border-color: var(--ferrari-red);">
+                <div class="need-get-card input-card">
                     <div class="need-get-icon">
                         <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#DC0000" stroke-width="1.5">
                             <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/>
@@ -189,13 +220,13 @@
                     </ul>
                 </div>
 
-                <div class="need-get-card" style="background: linear-gradient(135deg, #f0f7ff 0%, #dbeafe 100%); border-left: 4px solid #3b82f6; border-color: #3b82f6;">
+                <div class="need-get-card output-card">
                     <div class="need-get-icon">
                         <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="1.5">
                             <polyline points="20 6 9 17 4 12"/>
                         </svg>
                     </div>
-                    <h3 style="color: #1d4ed8;">Outputs You Get</h3>
+                    <h3 style="color: #60a5fa;">Outputs You Get</h3>
                     <ul class="need-get-list">
                         <li><strong>Optimal cold pressures</strong> (FL/FR/RL/RR)</li>
                         <li><strong>Confidence / data quality</strong> indicator</li>
@@ -242,60 +273,88 @@
         </div>
     </section>
 
-    <!-- ==================== WHY IT'S USEFUL ==================== -->
-    <section id="features" class="section section-light">
+    <!-- ==================== KEY FEATURES ==================== -->
+    <section id="features" class="section">
         <div class="container">
-            <h2 class="section-title">Why It's Useful</h2>
+            <h2 class="section-title">Key Features</h2>
 
-            <div class="value-grid">
-                <div class="value-item">
-                    <div class="value-icon">
-                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#DC0000" stroke-width="1.5">
-                            <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
-                        </svg>
-                    </div>
-                    <div class="value-text">
-                        <strong>Data-driven</strong>
-                        <span>Learns from your sessions, not generic tables</span>
-                    </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#DC0000" stroke-width="1.5">
+                        <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+                        <line x1="1" y1="1" x2="23" y2="1" stroke-dasharray="2 2"/>
+                    </svg>
+                    <h3>Race Tires Management</h3>
+                    <p>Track tire compounds with a configurable dropdown, visualize pressure build-up with ΔP vs ΔT and ΔP vs Laps charts, and auto-calculate K factors (thermal gain coefficients) via linear regression. Includes an OptimumG-based pressure calculator.</p>
                 </div>
-                <div class="value-item">
-                    <div class="value-icon">
-                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#DC0000" stroke-width="1.5">
-                            <circle cx="12" cy="12" r="10"/>
-                            <path d="M12 6v6l4 2"/>
-                        </svg>
-                    </div>
-                    <div class="value-text">
-                        <strong>Reduces guesswork</strong>
-                        <span>Less setup variance session-to-session</span>
-                    </div>
+
+                <div class="feature-card">
+                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#DC0000" stroke-width="1.5">
+                        <circle cx="11" cy="11" r="8"/>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                        <path d="M8 11h6M11 8v6"/>
+                    </svg>
+                    <h3>Auto-Detect Telemetry Format</h3>
+                    <p>Drop a ZIP archive and the app automatically identifies the telemetry software (WinTax4, WinDarab, MoTeC) by sampling file contents with majority vote. No manual configuration needed — just upload and process.</p>
                 </div>
-                <div class="value-item">
-                    <div class="value-icon">
-                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#DC0000" stroke-width="1.5">
-                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
-                            <circle cx="9" cy="7" r="4"/>
-                            <path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/>
-                        </svg>
-                    </div>
-                    <div class="value-text">
-                        <strong>Team-wide consistency</strong>
-                        <span>Centralized knowledge, same process for everyone</span>
-                    </div>
+
+                <div class="feature-card">
+                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#DC0000" stroke-width="1.5">
+                        <circle cx="12" cy="12" r="10"/>
+                        <polyline points="12 6 12 12 16 14"/>
+                    </svg>
+                    <h3>Prediction History & Verification</h3>
+                    <p>Save every prediction with driver, event, session, and tire condition metadata. Filter by track, driver, or date. After the session, add actual hot pressures and verify predictions against real-world results with color-coded accuracy feedback.</p>
                 </div>
-                <div class="value-item">
-                    <div class="value-icon">
-                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#DC0000" stroke-width="1.5">
-                            <line x1="12" y1="20" x2="12" y2="10"/>
-                            <line x1="18" y1="20" x2="18" y2="4"/>
-                            <line x1="6" y1="20" x2="6" y2="16"/>
-                        </svg>
-                    </div>
-                    <div class="value-text">
-                        <strong>Continuous improvement</strong>
-                        <span>More data uploaded = better predictions</span>
-                    </div>
+
+                <div class="feature-card">
+                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#DC0000" stroke-width="1.5">
+                        <polyline points="4 16 8 12 12 14 16 8 20 10"/>
+                        <line x1="16" y1="10" x2="22" y2="10" stroke-dasharray="3 2"/>
+                    </svg>
+                    <h3>Plateau Detection</h3>
+                    <p>Automatically detects when tire pressures stabilize during a run (97% of total build-up reached). Stabilized runs are auto-saved to your Prediction History as verified baselines — reliable reference data without any manual work.</p>
+                </div>
+
+                <div class="feature-card">
+                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#DC0000" stroke-width="1.5">
+                        <rect x="3" y="3" width="7" height="7" rx="1"/>
+                        <rect x="14" y="3" width="7" height="7" rx="1"/>
+                        <rect x="3" y="14" width="7" height="7" rx="1"/>
+                        <rect x="14" y="14" width="7" height="7" rx="1"/>
+                        <line x1="10" y1="6.5" x2="14" y2="6.5" stroke-dasharray="2 1"/>
+                        <line x1="10" y1="17.5" x2="14" y2="17.5" stroke-dasharray="2 1"/>
+                    </svg>
+                    <h3>Track Relations Matrix</h3>
+                    <p>Generate cross-track coefficients that transfer pressure knowledge between circuits. Uses bilinear interpolation within the data range and linear extrapolation outside it, so you get reliable starting points even for tracks with limited data.</p>
+                </div>
+
+                <div class="feature-card">
+                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#DC0000" stroke-width="1.5">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                        <polyline points="14 2 14 8 20 8"/>
+                        <line x1="16" y1="13" x2="8" y2="13"/>
+                        <line x1="16" y1="17" x2="8" y2="17"/>
+                    </svg>
+                    <h3>Runsheet Editor</h3>
+                    <p>Interactive editor for manual pressure data entry. Import Excel files, edit cells inline, manage track/event/driver lists, auto-save with undo/redo, and export back to Excel. Works for teams without TPMS telemetry.</p>
+                </div>
+
+                <div class="feature-card">
+                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#DC0000" stroke-width="1.5">
+                        <circle cx="12" cy="12" r="10"/>
+                        <path d="M8 12h3l1-3 2 6 1-3h3"/>
+                    </svg>
+                    <h3>Pressure Unit Toggle</h3>
+                    <p>Switch between bar and PSI with a single click. All pressures across the app convert instantly — inputs, outputs, charts, and history. Internal calculations stay in bar for precision.</p>
+                </div>
+
+                <div class="feature-card">
+                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#DC0000" stroke-width="1.5">
+                        <polygon points="12 2 19 21 12 17 5 21"/>
+                    </svg>
+                    <h3>GPS Track Layout</h3>
+                    <p>Automatic GPS track map from telemetry data with numbered corner markers, start/finish flag, and track statistics (length, corners, lap time). Visual reference for track-specific analysis.</p>
                 </div>
             </div>
         </div>
@@ -338,34 +397,61 @@
     </section>
 
     <!-- ==================== SCREENSHOTS ==================== -->
-    <section id="screenshots" class="section section-light">
+    <section id="screenshots" class="section">
         <div class="container">
             <h2 class="section-title">See It in Action</h2>
 
             <div class="screenshots-grid screenshots-grid-3">
                 <div class="screenshot-item">
-                    <img src="images/app-main.png" alt="Main prediction interface" loading="lazy" class="screenshot-clickable" data-screenshot="images/app-main.png">
+                    <img src="images/app-setup.png" alt="Vehicle and tire selection" loading="lazy" class="screenshot-clickable" data-screenshot="images/app-setup.png">
                     <div class="screenshot-caption">
-                        <h4>Prediction Interface</h4>
-                        <p>Select track, enter targets, get cold pressures instantly</p>
+                        <h4>Vehicle & Tire Selection</h4>
+                        <p>Manage pairs, upload telemetry archives, track processing status</p>
                     </div>
                     <div class="click-hint">Click to enlarge</div>
                 </div>
 
                 <div class="screenshot-item">
-                    <img src="images/app-bleed.png" alt="Grid bleed calculation" loading="lazy" class="screenshot-clickable" data-screenshot="images/app-bleed.png">
+                    <img src="images/app-processing.png" alt="Data processing and channel mapping" loading="lazy" class="screenshot-clickable" data-screenshot="images/app-processing.png">
                     <div class="screenshot-caption">
-                        <h4>Grid Bleed</h4>
-                        <p>Formation lap warm-up accounted for race start</p>
+                        <h4>Processing & Channel Mapping</h4>
+                        <p>Auto-detect telemetry format, map channels, named settings</p>
                     </div>
                     <div class="click-hint">Click to enlarge</div>
                 </div>
 
                 <div class="screenshot-item">
-                    <img src="images/app-setup.png" alt="Channel mapping" loading="lazy" class="screenshot-clickable" data-screenshot="images/app-setup.png">
+                    <img src="images/app-main.png" alt="Main prediction interface dark mode" loading="lazy" class="screenshot-clickable" data-screenshot="images/app-main.png">
                     <div class="screenshot-caption">
-                        <h4>Data Setup</h4>
-                        <p>Flexible mapping for any telemetry export format</p>
+                        <h4>Prediction (Dark Mode)</h4>
+                        <p>Cold pressures with confidence intervals and pressure trend charts</p>
+                    </div>
+                    <div class="click-hint">Click to enlarge</div>
+                </div>
+
+                <div class="screenshot-item">
+                    <img src="images/app-main-psi.png" alt="Main prediction interface light mode PSI" loading="lazy" class="screenshot-clickable" data-screenshot="images/app-main-psi.png">
+                    <div class="screenshot-caption">
+                        <h4>Prediction (Light Mode, PSI)</h4>
+                        <p>Switch units and theme with a single click</p>
+                    </div>
+                    <div class="click-hint">Click to enlarge</div>
+                </div>
+
+                <div class="screenshot-item">
+                    <img src="images/app-bleed.png" alt="Bleed correction calculation" loading="lazy" class="screenshot-clickable" data-screenshot="images/app-bleed.png">
+                    <div class="screenshot-caption">
+                        <h4>Bleed Correction</h4>
+                        <p>Thermal gain coefficients and grid bleed for race start</p>
+                    </div>
+                    <div class="click-hint">Click to enlarge</div>
+                </div>
+
+                <div class="screenshot-item">
+                    <img src="images/app-history.png" alt="Prediction history and race tires management" loading="lazy" class="screenshot-clickable" data-screenshot="images/app-history.png">
+                    <div class="screenshot-caption">
+                        <h4>History & Race Tires</h4>
+                        <p>Save predictions, verify results, manage race tire setups</p>
                     </div>
                     <div class="click-hint">Click to enlarge</div>
                 </div>
@@ -404,6 +490,27 @@
                     <summary>How do I get started?</summary>
                     <div class="faq-answer">
                         Request a demo below. We'll walk you through setup, data import, and your first prediction.
+                    </div>
+                </details>
+
+                <details class="faq-item">
+                    <summary>What is Race Tires Management?</summary>
+                    <div class="faq-answer">
+                        Race Tires Management lets you track tire compounds, visualize pressure build-up with ΔP vs ΔT and ΔP vs Laps charts, and automatically calculate K factors (thermal gain coefficients) via linear regression. It includes an OptimumG-based pressure calculator for converting between hot and cold pressures using the ideal gas law.
+                    </div>
+                </details>
+
+                <details class="faq-item">
+                    <summary>What is Plateau Detection?</summary>
+                    <div class="faq-answer">
+                        Plateau Detection automatically identifies when tire pressures have stabilized during a run (reached 97% of total build-up). These stabilized runs are auto-saved to your Prediction History as verified baselines, giving you reliable reference data without manual work.
+                    </div>
+                </details>
+
+                <details class="faq-item">
+                    <summary>Can I transfer pressure data between tracks?</summary>
+                    <div class="faq-answer">
+                        Yes. The Track Relations Matrix generates cross-track coefficients that let you transfer pressure knowledge between circuits. It uses bilinear interpolation within the data range and linear extrapolation outside it, providing reliable starting points even for tracks with limited data.
                     </div>
                 </details>
             </div>
@@ -456,6 +563,8 @@
             <p class="contact-email">Or email directly: <a href="mailto:lvillaengineering@gmail.com">lvillaengineering@gmail.com</a></p>
         </div>
     </section>
+
+    </div><!-- /.main-content -->
 
     <!-- ==================== LIGHTBOX MODAL ==================== -->
     <div id="lightbox" class="lightbox">
