@@ -1,6 +1,6 @@
 /**
  * Tire Pressure Predictor - Landing Page JavaScript
- * Form validation, smooth scroll, mobile menu
+ * Form validation, smooth scroll, mobile menu, parallax hero
  */
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -13,6 +13,25 @@ document.addEventListener('DOMContentLoaded', function() {
             nav.classList.toggle('nav-open');
             mobileMenuBtn.classList.toggle('menu-open');
         });
+    }
+
+    // ==================== PARALLAX HERO ====================
+    const hero = document.getElementById('hero');
+
+    if (hero && hero.classList.contains('hero')) {
+        // Only apply parallax on the main page (hero is position: fixed)
+        const isFixed = getComputedStyle(hero).position === 'fixed';
+
+        if (isFixed) {
+            window.addEventListener('scroll', function() {
+                const scrollY = window.scrollY;
+                const windowH = window.innerHeight;
+                const progress = Math.min(scrollY / windowH, 1);
+
+                hero.style.opacity = 1 - progress;
+                hero.style.transform = `translateY(${scrollY * 0.3}px) scale(${1 - progress * 0.1})`;
+            }, { passive: true });
+        }
     }
 
     // ==================== SMOOTH SCROLL ====================
@@ -42,7 +61,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // ==================== DOWNLOAD BUTTON ====================
     const downloadBtn = document.getElementById('downloadBtn');
-    const DOWNLOAD_URL = 'https://github.com/lucavilla91/TirePressurePredictor/releases/download/v2.5.3/Tire.Pressure.Predictor.Setup.2.5.3.exe';
+    const DOWNLOAD_URL = 'https://github.com/lucavilla91/TirePressurePredictor/releases/download/v2.6.5/Tire-Pressure-Predictor-Setup-2.6.5.exe';
 
     if (downloadBtn) {
         downloadBtn.addEventListener('click', function(e) {
@@ -102,10 +121,11 @@ document.addEventListener('DOMContentLoaded', function() {
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            background: #ffffff;
+            background: #111111;
+            border: 1px solid #333;
             padding: 40px;
             border-radius: 12px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.6);
             text-align: center;
             z-index: 10001;
             max-width: 450px;
@@ -117,9 +137,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 <polyline points="7 10 12 15 17 10"/>
                 <line x1="12" y1="15" x2="12" y2="3"/>
             </svg>
-            <h3 style="font-size: 24px; color: #1a202c; margin-bottom: 12px;">Download Started!</h3>
-            <p style="color: #4a5568; margin-bottom: 16px;">Your download should begin automatically.</p>
-            <p style="color: #718096; font-size: 14px; margin-bottom: 24px;">A license key will be sent to <strong>${email}</strong> after verification.</p>
+            <h3 style="font-size: 24px; color: #e5e5e5; margin-bottom: 12px;">Download Started!</h3>
+            <p style="color: #888; margin-bottom: 16px;">Your download should begin automatically.</p>
+            <p style="color: #666; font-size: 14px; margin-bottom: 24px;">A license key will be sent to <strong style="color: #e5e5e5;">${email}</strong> after verification.</p>
             <button onclick="this.parentElement.remove(); document.getElementById('downloadOverlay').remove();"
                 style="background: #DC0000; color: white; border: none; padding: 12px 32px; border-radius: 8px; cursor: pointer; font-size: 16px; font-weight: 600;">
                 Close
@@ -134,7 +154,7 @@ document.addEventListener('DOMContentLoaded', function() {
             left: 0;
             right: 0;
             bottom: 0;
-            background: rgba(0,0,0,0.5);
+            background: rgba(0,0,0,0.7);
             z-index: 10000;
         `;
 
@@ -234,11 +254,13 @@ document.addEventListener('DOMContentLoaded', function() {
     window.addEventListener('scroll', function() {
         const currentScroll = window.pageYOffset;
 
-        // Add shadow on scroll
+        // Add subtle glow on scroll
         if (currentScroll > 10) {
-            header.style.boxShadow = '0 2px 10px rgba(0,0,0,0.1)';
+            header.style.boxShadow = '0 2px 10px rgba(0,0,0,0.5)';
+            header.style.borderBottomColor = 'rgba(255,255,255,0.1)';
         } else {
             header.style.boxShadow = 'none';
+            header.style.borderBottomColor = 'rgba(255,255,255,0.06)';
         }
 
         lastScroll = currentScroll;
@@ -260,10 +282,11 @@ document.addEventListener('DOMContentLoaded', function() {
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            background: #ffffff;
+            background: #111111;
+            border: 1px solid #333;
             padding: 40px;
             border-radius: 12px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.6);
             text-align: center;
             z-index: 10001;
             max-width: 400px;
@@ -274,8 +297,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
                 <polyline points="22 4 12 14.01 9 11.01"/>
             </svg>
-            <h3 style="font-size: 24px; color: #1a202c; margin-bottom: 12px;">Thank You!</h3>
-            <p style="color: #4a5568; margin-bottom: 24px;">Your demo request has been received. We'll be in touch soon.</p>
+            <h3 style="font-size: 24px; color: #e5e5e5; margin-bottom: 12px;">Thank You!</h3>
+            <p style="color: #888; margin-bottom: 24px;">Your demo request has been received. We'll be in touch soon.</p>
             <button onclick="this.parentElement.remove(); document.getElementById('overlay').remove();"
                 style="background: #DC0000; color: white; border: none; padding: 12px 32px; border-radius: 8px; cursor: pointer; font-size: 16px; font-weight: 600;">
                 Close
@@ -290,7 +313,7 @@ document.addEventListener('DOMContentLoaded', function() {
             left: 0;
             right: 0;
             bottom: 0;
-            background: rgba(0,0,0,0.5);
+            background: rgba(0,0,0,0.7);
             z-index: 10000;
         `;
 
@@ -374,16 +397,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Check if lightbox elements exist
     if (lightbox && lightboxImg && lightboxCaption && lightboxClose) {
-        console.log('[Lightbox] Initialized successfully');
-
         // Add click event to all clickable screenshots
         const screenshots = document.querySelectorAll('.screenshot-clickable');
-        console.log('[Lightbox] Found', screenshots.length, 'clickable screenshots');
 
-        screenshots.forEach((img, index) => {
-            console.log('[Lightbox] Adding click handler to screenshot', index + 1);
+        screenshots.forEach((img) => {
             img.addEventListener('click', function(e) {
-                console.log('[Lightbox] Screenshot clicked!', this.src);
                 e.preventDefault();
                 lightbox.classList.add('active');
                 lightboxImg.src = this.src;
@@ -410,15 +428,8 @@ document.addEventListener('DOMContentLoaded', function() {
         });
 
         function closeLightbox() {
-            console.log('[Lightbox] Closing');
             lightbox.classList.remove('active');
             document.body.style.overflow = '';
         }
-    } else {
-        console.error('[Lightbox] ERROR: Missing lightbox elements!');
-        console.error('lightbox:', lightbox);
-        console.error('lightboxImg:', lightboxImg);
-        console.error('lightboxCaption:', lightboxCaption);
-        console.error('lightboxClose:', lightboxClose);
     }
 });
