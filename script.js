@@ -61,7 +61,19 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // ==================== DOWNLOAD BUTTON ====================
     const downloadBtn = document.getElementById('downloadBtn');
-    const DOWNLOAD_URL = 'https://github.com/lucavilla91/TirePressurePredictor/releases/download/v2.7.6/Tire-Pressure-Predictor-Setup-2.7.6.exe';
+    const RELEASE_FALLBACK = 'https://github.com/lucavilla91/TirePressurePredictor/releases/latest';
+
+    // Resolve latest .exe download URL from GitHub API (cached for the session)
+    let resolvedDownloadUrl = null;
+    fetch('https://api.github.com/repos/lucavilla91/TirePressurePredictor/releases/latest')
+        .then(function(r) { return r.json(); })
+        .then(function(release) {
+            var exe = release.assets.find(function(a) { return a.name.endsWith('.exe') && a.name.includes('Setup'); });
+            if (exe) {
+                resolvedDownloadUrl = exe.browser_download_url;
+            }
+        })
+        .catch(function() { /* fallback to releases/latest */ });
 
     if (downloadBtn) {
         downloadBtn.addEventListener('click', function(e) {
@@ -106,8 +118,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 body: JSON.stringify(requestData)
             }).catch(err => console.log('License request error:', err));
 
-            // Start download - open GitHub release URL directly
-            window.open(DOWNLOAD_URL, '_blank');
+            // Start download - use resolved URL or fallback to releases page
+            window.open(resolvedDownloadUrl || RELEASE_FALLBACK, '_blank');
 
             // Show confirmation
             showDownloadMessage(emailValue);
