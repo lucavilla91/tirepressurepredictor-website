@@ -75,6 +75,47 @@ document.addEventListener('DOMContentLoaded', function() {
         })
         .catch(function() { /* fallback to releases/latest */ });
 
+    // Send license request to Supabase (Telegram notification)
+    function sendSupabaseRequest() {
+        const emailField = document.getElementById('email');
+        const nameField = document.getElementById('name');
+        const orgField = document.getElementById('organization');
+
+        const requestData = {
+            email: emailField ? emailField.value.trim() : '',
+            name: nameField ? nameField.value.trim() : '',
+            organization: orgField ? orgField.value.trim() : ''
+        };
+
+        if (!requestData.email) return;
+
+        fetch('https://ivvxbkpkefryyiiqqbxt.supabase.co/functions/v1/hyper-responder', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(requestData)
+        }).catch(err => console.log('License request error:', err));
+    }
+
+    // Send form data to FormSubmit.co (email notification)
+    function sendFormSubmitRequest() {
+        const emailField = document.getElementById('email');
+        const nameField = document.getElementById('name');
+        const orgField = document.getElementById('organization');
+        const messageField = document.getElementById('message');
+
+        const formData = new FormData();
+        formData.append('email', emailField ? emailField.value.trim() : '');
+        formData.append('name', nameField ? nameField.value.trim() : '');
+        formData.append('organization', orgField ? orgField.value.trim() : '');
+        formData.append('message', messageField ? messageField.value.trim() : '[Download App button — no message]');
+        formData.append('_captcha', 'false');
+
+        fetch('https://formsubmit.co/ajax/lvillaengineering@gmail.com', {
+            method: 'POST',
+            body: formData
+        }).catch(err => console.log('FormSubmit error:', err));
+    }
+
     if (downloadBtn) {
         downloadBtn.addEventListener('click', function(e) {
             e.preventDefault();
@@ -101,22 +142,9 @@ document.addEventListener('DOMContentLoaded', function() {
             // Clear error styling
             emailField.style.borderColor = '';
 
-            // Get optional fields
-            const nameField = document.getElementById('name');
-            const orgField = document.getElementById('organization');
-
-            // Send license request to Supabase Edge Function
-            const requestData = {
-                email: emailValue,
-                name: nameField ? nameField.value : '',
-                organization: orgField ? orgField.value : ''
-            };
-
-            fetch('https://ivvxbkpkefryyiiqqbxt.supabase.co/functions/v1/hyper-responder', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(requestData)
-            }).catch(err => console.log('License request error:', err));
+            // Send to both: Supabase (Telegram) + FormSubmit (email)
+            sendSupabaseRequest();
+            sendFormSubmitRequest();
 
             // Start download - use resolved URL or fallback to releases page
             window.open(resolvedDownloadUrl || RELEASE_FALLBACK, '_blank');
@@ -222,6 +250,9 @@ document.addEventListener('DOMContentLoaded', function() {
             if (!isValid) {
                 e.preventDefault();
                 alert('Please correct the following errors:\n\n' + errors.join('\n'));
+            } else {
+                // Also send to Supabase (Telegram notification) alongside FormSubmit
+                sendSupabaseRequest();
             }
         });
 
