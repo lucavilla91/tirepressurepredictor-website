@@ -10,6 +10,10 @@ http://tirepressurepredictor.com/*  https://tirepressurepredictor.com/:splat  30
 # SPA fallback (not needed for single page, but useful for future expansion)
 # /*  /index.html  200
 
+# Redirect old Technical Guide to homepage (SEO content migrated to JSON-LD)
+/race-car-tyre-pressure-predictor/  /  301
+/race-car-tyre-pressure-predictor  /  301
+
 # Short URLs (examples for future use)
 # /demo  /#contact  302
 # /contact  /#contact  302

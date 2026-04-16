@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- SEO Meta Tags -->
-    <meta name="description" content="Data-driven race car tire pressure predictor. Calculate optimal cold starting pressures, formation lap bleed, and pressure build-up from telemetry or Excel data. Features race tires management, auto-detect telemetry format, prediction history with verification, plateau detection, and track relations matrix.">
-    <meta name="keywords" content="race car tire pressure predictor, tire pressure prediction, cold pressure calculator, formation lap bleed, racing tires, pressure build-up, race tires management, tire compound, K factor, prediction history, plateau detection, track relations matrix, WinDarab, WinTax4, MoTeC, cross-track analysis">
+    <meta name="description" content="Data-driven race car tire pressure predictor. Calculate optimal cold starting pressures, data-driven bleed correction with per-wheel expansion ratios, decomposed temperature corrections, and pressure build-up from telemetry (ZIP or linked folder). Features run filter scatter plot, tire pressure logs, auto-detect telemetry format, session logs with bleed coefficient columns, plateau detection, and track relations matrix.">
+    <meta name="keywords" content="race car tire pressure predictor, tire pressure prediction, cold pressure calculator, formation lap bleed, racing tires, pressure build-up, tire pressure logs, tire compound, K factor, prediction history, plateau detection, track relations matrix, WinDarab, WinTax4, MoTeC, cross-track analysis, linked folder, training conditions correction, bleed correction, expansion ratio, session logs, training runs, bleed coefficient">
     <meta name="author" content="LVilla Engineering">
     <meta name="robots" content="index, follow">
     <meta name="language" content="English">
@@ -15,7 +15,7 @@
     <meta property="og:type" content="article">
     <meta property="og:url" content="/race-car-tire-pressure-predictor/">
     <meta property="og:title" content="Race Car Tire Pressure Predictor | Data-Driven Cold Pressure Calculation">
-    <meta property="og:description" content="Data-driven race car tire pressure predictor. Calculate optimal cold starting pressures, formation lap bleed, and pressure build-up from telemetry or Excel data. Features race tires management, prediction history, plateau detection, and track relations matrix.">
+    <meta property="og:description" content="Data-driven race car tire pressure predictor. Calculate optimal cold starting pressures, data-driven bleed correction with per-wheel expansion ratios, and decomposed temperature corrections from telemetry (ZIP or linked folder). Features run filter scatter plot, tire pressure logs, session logs with verification, plateau detection, and track relations matrix.">
     <meta property="og:image" content="/og-image.png">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
@@ -26,7 +26,7 @@
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:url" content="/race-car-tire-pressure-predictor/">
     <meta name="twitter:title" content="Race Car Tire Pressure Predictor | Data-Driven Cold Pressure Calculation">
-    <meta name="twitter:description" content="Data-driven race car tire pressure predictor. Calculate optimal cold starting pressures, formation lap bleed, and pressure build-up from telemetry or Excel data. Features race tires management, prediction history, plateau detection, and track relations matrix.">
+    <meta name="twitter:description" content="Data-driven race car tire pressure predictor. Calculate optimal cold starting pressures, data-driven bleed correction with per-wheel expansion ratios, and decomposed temperature corrections from telemetry (ZIP or linked folder). Features run filter scatter plot, tire pressure logs, session logs with verification, plateau detection, and track relations matrix.">
     <meta name="twitter:image" content="/og-image.png">
 
     <!-- Canonical URL -->
@@ -83,15 +83,7 @@
           "name": "How do you calculate formation lap/grid pressure bleed?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Engineers start formation laps with higher pressures to prevent bead unseating and aid tire warm-up. On the grid, they bleed down to optimal race pressures. The bleed calculation uses the thermal gain coefficient (k = ΔP/ΔT) from formation lap telemetry, processed separately from ML training data. The system computes the exact bleed to reach the predictor's suggested cold pressures."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Can I use an Excel file with manually inserted input/output points?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Yes. Beyond automated telemetry processing, you can create an Excel spreadsheet with your own cold/hot pressure pairs from manual measurements. The predictor imports this data and builds the same statistical model, giving you flexibility when full telemetry is unavailable."
+            "text": "Engineers start formation laps with higher pressures to prevent bead unseating and aid tire warm-up. On the grid, they bleed down to optimal race pressures. The data-driven bleed correction calculates per-wheel expansion ratios (R = P_hot/P_cold) from your telemetry using an exponential pressure build-up model. You specify the race stint length, and the system computes the exact bleed per wheel. Two modes are available: Constant Bleed and Custom Start Pressure."
           }
         },
         {
@@ -115,7 +107,7 @@
           "name": "What data formats are supported?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "The predictor accepts telemetry exports as ZIP archives containing CSV files organized by track folder. For WinTAX4 users, a dedicated export template (tirepressurepredictor.ech) ensures correct channel selection. Qualifying and testing sessions are used for ML model training, while formation lap data is processed separately for thermal gain coefficient calculation only. For vehicles without TPMS or when using tire heaters, the Excel template (Pressures_Database_Template.xlsx) allows manual data entry."
+            "text": "The predictor accepts telemetry exports as ZIP archives or linked folders containing CSV files organized by track folder. Linked folders auto-scan when you switch pairs and are remembered across sessions. Supported formats: WinTax4, WinDarab, and MoTeC, with auto-detection. For vehicles without TPMS, you can use the Tire Pressure Logs in the Session Logs tab to manually track pressures and calculate K-factors."
           }
         },
         {
@@ -131,7 +123,7 @@
           "name": "Does it work with vehicles without TPMS or when using tire heaters?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Yes. For vehicles without TPMS (e.g. F4 or other single-seater cars) or when using tire heaters/blankets, you can use the Excel template (Pressures_Database_Template.xlsx) to input cold/hot pressure pairs manually. This is common in Ferrari Challenge and similar series where tire blankets pre-heat the tires. The predictor builds the same statistical model from this manual data, requiring columns for pressures, track, ambient temperature, tire temperatures, and lap count."
+            "text": "Yes. For vehicles without TPMS (e.g. F4 or other single-seater cars) or when using tire heaters/blankets, you can use the Tire Pressure Logs in the Session Logs tab to manually record cold/hot pressure pairs, track compounds, and calculate K-factor regression per wheel. The built-in pressure calculator uses the OptimumG gas law formula to recommend cold pressures based on your accumulated data."
           }
         },
         {
@@ -144,10 +136,10 @@
         },
         {
           "@type": "Question",
-          "name": "What is Race Tires Management and how does it work?",
+          "name": "What is Tire Pressure Logs and how does it work?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Race Tires Management lets you assign tire compounds to each run via a configurable dropdown, filter processed data by compound, and visualize pressure build-up with interactive ΔP vs ΔT and ΔP vs Laps charts (with per-wheel toggle). K factors (thermal gain coefficients) are auto-calculated via linear regression with R² goodness-of-fit. An integrated OptimumG-based pressure calculator converts between hot and cold pressures using the ideal gas law."
+            "text": "Tire Pressure Logs lets you assign tire compounds to each run, filter data by compound, and visualize pressure build-up with interactive charts (with per-wheel toggle). Thermal gain coefficients are auto-calculated via linear regression with R² goodness-of-fit. Free-text cells with autocomplete, autosave, and keyboard shortcuts streamline data entry. An integrated pressure calculator converts between hot and cold pressures using the ideal gas law. An imported run indicator shows which Session Logs entries have been added."
           }
         },
         {
@@ -181,6 +173,30 @@
             "@type": "Answer",
             "text": "The Track Relations Matrix generates cross-track coefficients by analyzing how pressure build-up patterns relate between different circuits in your database. It uses bilinear interpolation within the data range and linear extrapolation outside it. You can export and import matrices as JSON files, making it easy to share cross-track knowledge within your team or transfer it between seasons."
           }
+        },
+        {
+          "@type": "Question",
+          "name": "What is Training Conditions Correction?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "When current track conditions differ from your training data average, the predictor applies a temperature correction based on the OptimumG ideal gas law formula. A unified temperature bar displays the filtered mean from your data alongside the current target, with a color-coded ΔT indicator (green for small differences, amber for moderate, red for large). This ensures predictions remain accurate even when conditions change significantly between sessions."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How does the data-driven bleed correction work?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The bleed correction uses an exponential pressure build-up model to calculate per-wheel expansion ratios (R = P_hot/P_cold) from your telemetry data. You select the race stint length in laps, and the system determines the exact bleed for each wheel individually. Two modes are available: Constant Bleed (same bleed across all wheels) and Custom Start Pressure (independent per wheel). Bleed coefficient columns in Session Logs show R per wheel for each saved entry."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What is the linked folder workflow?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Instead of creating ZIP archives, you can link a CSV folder directly. The app auto-scans the folder contents when you switch vehicle/tire pairs. Linked folders are remembered across sessions, and you can drag and drop folders onto the app. This is especially convenient for teams that export telemetry to a shared network folder."
+          }
         }
       ]
     }
@@ -192,7 +208,7 @@
       "@context": "https://schema.org",
       "@type": "Article",
       "headline": "Race Car Tire Pressure Predictor: Data-Driven Cold Pressure Calculation",
-      "description": "Learn how a data-driven tire pressure predictor calculates optimal cold starting pressures, formation lap bleed, and handles new track predictions for race cars. Covers race tires management, auto-detect telemetry format, prediction history with verification, plateau detection, and cross-track relations matrix.",
+      "description": "Learn how a data-driven tire pressure predictor calculates optimal cold starting pressures, data-driven bleed correction with per-wheel expansion ratios, training conditions adjustment, and handles new track predictions for race cars. Covers tire pressure logs, linked folder workflow, auto-detect telemetry format, session logs with bleed coefficient columns, plateau detection with imported run indicator, and cross-track relations matrix.",
       "author": {
         "@type": "Organization",
         "name": "LVilla Engineering"
@@ -228,7 +244,7 @@
                 <a href="/">Home</a>
                 <a href="/#how-it-works">How It Works</a>
                 <a href="/#features">Features</a>
-                <a href="/#contact" class="btn btn-primary btn-small">Request Demo</a>
+                <a href="/#contact" class="btn btn-primary btn-small">Download App</a>
             </nav>
             <button class="mobile-menu-btn" aria-label="Toggle menu">
                 <span></span>
@@ -279,23 +295,18 @@
                 For race stints (long runs), the predictor suggests relatively low cold starting pressures. However, starting the formation lap with such low pressures creates two risks: bead unseating (tire coming off the rim) due to under-inflation during aggressive weaving, and a softer carcass structure that makes it harder to generate heat in the tire. Engineers address this by intentionally setting higher pressures for the formation lap.
             </p>
             <p style="margin-bottom: 24px; line-height: 1.8;">
-                Once the car reaches the grid after the formation lap, the engineer performs a pressure bleed to bring the tires down to the optimal values suggested by the predictor. The bleed calculation uses the thermal gain coefficient (k = ΔP/ΔT), extracted specifically from formation lap telemetry uploads. This data is processed separately and not used for ML model training, since warm-up lap thermal behavior differs from racing conditions.
+                Once the car reaches the grid after the formation lap, the engineer performs a pressure bleed to bring the tires down to the optimal values suggested by the predictor. The data-driven bleed correction uses an exponential pressure build-up model, calculating per-wheel expansion ratios (R = P_hot/P_cold) from your actual telemetry data. This replaced the earlier linear k = ΔP/ΔT model, providing more accurate bleed values because each wheel's unique thermal behavior is captured individually.
+            </p>
+            <p style="margin-bottom: 24px; line-height: 1.8;">
+                You select the race stint length (Race Laps selector), and the system determines the bleed needed per wheel. Two modes are available: <strong>Constant Bleed</strong> applies the same bleed reduction to all four wheels, while <strong>Custom Start Pressure</strong> lets you set an independent starting pressure per wheel. Bleed coefficient columns in Session Logs display the expansion ratio R for each wheel on every saved prediction entry.
             </p>
             <ul style="margin-bottom: 48px; color: var(--text-secondary); line-height: 2; padding-left: 24px;">
                 <li>Start formation lap with higher pressures for safety and faster warm-up</li>
-                <li>Calculate track-specific thermal gain coefficient (k = ΔP/ΔT) from historical data</li>
-                <li>Compute exact bleed amount to reach optimal race pressures on the grid</li>
-                <li>Prevent bead unseating risk during aggressive formation lap weaving</li>
+                <li>Per-wheel expansion ratio R = P_hot/P_cold calculated from telemetry data</li>
+                <li>Exponential pressure build-up model replaces linear k = ΔP/ΔT approach</li>
+                <li>Two modes: Constant Bleed and Custom Start Pressure</li>
+                <li>Race Laps selector determines stint length for bleed calculation</li>
             </ul>
-
-            <!-- Section 4: Excel workflow -->
-            <h2 class="section-title" style="text-align: left; margin-bottom: 16px;">Excel Workflow (User-Inserted Input/Output Points)</h2>
-            <p style="margin-bottom: 24px; line-height: 1.8;">
-                Not every team has full telemetry logging. Vehicles without TPMS (Tire Pressure Monitoring System) or teams using tire heaters/blankets cannot rely on automated pressure build-up logging. The cold pressure predictor from Excel file containing input/output user-inserted points supports this workflow. Using the provided template (Pressures_Database_Template.xlsx), you record cold pressures, hot pressures, track name, ambient temperature, tire temperatures during pressurization, and number of laps.
-            </p>
-            <p style="margin-bottom: 48px; line-height: 1.8;">
-                The system imports this Excel data and builds the same statistical model used for telemetry-based predictions. Required columns include cold/hot pressures for all four corners, track name, ambient temperature, and lap count. Suggested columns like individual lap times improve analysis accuracy. This flexibility means you can start using the predictor immediately with historical notes from your pit board.
-            </p>
 
             <!-- Section 5: New track prediction -->
             <h2 class="section-title" style="text-align: left; margin-bottom: 16px;">New Track/Circuit Prediction (Baseline from Similarity)</h2>
@@ -335,10 +346,10 @@
                 <li>Historical data remains valuable even as personnel changes</li>
             </ul>
 
-            <!-- Section 8: Race Tires Management -->
-            <h2 class="section-title" style="text-align: left; margin-bottom: 16px;">Race Tires Management</h2>
+            <!-- Section 8: Tire Pressure Logs -->
+            <h2 class="section-title" style="text-align: left; margin-bottom: 16px;">Tire Pressure Logs</h2>
             <p style="margin-bottom: 24px; line-height: 1.8;">
-                Managing multiple tire compounds across a race weekend requires more than just tracking pressures. Race Tires Management introduces compound-level organization: assign a compound to each run via a configurable dropdown (with your own custom compound list), and filter all processed data by compound to isolate behavior differences between tire types.
+                Managing multiple tire compounds across a race weekend requires more than just tracking pressures. Tire Pressure Logs introduces compound-level organization: assign a compound to each run via a configurable dropdown (with your own custom compound list), and filter all processed data by compound to isolate behavior differences between tire types.
             </p>
             <p style="margin-bottom: 24px; line-height: 1.8;">
                 Interactive charts visualize pressure build-up patterns. The ΔP vs ΔT chart shows how pressure changes relate to temperature changes, while the ΔP vs Laps chart reveals how pressures evolve over the stint length. Both charts support per-wheel toggle, letting you isolate individual corner behavior or compare all four wheels simultaneously.
@@ -346,11 +357,17 @@
             <p style="margin-bottom: 24px; line-height: 1.8;">
                 K factors (thermal gain coefficients, k = ΔP/ΔT) are automatically calculated via linear regression across your processed runs, with R² goodness-of-fit displayed so you can assess reliability. These K factors feed directly into the integrated Pressure Calculator, which uses the verified OptimumG ideal gas law algorithm to convert between hot and cold pressures — accounting for tire temperature, atmospheric pressure, and per-wheel averaging with quadratic-weighted combined temperature.
             </p>
+            <p style="margin-bottom: 24px; line-height: 1.8;">
+                Free-text cells with autocomplete make data entry fast and consistent, with autosave ensuring no work is lost. Keyboard shortcuts (Ctrl+Enter to calculate, Ctrl+S to save) streamline the workflow. An imported run indicator shows which Session Logs entries have already been added to Tire Pressure Logs, preventing duplicate data entry.
+            </p>
             <ul style="margin-bottom: 48px; color: var(--text-secondary); line-height: 2; padding-left: 24px;">
                 <li>Compound management with configurable dropdown and run filtering</li>
                 <li>ΔP vs ΔT and ΔP vs Laps interactive charts with per-wheel toggle</li>
                 <li>Auto-calculated K factors via linear regression with R² quality indicator</li>
                 <li>OptimumG-based pressure calculator using ideal gas law</li>
+                <li>Free-text cells with autocomplete and autosave</li>
+                <li>Keyboard shortcuts: Ctrl+Enter (calculate), Ctrl+S (save)</li>
+                <li>Imported run indicator in Session Logs</li>
             </ul>
 
             <!-- Section 9: Auto-Detect Telemetry Format -->
@@ -359,28 +376,63 @@
                 Different telemetry software packages export data in different CSV formats — column names, separators, header structures, and file organization all vary. Rather than requiring you to manually select the correct format, the app automatically identifies which telemetry software produced your data.
             </p>
             <p style="margin-bottom: 24px; line-height: 1.8;">
-                When you upload a ZIP archive, the system samples multiple files inside and analyzes their content patterns. It recognizes WinTax4, WinDarab, and MoTeC formats by examining column headers, separator characters, and file structure. A majority vote across sampled files determines the format, with a confidence percentage displayed so you know how certain the detection is.
+                When you upload a ZIP archive or link a folder, the system samples multiple files and analyzes their content patterns. It recognizes WinTax4, WinDarab, and MoTeC formats by examining column headers, separator characters, and file structure. A majority vote across sampled files determines the format, with a confidence percentage displayed so you know how certain the detection is.
             </p>
             <p style="margin-bottom: 48px; line-height: 1.8;">
                 If the auto-detection doesn't match your setup (for example, with a custom export template), you can override it manually. The interface provides visual feedback showing both the detected format and your selected format, so you always know what parser will be used for processing.
             </p>
 
-            <!-- Section 10: Prediction History & Verification -->
-            <h2 class="section-title" style="text-align: left; margin-bottom: 16px;">Prediction History & Verification</h2>
+            <!-- Section 10: Training Conditions Correction -->
+            <h2 class="section-title" style="text-align: left; margin-bottom: 16px;">Training Conditions Correction</h2>
+            <p style="margin-bottom: 24px; line-height: 1.8;">
+                Pressure predictions are only as good as the conditions they were trained on. When current track ambient temperature differs significantly from the mean temperature in your training data, raw predictions may over- or under-estimate the required cold pressures. Training Conditions Correction addresses this by applying the OptimumG ideal gas law formula to adjust predictions for the temperature delta.
+            </p>
+            <p style="margin-bottom: 24px; line-height: 1.8;">
+                A unified temperature bar displays the filtered mean temperature from your training data alongside the current target temperature. The delta between them (ΔT) is color-coded: green indicates a small difference requiring minimal correction, amber indicates a moderate difference, and red indicates a large difference where the correction is significant and you should verify the prediction carefully.
+            </p>
+            <ul style="margin-bottom: 48px; color: var(--text-secondary); line-height: 2; padding-left: 24px;">
+                <li>Automatic adjustment when track temperature differs from training data mean</li>
+                <li>OptimumG ideal gas law correction formula</li>
+                <li>Unified temperature bar with filtered mean and target triangle</li>
+                <li>Color-coded ΔT status: green (small), amber (moderate), red (large)</li>
+            </ul>
+
+            <!-- Section 11: Linked Folder Workflow -->
+            <h2 class="section-title" style="text-align: left; margin-bottom: 16px;">Linked Folder Workflow</h2>
+            <p style="margin-bottom: 24px; line-height: 1.8;">
+                As an alternative to ZIP archives, you can link a CSV folder directly to the app. This is especially convenient for teams that export telemetry to a shared network location or a local folder that gets updated after each session. The app auto-scans the linked folder contents whenever you switch vehicle/tire pairs, so new data is picked up automatically.
+            </p>
+            <p style="margin-bottom: 24px; line-height: 1.8;">
+                Linked folders are remembered across sessions — you set it once and the path persists. You can also drag & drop a folder onto the app window to link it. This workflow reduces the friction of creating ZIP archives after every session and integrates naturally into teams that already have a structured folder hierarchy for their telemetry exports.
+            </p>
+            <ul style="margin-bottom: 48px; color: var(--text-secondary); line-height: 2; padding-left: 24px;">
+                <li>Link a CSV folder instead of creating ZIP archives</li>
+                <li>Auto-scan on pair selection — new data picked up automatically</li>
+                <li>Drag & drop folder support</li>
+                <li>Path remembered across sessions</li>
+            </ul>
+
+            <!-- Section 12: Session Logs & Verification -->
+            <h2 class="section-title" style="text-align: left; margin-bottom: 16px;">Session Logs & Verification</h2>
             <p style="margin-bottom: 24px; line-height: 1.8;">
                 Every prediction you calculate can be saved to a persistent history with rich metadata: driver name, event, session type, tire condition (new/used), and free-text notes. This creates a searchable log of every setup decision your team has made, organized per vehicle/tire pair.
             </p>
             <p style="margin-bottom: 24px; line-height: 1.8;">
-                The history is filterable by track, driver, date range, and event type, making it easy to find previous setups for a specific circuit or compare how different drivers' predictions performed. Entries are color-coded by status: amber for unverified predictions, green for verified ones, purple for manually entered data, and emerald for plateau auto-saved baselines.
+                The history is filterable by track, driver, date range, and event type, making it easy to find previous setups for a specific circuit or compare how different drivers' predictions performed. Entries are color-coded by status: amber for unverified predictions, green for verified ones, and emerald for plateau auto-saved baselines.
             </p>
             <p style="margin-bottom: 24px; line-height: 1.8;">
                 After a session, you can verify predictions by adding the actual hot pressures measured on track. The system compares your predicted cold pressures and expected hot pressures against real-world results, giving you immediate feedback on prediction accuracy. Over time, this verification loop helps you understand how reliable your data is and where to focus on improving data quality.
+            </p>
+            <p style="margin-bottom: 24px; line-height: 1.8;">
+                Expandable bleed coefficient columns (accessed via a [+] button) display the per-wheel expansion ratio R for each saved entry, letting you quickly compare how different sessions' thermal behavior varied. An imported run indicator shows which entries have already been added to your Tire Pressure Logs, preventing duplicate imports.
             </p>
             <ul style="margin-bottom: 48px; color: var(--text-secondary); line-height: 2; padding-left: 24px;">
                 <li>Save predictions with driver, event, session, tire condition, and notes</li>
                 <li>Filter by track, driver, date, and event type</li>
                 <li>Post-session verification: compare predictions vs actual hot pressures</li>
                 <li>Color-coded entries for quick visual status assessment</li>
+                <li>Expandable bleed coefficient columns showing R per wheel</li>
+                <li>Imported run indicator to prevent duplicate entries</li>
                 <li>Export formatted data for the tyre manager</li>
             </ul>
 
@@ -420,7 +472,7 @@
                 <div class="need-get-card input-card">
                     <h3 style="color: var(--ferrari-red);">Inputs (Hot Targets)</h3>
                     <ul class="need-get-list">
-                        <li><strong>Telemetry files</strong> (ZIP archive containing Run exports from different data-analysis softwares (WinDarab, WinTax, Motec, PiToolbox etc.) or Excel spreadsheet with manual measurements</li>
+                        <li><strong>Telemetry files</strong> (ZIP archive or linked folder containing run exports from WinDarab, WinTax4, MoTeC)</li>
                         <li><strong>Target hot pressures</strong> (your desired operating pressures)</li>
                         <li><strong>Number of laps</strong> (stint length affects pressure build-up)</li>
                         <li><strong>Track/circuit</strong> (selected from database or new track entry)</li>
@@ -432,8 +484,9 @@
                     <ul class="need-get-list">
                         <li><strong>Optimal cold pressures</strong> (per wheel position)</li>
                         <li><strong>Confidence/quality indicator</strong> (based on data quantity)</li>
-                        <li><strong>Suggested grid bleed</strong> (for race starts)</li>
+                        <li><strong>Data-driven bleed correction</strong> (per-wheel expansion ratios for race starts)</li>
                         <li><strong>Prediction intervals</strong> (showing expected variance)</li>
+                        <li><strong>Training conditions correction</strong> (temperature-adjusted predictions)</li>
                         <li><strong>Pressure build-up graph</strong> (showing pressure values per lap)</li>
                         <li><strong>Data warnings</strong> (when input data is insufficient)</li>
                     </ul>
@@ -468,12 +521,7 @@
 
                 <details class="faq-item">
                     <summary>How do you calculate formation lap/grid pressure bleed?</summary>
-                    <div class="faq-answer">Engineers start formation laps with higher pressures to prevent bead unseating and aid tire warm-up. On the grid, they bleed down to optimal race pressures. The bleed calculation uses the thermal gain coefficient (k = ΔP/ΔT) from formation lap telemetry, processed separately from ML training data. The system computes the exact bleed to reach the predictor's suggested cold pressures.</div>
-                </details>
-
-                <details class="faq-item">
-                    <summary>Can I use an Excel file with manually inserted input/output points?</summary>
-                    <div class="faq-answer">Yes. Beyond automated telemetry processing, you can create an Excel spreadsheet with your own cold/hot pressure pairs from manual measurements. The predictor imports this data and builds the same statistical model, giving you flexibility when full telemetry is unavailable.</div>
+                    <div class="faq-answer">Engineers start formation laps with higher pressures to prevent bead unseating and aid tire warm-up. On the grid, they bleed down to optimal race pressures. The data-driven bleed correction calculates per-wheel expansion ratios from your telemetry using an exponential pressure build-up model. You specify the race stint length, and the system computes the exact bleed per wheel. Two modes: Constant Bleed and Custom Start Pressure.</div>
                 </details>
 
                 <details class="faq-item">
@@ -488,7 +536,7 @@
 
                 <details class="faq-item">
                     <summary>What data formats are supported?</summary>
-                    <div class="faq-answer">The predictor accepts telemetry exports as ZIP archives containing files organized by track folder. A dedicated export template ensures correct channel selection in your data. Qualifying and testing sessions are used for ML model training, while formation lap data is processed separately for thermal gain coefficient calculation only. For vehicles without TPMS or when using tire heaters, the Excel template (Pressures_Database_Template.xlsx) allows manual data entry.</div>
+                    <div class="faq-answer">The predictor accepts telemetry exports as ZIP archives or linked folders containing CSV files organized by track folder. Linked folders auto-scan when you switch pairs and are remembered across sessions. Supported formats: WinTax4, WinDarab, and MoTeC, with auto-detection. For vehicles without TPMS, you can use the Tire Pressure Logs in the Session Logs tab to manually track pressures and calculate K-factors.</div>
                 </details>
 
                 <details class="faq-item">
@@ -502,8 +550,8 @@
                 </details>
 
                 <details class="faq-item">
-                    <summary>What is Race Tires Management and how does it work?</summary>
-                    <div class="faq-answer">Race Tires Management lets you assign tire compounds to each run via a configurable dropdown, filter processed data by compound, and visualize pressure build-up with interactive ΔP vs ΔT and ΔP vs Laps charts (with per-wheel toggle). K factors are auto-calculated via linear regression with R² goodness-of-fit, and an integrated OptimumG-based pressure calculator converts between hot and cold pressures using the ideal gas law.</div>
+                    <summary>What is Tire Pressure Logs and how does it work?</summary>
+                    <div class="faq-answer">Tire Pressure Logs lets you assign tire compounds to each run, filter data by compound, and visualize pressure build-up with interactive charts (with per-wheel toggle). Thermal gain coefficients are auto-calculated via linear regression with R² goodness-of-fit. Free-text cells with autocomplete, autosave, and keyboard shortcuts streamline data entry. An integrated pressure calculator converts between hot and cold pressures using the ideal gas law.</div>
                 </details>
 
                 <details class="faq-item">
@@ -526,6 +574,21 @@
                     <div class="faq-answer">The Track Relations Matrix generates cross-track coefficients from your actual pressure data. It uses bilinear interpolation within the data range and linear extrapolation outside it. You can export and import matrices as JSON files, making it easy to share cross-track knowledge within your team or transfer it between seasons.</div>
                 </details>
 
+                <details class="faq-item">
+                    <summary>What is Training Conditions Correction?</summary>
+                    <div class="faq-answer">When current track conditions differ from your training data average, the predictor applies a temperature correction based on the OptimumG ideal gas law formula. A unified temperature bar displays the filtered mean alongside the current target, with a color-coded ΔT indicator (green/amber/red). This ensures predictions remain accurate when conditions change between sessions.</div>
+                </details>
+
+                <details class="faq-item">
+                    <summary>How does the data-driven bleed correction work?</summary>
+                    <div class="faq-answer">The bleed correction uses an exponential pressure build-up model to calculate per-wheel expansion ratios from your telemetry data. You select the race stint length in laps, and the system determines the exact bleed for each wheel individually. Two modes: Constant Bleed (same bleed across all wheels) and Custom Start Pressure (independent per wheel). Bleed coefficient columns in Session Logs show the expansion ratio per wheel for each saved entry.</div>
+                </details>
+
+                <details class="faq-item">
+                    <summary>What is the linked folder workflow?</summary>
+                    <div class="faq-answer">Instead of creating ZIP archives, you can link a CSV folder directly. The app auto-scans the folder contents when you switch vehicle/tire pairs. Linked folders are remembered across sessions, and you can drag and drop folders onto the app. Especially convenient for teams exporting telemetry to a shared network folder.</div>
+                </details>
+
             </div>
         </div>
     </section>
@@ -535,7 +598,7 @@
         <div class="container" style="text-align: center;">
             <h2 class="section-title">Ready to Optimize Your Tire Setup?</h2>
             <p class="section-subtitle">See how data-driven pressure predictions can improve your racing consistency</p>
-            <a href="/#contact" class="btn btn-primary btn-large">Request a Demo</a>
+            <a href="/#contact" class="btn btn-primary btn-large">Download App</a>
         </div>
     </section>
 

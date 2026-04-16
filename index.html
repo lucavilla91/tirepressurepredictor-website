@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- SEO Meta Tags -->
-    <meta name="description" content="Tire pressure predictor for race cars. Upload telemetry or Excel data, get optimal cold pressures with confidence intervals and grid bleed recommendations. Features race tires management, prediction history, plateau detection, and cross-track analysis.">
-    <meta name="keywords" content="tire pressure, tyre pressure, motorsport, racing, telemetry, Ferrari Challenge, prediction, ML, machine learning, racing setup, data analysis, race tires management, prediction history, plateau detection, track relations matrix, WinDarab, WinTax4, MoTeC, tire compound, K factor">
+    <meta name="description" content="Tire pressure predictor for race cars. Filter training runs by ambient temperature and lap time, get optimal cold pressures with decomposed temperature corrections (ambient, track surface, tire setup), data-driven bleed correction with formation lap expansion ratios and grid pressure mode, and confidence intervals. Features run filter scatter plot, tire pressure logs with K-factor regression, session logs, plateau detection, and cross-track analysis.">
+    <meta name="keywords" content="tire pressure, tyre pressure, motorsport, racing, telemetry, Ferrari Challenge, prediction, ML, machine learning, racing setup, data analysis, tire pressure logs, session logs, plateau detection, track relations matrix, WinDarab, WinTax4, MoTeC, tire compound, bleed correction, temperature correction, linked folder, cold pressure calculator, formation lap bleed, expansion ratio, run filter, scatter plot, track temperature, grid pressure, laps histogram, run analytics, event conditions, OptimumG">
     <meta name="author" content="LVilla Engineering">
     <meta name="robots" content="index, follow">
     <meta name="language" content="English">
@@ -16,7 +16,7 @@
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://tirepressurepredictor.com">
     <meta property="og:title" content="Tire Pressure Predictor for Race Cars">
-    <meta property="og:description" content="Upload telemetry or Excel data, get optimal cold pressures with confidence intervals and grid bleed recommendations. Features race tires management, prediction history, plateau detection, and cross-track analysis.">
+    <meta property="og:description" content="Filter training runs by temperature and lap time, get optimal cold pressures with decomposed temperature corrections, data-driven bleed correction with formation lap expansion ratios, and confidence intervals. Features run filter scatter plot, tire pressure logs, session logs, and cross-track analysis.">
     <meta property="og:image" content="https://tirepressurepredictor.com/og-image.png">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
@@ -27,7 +27,7 @@
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:url" content="https://tirepressurepredictor.com">
     <meta name="twitter:title" content="Tire Pressure Predictor for Race Cars">
-    <meta name="twitter:description" content="Upload telemetry or Excel data, get optimal cold pressures with confidence intervals and grid bleed recommendations. Features race tires management, prediction history, plateau detection, and cross-track analysis.">
+    <meta name="twitter:description" content="Filter training runs by temperature and lap time, get optimal cold pressures with decomposed temperature corrections, data-driven bleed correction with formation lap expansion ratios, and confidence intervals. Features run filter scatter plot, tire pressure logs, session logs, and cross-track analysis.">
     <meta name="twitter:image" content="https://tirepressurepredictor.com/og-image.png">
 
     <!-- Canonical URL -->
@@ -40,14 +40,14 @@
     <link rel="manifest" href="/site.webmanifest">
     <meta name="theme-color" content="#000000">
 
-    <title>Tire Pressure Predictor | Cold Pressure Calculator for Race Cars</title>
+    <title>Tire Pressure Predictor | Stop Guessing Cold Pressures for Race Cars</title>
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-    <link rel="stylesheet" href="styles.css?v=2.7.1">
+    <link rel="stylesheet" href="styles.css?v=2.10.3d">
 
     <!-- JSON-LD Structured Data -->
     <script type="application/ld+json">
@@ -57,6 +57,7 @@
       "name": "Tire Pressure Predictor",
       "applicationCategory": "BusinessApplication",
       "operatingSystem": "Windows 10/11",
+      "softwareVersion": "2.10.3",
       "offers": {
         "@type": "Offer",
         "price": "0",
@@ -67,7 +68,7 @@
         "ratingValue": "5",
         "ratingCount": "1"
       },
-      "description": "Desktop application for motorsport teams to predict optimal cold tire pressures from telemetry data. Features race tires management with compound tracking and K factors, auto-detection of telemetry formats (WinTax4, WinDarab, MoTeC), prediction history with verification, plateau detection with auto-save, and cross-track relations matrix.",
+      "description": "Desktop application for motorsport teams to predict optimal cold tire pressures from telemetry data. Features interactive scatter plot run filter by ambient temperature and lap time, decomposed temperature corrections (ambient, track surface, tire setup) using OptimumG gas law formula, data-driven bleed correction with formation lap expansion ratios and grid pressure mode, tire pressure logs with compound tracking and auto K-factor regression, auto-detection of telemetry formats (WinTax4, WinDarab, MoTeC), linked folder workflow, session logs with verification and bleed coefficient columns, plateau detection with auto-save, runs summary statistics with laps histogram, and cross-track relations matrix.",
       "screenshot": "https://tirepressurepredictor.com/screenshot.png",
       "author": {
         "@type": "Organization",
@@ -88,50 +89,42 @@
       "mainEntity": [
         {
           "@type": "Question",
-          "name": "What data do I need to start?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Telemetry exports (ZIP from WinTAX4, MoTeC, etc.) or manual Excel entries with hot/cold pressures, track name, and lap count. More sessions = better predictions."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Can I use it without TPMS?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Yes. If you record pressures manually (pre-session cold, post-session hot), the Excel workflow works perfectly. TPMS just automates data collection."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Does it work for long runs vs qualifying?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Yes. The model distinguishes session types. Long runs and qualifying have different thermal profiles, and the app accounts for this when predicting."
-          }
-        },
-        {
-          "@type": "Question",
           "name": "How do I get started?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Request a demo. We'll walk you through setup, data import, and your first prediction."
+            "text": "Download the app below — fill in the form and you'll get started right away. A license key will be sent to your email after verification."
           }
         },
         {
           "@type": "Question",
-          "name": "What is Race Tires Management?",
+          "name": "What data do I need?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Race Tires Management lets you track tire compounds, visualize pressure build-up with ΔP vs ΔT and ΔP vs Laps charts, and automatically calculate K factors (thermal gain coefficients) via linear regression. It includes an OptimumG-based pressure calculator for converting between hot and cold pressures using the ideal gas law."
+            "text": "Telemetry exports (ZIP or linked folder from WinTAX4, WinDarab, MoTeC). More sessions = better predictions."
           }
         },
         {
           "@type": "Question",
-          "name": "What is Plateau Detection?",
+          "name": "How does the Run Filter work?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Plateau Detection automatically identifies when tire pressures have stabilized during a run (reached 97% of total build-up). These stabilized runs are auto-saved to your Prediction History as verified baselines, giving you reliable reference data without manual work."
+            "text": "The Run Filter is an interactive scatter plot showing training runs by ambient temperature (x-axis) and best lap time (y-axis). Drag to select a region, or use step arrows for ±0.5°C and ±0.5s precision. Only selected runs feed into the prediction — exclude outlier sessions or match race-day conditions. Runs Summary Stats below the filter show per-run details, a laps histogram (green = enough laps, amber = fewer), and a warning when your target laps exceed available data."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do temperature corrections work?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "When current conditions differ from your training data, the predictor applies up to three corrections using the OptimumG gas law formula: (1) ambient temperature change (ΔT.Amb), (2) track surface temperature change (ΔT.Track), and (3) tire setup temperature — when tires are pressurized at a different temperature than ambient (T.Tires@Press). Each correction shows per-wheel pressure deltas. A color-coded bar indicates how large the temperature difference is."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How does the bleed correction work?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The bleed correction uses an exponential pressure build-up model fitted to your telemetry. Per-wheel expansion ratios (R = P_hot / P_cold) are computed from real data. Set race laps and formation laps — the system calculates R at the formation lap point and the bleed needed per wheel. Three modes: Constant Bleed (set desired bleed, get start pressure), Custom Start Pressure (set grid pressures, get expected bleed), and Grid Pressure (enter measured pressures from a practice grid simulation)."
           }
         },
         {
@@ -141,8 +134,131 @@
             "@type": "Answer",
             "text": "Yes. The Track Relations Matrix generates cross-track coefficients that let you transfer pressure knowledge between circuits. It uses bilinear interpolation within the data range and linear extrapolation outside it, providing reliable starting points even for tracks with limited data."
           }
+        },
+        {
+          "@type": "Question",
+          "name": "Does it work for long runs vs qualifying?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. Training runs (qualifying, practice) feed the ML model for cold pressure prediction. Long runs and race stints are handled by Tire Pressure Logs, which tracks stabilized pressures and calculates K-factors per wheel."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What is Plateau Detection?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Plateau Detection automatically identifies when tire pressures have stabilized during a run (reached 97% of total build-up). These stabilized runs are auto-saved to your Session Logs as verified baselines, giving you reliable reference data without manual work."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I use it without TPMS?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. If you record pressures manually (pre-session cold, post-session hot), you can use the Tire Pressure Logs in the Session Logs tab to track compounds, calculate K-factors, and get cold pressure recommendations."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What is Tire Pressure Logs?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Tire Pressure Logs lets you track tire compounds, build ΔP vs ΔT charts with trend lines, and auto-calculate K-factor regression per wheel. It includes a pressure calculator with OptimumG gas law formula for hot/cold conversion. Free-text cells with autocomplete and autosave."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do you predict cold pressures from real data analysis?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The predictor builds a statistical model from your historical sessions. It analyzes the relationship between cold starting pressures and resulting hot pressures across different tracks, compounds, and conditions. When you input a target hot pressure, the model calculates the cold pressure needed to reach that target based on patterns learned from your actual data."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How does the tool clean and validate incoming data?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The processor automatically filters out unreliable data before training. It detects and excludes: wet condition runs, pre-heated tire runs, aborted laps, pressure bleeds during pit stops, and laps with anomalous length. Sensor spikes in pressure, temperature, and speed data are also removed. This ensures the ML model trains only on clean, representative dry-condition data."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can it predict cold pressure on a new track I have never raced on?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. The track similarity matching feature compares the new circuit's characteristics (corner count, lap length, surface type) against tracks in your database. The Track Relations Matrix generates cross-track coefficients using bilinear interpolation within the data range and linear extrapolation outside it, providing reliable starting points even for tracks with limited data."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How accurate are the pressure predictions?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Accuracy depends on data quality and quantity. With sufficient historical sessions (typically 5+ per track), predictions typically fall within 0.02-0.05 bar of actual results. The system provides confidence intervals showing prediction reliability and warns when data is insufficient for reliable predictions."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What telemetry formats are supported?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The predictor accepts telemetry exports as ZIP archives or linked folders containing CSV files organized by track folder. Supported formats: WinTax4, WinDarab, and MoTeC, with auto-detection. Linked folders auto-scan when you switch pairs and are remembered across sessions."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Does it work with vehicles without TPMS or when using tire heaters?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. For vehicles without TPMS or when using tire heaters/blankets, you can use the Tire Pressure Logs in the Session Logs tab to manually record cold/hot pressure pairs, track compounds, and calculate K-factor regression per wheel. The built-in pressure calculator uses the OptimumG gas law formula to recommend cold pressures."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How does the linked folder workflow work?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Instead of creating ZIP archives, you can link a CSV folder directly. The app auto-scans the folder contents when you switch vehicle/tire pairs. Linked folders are remembered across sessions, and you can drag and drop folders onto the app. Especially convenient for teams exporting telemetry to a shared network folder."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How does Session Logs verification work?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Every prediction can be saved with metadata (driver, event, session, tire condition, notes) and filtered by track, driver, date, or event type. After the session, add actual hot pressures and the system compares predictions vs reality with color-coded accuracy feedback. Expandable bleed coefficient columns show per-wheel expansion ratio R for each entry."
+          }
         }
       ]
+    }
+    </script>
+    <!-- JSON-LD Article (SEO — invisible to users, indexed by search engines) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "headline": "Race Car Tire Pressure Predictor: Data-Driven Cold Pressure Calculation",
+      "description": "A data-driven tool that analyzes historical telemetry to predict optimal cold tire starting pressures. Input your target hot pressures, the track and the number of laps, the predictor calculates the exact cold values needed to reach those targets during the session.",
+      "articleBody": "Traditional cold pressure selection relies on experience and general guidelines. A racing tires cold pressure predictor takes a different approach: it learns from your actual data. By processing historical sessions where you recorded both starting cold and ending hot pressures, the system builds a statistical model specific to your car, tires, and driving style. Every racing tire has an optimal operating window where grip and consistency are maximized. The cold pressure predictor solves this by reversing the relationship: you specify your target hot pressures and the system calculates the corresponding cold values, accounting for thermal expansion, carcass heating, and track-specific factors. The Run Filter scatter plot lets you filter training runs by ambient temperature and best lap time, selecting only the sessions that match race-day conditions. Three decomposed temperature corrections adjust predictions using the OptimumG gas law formula: ambient temperature change, track surface temperature change, and tire setup temperature when tires are pressurized at a different temperature than ambient. For race stints, the data-driven bleed correction uses an exponential pressure build-up model calculating per-wheel expansion ratios from your actual telemetry data. Engineers start formation laps with higher pressures to prevent bead unseating and aid tire warm-up, then bleed down to optimal values on the grid. Three modes are available: Constant Bleed, Custom Start Pressure, and Grid Pressure. Tire Pressure Logs tracks compound usage across race weekends with ΔP vs ΔT scatter charts, per-wheel trend lines, and auto K-factor regression. The built-in pressure calculator uses the OptimumG ideal gas law algorithm. Plateau Detection automatically identifies when tire pressures have stabilized during a run and auto-saves these as verified baselines. The Track Relations Matrix generates cross-track coefficients using bilinear interpolation, transferring pressure knowledge between circuits. The predictor's accuracy improves with every session uploaded — team-wide adoption creates a centralized database where all engineers contribute data and new team members immediately benefit from years of accumulated knowledge.",
+      "author": {
+        "@type": "Organization",
+        "name": "LVilla Engineering",
+        "email": "lvillaengineering@gmail.com"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "LVilla Engineering",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://tirepressurepredictor.com/logo.svg"
+        }
+      },
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://tirepressurepredictor.com"
+      }
     }
     </script>
 </head>
@@ -157,12 +273,9 @@
                 <span class="logo-text">Tire Pressure Predictor</span>
             </div>
             <nav class="nav">
-                <a href="#how-it-works">How It Works</a>
                 <a href="#features">Features</a>
-                <a href="#screenshots">Screenshots</a>
                 <a href="#faq">FAQ</a>
-                <a href="/race-car-tyre-pressure-predictor/">Technical Guide</a>
-                <a href="#contact" class="btn btn-primary btn-small">Request Demo</a>
+                <a href="#contact" class="btn btn-primary btn-small">Download App</a>
             </nav>
             <button class="mobile-menu-btn" aria-label="Toggle menu">
                 <span></span>
@@ -175,18 +288,19 @@
     <!-- ==================== HERO SECTION (FIXED PARALLAX) ==================== -->
     <section class="hero" id="hero">
         <div class="container hero-content">
-            <h1>Tire Pressure Predictor for Race Cars</h1>
+            <h1>Stop guessing cold pressures. Start predicting them.</h1>
             <p class="hero-subtitle">
-                Telemetry or Excel in &rarr; Optimal cold starting pressures out. From qualifying prep to endurance race management.
+                Filter training runs by temperature and lap time, get per-corner cold pressures with data-driven bleed correction. From qualifying to endurance race management.
             </p>
             <ul class="hero-outcomes">
-                <li><strong>Cold pressures per corner</strong> to hit your target hot pressures</li>
-                <li><strong>Race Tire Management</strong> for endurance and long-run stabilized pressure analysis</li>
-                <li><strong>Grid bleed recommendation</strong> for formation lap / race start</li>
+                <li><strong>Cold pressures per corner</strong> corrected for ambient, track surface, and tire setup temperature</li>
+                <li><strong>Run Filter</strong> &mdash; scatter plot to select training runs by T.Ambient and lap time</li>
+                <li><strong>Data-driven bleed correction</strong> with per-wheel expansion ratios, formation lap model, and grid pressure mode</li>
+                <li><strong>Tire Pressure Logs</strong> for compound tracking, stabilized pressure analysis, and K-factor regression</li>
             </ul>
             <div class="hero-cta">
-                <a href="#contact" class="btn btn-primary btn-large">Request a Demo</a>
-                <a href="/race-car-tyre-pressure-predictor/" class="btn btn-link">Read the Technical Guide &rarr;</a>
+                <a href="#contact" class="btn btn-primary btn-large">Download App</a>
+                <a href="#features" class="btn btn-link">See the features &rarr;</a>
             </div>
         </div>
     </section>
@@ -197,308 +311,172 @@
     <!-- ==================== MAIN CONTENT ==================== -->
     <div class="main-content">
 
-    <!-- ==================== INPUT -> OUTPUT ==================== -->
-    <section class="section">
+    <!-- ==================== COMPACT SUMMARY ==================== -->
+    <section class="section" style="padding: 48px 0;">
         <div class="container">
-            <h2 class="section-title">Input &rarr; Output</h2>
-
-            <div class="need-get-grid">
-                <div class="need-get-card input-card">
-                    <div class="need-get-icon">
-                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#DC0000" stroke-width="1.5">
-                            <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/>
-                            <polyline points="13 2 13 9 20 9"/>
-                        </svg>
-                    </div>
-                    <h3 style="color: var(--ferrari-red);">Inputs You Provide</h3>
-                    <ul class="need-get-list">
-                        <li><strong>Telemetry ZIP</strong> (WinTAX4, MoTeC, Pi Toolbox) <em>or</em> Excel manual entries</li>
-                        <li><strong>Track name</strong> + number of laps</li>
-                        <li><strong>Target hot pressures</strong> (FL/FR/RL/RR)</li>
-                        <li><strong>Ambient temp</strong> (and tire temp if available)</li>
-                    </ul>
+            <div class="compact-strip">
+                <div class="compact-strip-block">
+                    <div class="compact-strip-label" style="color: var(--ferrari-red);">Input</div>
+                    <p>Telemetry ZIP or linked folder (WinTAX4, WinDarab, MoTeC) &middot; Target hot pressures &middot; Track &amp; laps &middot; Event Conditions (T.Ambient, T.Track)</p>
                 </div>
+                <div class="compact-strip-arrow">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#DC0000" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+                </div>
+                <div class="compact-strip-block">
+                    <div class="compact-strip-label" style="color: #60a5fa;">Output</div>
+                    <p>Optimal cold pressures per corner &middot; Temperature corrections (&Delta;T.Amb, &Delta;T.Track, T.Tires@Press) &middot; Confidence intervals &middot; Formation lap bleed</p>
+                </div>
+            </div>
 
-                <div class="need-get-card output-card">
-                    <div class="need-get-icon">
-                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="1.5">
-                            <polyline points="20 6 9 17 4 12"/>
-                        </svg>
-                    </div>
-                    <h3 style="color: #60a5fa;">Outputs You Get</h3>
-                    <ul class="need-get-list">
-                        <li><strong>Optimal cold pressures</strong> (FL/FR/RL/RR)</li>
-                        <li><strong>Confidence / data quality</strong> indicator</li>
-                        <li><strong>Prediction intervals</strong> (range of likely values)</li>
-                        <li><strong>Grid bleed suggestion</strong> for race start</li>
-                    </ul>
+            <div class="compact-workflows">
+                <div class="compact-workflow-item">
+                    <strong style="color: var(--ferrari-red);">Training Runs</strong>
+                    <span>Upload telemetry &rarr; filter on scatter plot by temperature and lap time &rarr; cold pressures with 3 decomposed temperature corrections &rarr; formation lap bleed</span>
+                </div>
+                <div class="compact-workflow-item">
+                    <strong style="color: #60a5fa;">Long Runs &amp; Endurance</strong>
+                    <span>Tire Pressure Logs with &Delta;P vs &Delta;T charts, K-factor regression, OptimumG calculator, plateau auto-save</span>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- ==================== TWO WORKFLOWS ==================== -->
-    <section class="section">
-        <div class="container">
-            <h2 class="section-title">Two Workflows, One Tool</h2>
-            <p class="section-subtitle">Whether you're preparing for qualifying or managing race stints, TPP has you covered</p>
-
-            <div class="need-get-grid">
-                <div class="need-get-card input-card">
-                    <div class="need-get-icon">
-                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#DC0000" stroke-width="1.5">
-                            <circle cx="12" cy="12" r="10"/>
-                            <polyline points="12 6 12 12 16 14"/>
-                        </svg>
-                    </div>
-                    <h3 style="color: var(--ferrari-red);">Short Runs &mdash; Qualifying & Practice</h3>
-                    <p style="color: #aaa; margin-bottom: 16px;">Upload telemetry from short runs (5-10 laps) and the ML model learns how pressures build up on each track. Then predict the optimal cold starting pressures for any target hot pressure and lap count.</p>
-                    <ul class="need-get-list">
-                        <li><strong>ML-based prediction</strong> trained on your telemetry data</li>
-                        <li><strong>Per-corner cold pressures</strong> with confidence intervals</li>
-                        <li><strong>Track-specific</strong> &mdash; each circuit gets its own model</li>
-                        <li><strong>Grid bleed calculation</strong> for formation lap correction</li>
-                    </ul>
-                </div>
-
-                <div class="need-get-card output-card">
-                    <div class="need-get-icon">
-                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="1.5">
-                            <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
-                        </svg>
-                    </div>
-                    <h3 style="color: #60a5fa;">Long Runs &mdash; Race Stints & Endurance</h3>
-                    <p style="color: #aaa; margin-bottom: 16px;">For race stints and endurance events where pressures stabilize, Race Tires Management tracks compound usage, analyzes ΔP vs ΔT trends, and auto-detects plateau conditions. Ideal when using tyre heaters.</p>
-                    <ul class="need-get-list">
-                        <li><strong>Stabilized pressure analysis</strong> from long-run data</li>
-                        <li><strong>Auto-detect plateau</strong> when 97% buildup is reached</li>
-                        <li><strong>K-factor calculation</strong> (thermal gain) via linear regression</li>
-                        <li><strong>Driver thermal profiles</strong> for endurance tire set planning</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- ==================== WHO IT'S FOR ==================== -->
-    <section class="section">
-        <div class="container">
-            <h2 class="section-title">Who It's For</h2>
-
-            <div class="audience-bullets">
-                <div class="audience-item">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#DC0000" stroke-width="2">
-                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
-                        <circle cx="9" cy="7" r="4"/>
-                        <path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/>
-                    </svg>
-                    <span><strong>Race engineers & teams</strong> optimizing tire strategy with data</span>
-                </div>
-                <div class="audience-item">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#DC0000" stroke-width="2">
-                        <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
-                        <line x1="8" y1="21" x2="16" y2="21"/>
-                        <line x1="12" y1="17" x2="12" y2="21"/>
-                    </svg>
-                    <span><strong>Data analysts</strong> processing telemetry for actionable insights</span>
-                </div>
-                <div class="audience-item">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#DC0000" stroke-width="2">
-                        <circle cx="12" cy="12" r="10"/>
-                        <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/>
-                    </svg>
-                    <span><strong>Drivers with structured notes</strong> &mdash; even without TPMS</span>
-                </div>
-            </div>
-
-            <p class="not-for-you"><em>Not a generic street-car tire pressure calculator.</em></p>
-        </div>
-    </section>
-
-    <!-- ==================== KEY FEATURES ==================== -->
+    <!-- ==================== FEATURES + SCREENSHOTS (UNIFIED) ==================== -->
     <section id="features" class="section">
         <div class="container">
-            <h2 class="section-title">Key Features</h2>
+            <h2 class="section-title">Features</h2>
 
-            <div class="features-grid">
-                <div class="feature-card">
-                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#DC0000" stroke-width="1.5">
-                        <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
-                        <line x1="1" y1="1" x2="23" y2="1" stroke-dasharray="2 2"/>
-                    </svg>
-                    <h3>Race Tires Management</h3>
-                    <p>Track tire compounds with a configurable dropdown, visualize pressure build-up with ΔP vs ΔT and ΔP vs Laps charts, and auto-calculate K factors (thermal gain coefficients) via linear regression. Includes an OptimumG-based pressure calculator.</p>
-                </div>
-
-                <div class="feature-card">
-                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#DC0000" stroke-width="1.5">
-                        <circle cx="11" cy="11" r="8"/>
-                        <line x1="21" y1="21" x2="16.65" y2="16.65"/>
-                        <path d="M8 11h6M11 8v6"/>
-                    </svg>
-                    <h3>Auto-Detect Telemetry Format</h3>
-                    <p>Drop a ZIP archive and the app automatically identifies the telemetry software (WinTax4, WinDarab, MoTeC) by sampling file contents with majority vote. No manual configuration needed — just upload and process.</p>
-                </div>
-
-                <div class="feature-card">
-                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#DC0000" stroke-width="1.5">
-                        <circle cx="12" cy="12" r="10"/>
-                        <polyline points="12 6 12 12 16 14"/>
-                    </svg>
-                    <h3>Prediction History & Verification</h3>
-                    <p>Save every prediction with driver, event, session, and tire condition metadata. Filter by track, driver, or date. After the session, add actual hot pressures and verify predictions against real-world results with color-coded accuracy feedback.</p>
-                </div>
-
-                <div class="feature-card">
-                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#DC0000" stroke-width="1.5">
-                        <polyline points="4 16 8 12 12 14 16 8 20 10"/>
-                        <line x1="16" y1="10" x2="22" y2="10" stroke-dasharray="3 2"/>
-                    </svg>
-                    <h3>Plateau Detection</h3>
-                    <p>Automatically detects when tire pressures stabilize during a run (97% of total build-up reached). Stabilized runs are auto-saved to your Prediction History as verified baselines — reliable reference data without any manual work.</p>
-                </div>
-
-                <div class="feature-card">
-                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#DC0000" stroke-width="1.5">
-                        <rect x="3" y="3" width="7" height="7" rx="1"/>
-                        <rect x="14" y="3" width="7" height="7" rx="1"/>
-                        <rect x="3" y="14" width="7" height="7" rx="1"/>
-                        <rect x="14" y="14" width="7" height="7" rx="1"/>
-                        <line x1="10" y1="6.5" x2="14" y2="6.5" stroke-dasharray="2 1"/>
-                        <line x1="10" y1="17.5" x2="14" y2="17.5" stroke-dasharray="2 1"/>
-                    </svg>
-                    <h3>Track Relations Matrix</h3>
-                    <p>Generate cross-track coefficients that transfer pressure knowledge between circuits. Uses bilinear interpolation within the data range and linear extrapolation outside it, so you get reliable starting points even for tracks with limited data.</p>
-                </div>
-
-                <!-- Runsheet Editor feature card — hidden, feature disabled for now
-                <div class="feature-card">
-                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#DC0000" stroke-width="1.5">
-                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-                        <polyline points="14 2 14 8 20 8"/>
-                        <line x1="16" y1="13" x2="8" y2="13"/>
-                        <line x1="16" y1="17" x2="8" y2="17"/>
-                    </svg>
-                    <h3>Runsheet Editor</h3>
-                    <p>Interactive editor for manual pressure data entry. Import Excel files, edit cells inline, manage track/event/driver lists, auto-save with undo/redo, and export back to Excel. Works for teams without TPMS telemetry.</p>
-                </div>
-                -->
-
-                <div class="feature-card">
-                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#DC0000" stroke-width="1.5">
-                        <circle cx="12" cy="12" r="10"/>
-                        <path d="M8 12h3l1-3 2 6 1-3h3"/>
-                    </svg>
-                    <h3>Pressure Unit Toggle</h3>
-                    <p>Switch between bar and PSI with a single click. All pressures across the app convert instantly — inputs, outputs, charts, and history. Internal calculations stay in bar for precision.</p>
-                </div>
-
-                <div class="feature-card">
-                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#DC0000" stroke-width="1.5">
-                        <polygon points="12 2 19 21 12 17 5 21"/>
-                    </svg>
-                    <h3>GPS Track Layout</h3>
-                    <p>Automatic GPS track map from telemetry data with numbered corner markers, start/finish flag, and track statistics (length, corners, lap time). Visual reference for track-specific analysis.</p>
-                </div>
+            <div class="screenshot-theme-toggle">
+                <button class="theme-btn active" data-theme="dark">Dark</button>
+                <button class="theme-btn" data-theme="light">Light</button>
             </div>
-        </div>
-    </section>
 
-    <!-- ==================== HOW IT WORKS (3 STEPS) ==================== -->
-    <section id="how-it-works" class="section">
-        <div class="container">
-            <h2 class="section-title">How It Works</h2>
-            <p class="section-subtitle">Three steps from raw data to race-ready pressures</p>
+            <div class="feature-showcase">
 
-            <div class="workflow-simple">
-                <div class="workflow-step-simple">
-                    <div class="step-number-large">1</div>
-                    <h3>Data Input</h3>
-                    <p>Upload telemetry ZIP or fill Excel template with your pressure notes.</p>
-                </div>
-                <div class="workflow-arrow">
-                    <svg width="40" height="24" viewBox="0 0 40 24" fill="none">
-                        <path d="M0 12h36M28 4l8 8-8 8" stroke="#DC0000" stroke-width="2"/>
-                    </svg>
-                </div>
-                <div class="workflow-step-simple">
-                    <div class="step-number-large">2</div>
-                    <h3>Processing</h3>
-                    <p>Data cleaning, filtering, and statistical model training per track.</p>
-                </div>
-                <div class="workflow-arrow">
-                    <svg width="40" height="24" viewBox="0 0 40 24" fill="none">
-                        <path d="M0 12h36M28 4l8 8-8 8" stroke="#DC0000" stroke-width="2"/>
-                    </svg>
-                </div>
-                <div class="workflow-step-simple highlight">
-                    <div class="step-number-large">3</div>
-                    <h3>Prediction</h3>
-                    <p>Cold pressures + grid bleed ready for qualifying, plateau analysis for race stints.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- ==================== SCREENSHOTS ==================== -->
-    <section id="screenshots" class="section">
-        <div class="container">
-            <h2 class="section-title">See It in Action</h2>
-
-            <div class="screenshots-grid screenshots-grid-3">
-                <div class="screenshot-item">
-                    <img src="images/app-setup.png" alt="Vehicle and tire selection" loading="lazy" class="screenshot-clickable" data-screenshot="images/app-setup.png">
-                    <div class="screenshot-caption">
-                        <h4>Vehicle & Tire Selection</h4>
-                        <p>Manage pairs, upload telemetry archives, track processing status</p>
+                <!-- 1. Data Tab (text left, image right) -->
+                <div class="feature-block">
+                    <div class="feature-block-text">
+                        <h3>Telemetry &mdash; Data</h3>
+                        <p>Manage vehicle/tire pairs, upload telemetry, and let the app handle the rest. Auto-detection identifies your software format, and linked folders keep your data in sync without creating ZIP archives.</p>
+                        <div class="feature-detail">
+                            <strong>Auto-detect telemetry format</strong>
+                            <p>Drop a ZIP or link a folder &mdash; the app identifies WinTax4, WinDarab, or MoTeC from file content with confidence percentage.</p>
+                        </div>
+                        <div class="feature-detail">
+                            <strong>Linked folder</strong>
+                            <p>No ZIP needed. Link a CSV folder directly &mdash; it auto-scans when you switch pairs and remembers the path across sessions.</p>
+                        </div>
+                        <div class="feature-detail">
+                            <strong>Pairs table</strong>
+                            <p>Training Runs, Plateau Runs, and Session Logs counts at a glance. Export/import configurations as .tpp files across PCs.</p>
+                        </div>
                     </div>
-                    <div class="click-hint">Click to enlarge</div>
+                    <div class="feature-block-image">
+                        <img src="images/1-dark.png" alt="Data tab with pairs table and linked folder" loading="lazy" class="screenshot-clickable screenshot-dark">
+                        <img src="images/1-light.png" alt="Data tab (Light)" loading="lazy" class="screenshot-clickable screenshot-light" style="display:none">
+                    </div>
                 </div>
 
-                <div class="screenshot-item">
-                    <img src="images/app-processing.png" alt="Data processing and channel mapping" loading="lazy" class="screenshot-clickable" data-screenshot="images/app-processing.png">
-                    <div class="screenshot-caption">
-                        <h4>Processing & Channel Mapping</h4>
-                        <p>Auto-detect telemetry format, map channels, named settings</p>
+                <!-- 2. Processing (image left, text right) -->
+                <div class="feature-block img-left">
+                    <div class="feature-block-image">
+                        <img src="images/2-dark.png" alt="Channel Mapping and Processing with run details" loading="lazy" class="screenshot-clickable screenshot-dark">
+                        <img src="images/2-light.png" alt="Channel Mapping and Processing (Light)" loading="lazy" class="screenshot-clickable screenshot-light" style="display:none">
                     </div>
-                    <div class="click-hint">Click to enlarge</div>
+                    <div class="feature-block-text">
+                        <h3>Processing & Channel Mapping</h3>
+                        <p>Channel mapping auto-matches your telemetry columns. Named settings let you save and reuse processing configurations across pairs. Per-run details show exactly what happened.</p>
+                        <div class="feature-detail">
+                            <strong>Channel mapping</strong>
+                            <p>Auto-detect or manual mode with color-coded match status. Save and reuse mappings across vehicle/tire pairs.</p>
+                        </div>
+                        <div class="feature-detail">
+                            <strong>Named settings</strong>
+                            <p>Save processing configurations, assign them to multiple pairs, import/export as .tpp-settings files.</p>
+                        </div>
+                        <div class="feature-detail">
+                            <strong>Per-run processing details</strong>
+                            <p>Every run shows its result: added, discarded (wet, prewarmed, aborted), plateau lap, and aborted lap number.</p>
+                        </div>
+                    </div>
                 </div>
 
-                <div class="screenshot-item">
-                    <img src="images/app-main.png" alt="Main prediction interface dark mode" loading="lazy" class="screenshot-clickable" data-screenshot="images/app-main.png">
-                    <div class="screenshot-caption">
-                        <h4>Prediction (Dark Mode)</h4>
-                        <p>Cold pressures with confidence intervals and pressure trend charts</p>
+                <!-- 3. Prediction (text left, image right) -->
+                <div class="feature-block">
+                    <div class="feature-block-text">
+                        <h3>Cold Pressure Prediction</h3>
+                        <p>The full prediction workflow: filter training runs on the scatter plot, get per-corner cold pressures with confidence intervals, and see how pressures build up over laps.</p>
+                        <div class="feature-detail">
+                            <strong>Run Filter scatter plot</strong>
+                            <p>Drag to select by T.Ambient and lap time, step arrows for &plusmn;0.5&deg;C / &plusmn;0.5s. Runs Summary Stats with per-run details, laps histogram, and extrapolation warning.</p>
+                        </div>
+                        <div class="feature-detail">
+                            <strong>Temperature corrections</strong>
+                            <p>Three decomposed corrections &mdash; &Delta;T.Amb, &Delta;T.Track, T.Tires@Press &mdash; using OptimumG gas law, each with per-wheel pressure deltas.</p>
+                        </div>
+                        <div class="feature-detail">
+                            <strong>Cold pressures &amp; charts</strong>
+                            <p>MIN / P50 / MAX confidence intervals, pressure trend charts, GPS track layout. Switch bar/PSI and &deg;C/&deg;F instantly.</p>
+                        </div>
+                        <div class="feature-detail">
+                            <strong>&Delta;P analytics</strong>
+                            <p>Pressure buildup per lap, &Delta;P vs T.Ambient, and &Delta;P vs Best Lap Time &mdash; see how conditions and driver pace affect pressure behavior.</p>
+                        </div>
                     </div>
-                    <div class="click-hint">Click to enlarge</div>
+                    <div class="feature-block-image">
+                        <img src="images/3-dark.png" alt="Full prediction view with Run Filter, cold pressures, and charts" loading="lazy" class="screenshot-clickable screenshot-dark">
+                        <img src="images/3-light.png" alt="Full prediction view (Light, bar)" loading="lazy" class="screenshot-clickable screenshot-light" style="display:none">
+                    </div>
                 </div>
 
-                <div class="screenshot-item">
-                    <img src="images/app-main-psi.png" alt="Main prediction interface light mode PSI" loading="lazy" class="screenshot-clickable" data-screenshot="images/app-main-psi.png">
-                    <div class="screenshot-caption">
-                        <h4>Prediction (Light Mode, PSI)</h4>
-                        <p>Switch units and theme with a single click</p>
+                <!-- 4. Bleed Correction (image left, text right) -->
+                <div class="feature-block img-left">
+                    <div class="feature-block-image">
+                        <img src="images/4-dark.png" alt="Bleed Correction with Grid Pressure mode and Ratio Trend chart" loading="lazy" class="screenshot-clickable screenshot-dark">
+                        <img src="images/4-light.png" alt="Bleed Correction (Light)" loading="lazy" class="screenshot-clickable screenshot-light" style="display:none">
                     </div>
-                    <div class="click-hint">Click to enlarge</div>
+                    <div class="feature-block-text">
+                        <h3>Bleed Correction & Run Analytics</h3>
+                        <p>Exponential pressure build-up model calculates per-wheel expansion ratios from your telemetry. Set race laps and formation laps &mdash; the system tells you how much to bleed on the grid.</p>
+                        <div class="feature-detail">
+                            <strong>Per-wheel expansion ratio</strong>
+                            <p>R = P_hot / P_cold computed from real data. Ratio Trend chart shows per-wheel R over laps with formation lap marker.</p>
+                        </div>
+                        <div class="feature-detail">
+                            <strong>Three bleed modes</strong>
+                            <p>Constant Bleed (set desired bleed), Custom Start P (set grid pressures), and Grid Pressure (enter measured pressures from practice).</p>
+                        </div>
+                        <div class="feature-detail">
+                            <strong>Ratio Trend chart</strong>
+                            <p>Per-wheel R over laps with formation lap marker &mdash; visualize exactly when and how much pressure builds up.</p>
+                        </div>
+                    </div>
                 </div>
 
-                <div class="screenshot-item">
-                    <img src="images/app-bleed.png" alt="Bleed correction calculation" loading="lazy" class="screenshot-clickable" data-screenshot="images/app-bleed.png">
-                    <div class="screenshot-caption">
-                        <h4>Bleed Correction</h4>
-                        <p>Thermal gain coefficients and grid bleed for race start</p>
+                <!-- 5. Session Logs + TPL (text left, image right) -->
+                <div class="feature-block">
+                    <div class="feature-block-text">
+                        <h3>Session Logs & Tire Pressure Logs</h3>
+                        <p>Tire Pressure Logs tracks compounds across race weekends with a built-in OptimumG pressure calculator. Plateau detection auto-saves stabilized runs as verified baselines.</p>
+                        <div class="feature-detail">
+                            <strong>Tire Pressure Logs</strong>
+                            <p>Cold/hot pressures, compounds, air and track temperature per run. K-factor columns show per-wheel thermal expansion.</p>
+                        </div>
+                        <div class="feature-detail">
+                            <strong>Pressure calculator</strong>
+                            <p>OptimumG gas law formula for hot/cold conversion. Enter target conditions, get recommended cold pressures instantly.</p>
+                        </div>
+                        <div class="feature-detail">
+                            <strong>Plateau auto-save</strong>
+                            <p>Stabilized runs (97% buildup) auto-detected from telemetry and saved as verified baselines. Track Relations Matrix transfers pressure knowledge between circuits.</p>
+                        </div>
                     </div>
-                    <div class="click-hint">Click to enlarge</div>
+                    <div class="feature-block-image">
+                        <img src="images/5-dark.png" alt="Tire Pressure Logs with calculator and Plateau Reached Runs" loading="lazy" class="screenshot-clickable screenshot-dark">
+                        <img src="images/5-light.png" alt="Tire Pressure Logs (Light)" loading="lazy" class="screenshot-clickable screenshot-light" style="display:none">
+                    </div>
                 </div>
 
-                <div class="screenshot-item">
-                    <img src="images/app-history.png" alt="Prediction history and race tires management" loading="lazy" class="screenshot-clickable" data-screenshot="images/app-history.png">
-                    <div class="screenshot-caption">
-                        <h4>History & Race Tires</h4>
-                        <p>Save predictions, verify results, manage race tire setups</p>
-                    </div>
-                    <div class="click-hint">Click to enlarge</div>
-                </div>
             </div>
         </div>
     </section>
@@ -510,44 +488,37 @@
 
             <div class="faq-simple">
                 <details class="faq-item">
-                    <summary>What data do I need to start?</summary>
-                    <div class="faq-answer">
-                        Telemetry exports (ZIP from WinTAX4, MoTeC, etc.) or manual Excel entries with hot/cold pressures, track name, and lap count. More sessions = better predictions.
-                    </div>
-                </details>
-
-                <details class="faq-item">
-                    <summary>Can I use it without TPMS?</summary>
-                    <div class="faq-answer">
-                        Yes. If you record pressures manually (pre-session cold, post-session hot), the Excel workflow works perfectly. TPMS just automates data collection.
-                    </div>
-                </details>
-
-                <details class="faq-item">
-                    <summary>Does it work for long runs vs qualifying?</summary>
-                    <div class="faq-answer">
-                        Yes. The model distinguishes session types. Long runs and qualifying have different thermal profiles, and the app accounts for this when predicting.
-                    </div>
-                </details>
-
-                <details class="faq-item">
                     <summary>How do I get started?</summary>
                     <div class="faq-answer">
-                        Request a demo below. We'll walk you through setup, data import, and your first prediction.
+                        Download the app below &mdash; fill in the form and you'll get started right away. A license key will be sent to your email after verification.
                     </div>
                 </details>
 
                 <details class="faq-item">
-                    <summary>What is Race Tires Management?</summary>
+                    <summary>What data do I need?</summary>
                     <div class="faq-answer">
-                        Race Tires Management lets you track tire compounds, visualize pressure build-up with ΔP vs ΔT and ΔP vs Laps charts, and automatically calculate K factors (thermal gain coefficients) via linear regression. It includes an OptimumG-based pressure calculator for converting between hot and cold pressures using the ideal gas law.
+                        Telemetry exports (ZIP or linked folder from WinTAX4, WinDarab, MoTeC). More sessions = better predictions.
                     </div>
                 </details>
 
                 <details class="faq-item">
-                    <summary>What is Plateau Detection?</summary>
+                    <summary>How does the Run Filter work?</summary>
                     <div class="faq-answer">
-                        Plateau Detection automatically identifies when tire pressures have stabilized during a run (reached 97% of total build-up). These stabilized runs are auto-saved to your Prediction History as verified baselines, giving you reliable reference data without manual work.
+                        The Run Filter is an interactive scatter plot showing training runs by ambient temperature (x-axis) and best lap time (y-axis). Drag to select a region, or use step arrows for &plusmn;0.5&deg;C and &plusmn;0.5s precision. Only selected runs feed into the prediction &mdash; exclude outlier sessions or match race-day conditions. Runs Summary Stats below the filter show per-run details, a laps histogram (green = enough laps, amber = fewer), and a warning when your target laps exceed available data.
+                    </div>
+                </details>
+
+                <details class="faq-item">
+                    <summary>How do temperature corrections work?</summary>
+                    <div class="faq-answer">
+                        When current conditions differ from your training data, the predictor applies up to three corrections using the OptimumG gas law formula: (1) ambient temperature change (&Delta;T.Amb), (2) track surface temperature change (&Delta;T.Track), and (3) tire setup temperature &mdash; when tires are pressurized at a different temperature than ambient (T.Tires@Press). Each correction shows per-wheel pressure deltas. A color-coded bar indicates how large the temperature difference is.
+                    </div>
+                </details>
+
+                <details class="faq-item">
+                    <summary>How does the bleed correction work?</summary>
+                    <div class="faq-answer">
+                        The bleed correction uses an exponential pressure build-up model fitted to your telemetry. Per-wheel expansion ratios (R = P_hot / P_cold) are computed from real data. Set race laps and formation laps &mdash; the system calculates R at the formation lap point and the bleed needed per wheel. Three modes: Constant Bleed (set desired bleed, get start pressure), Custom Start Pressure (set grid pressures, get expected bleed), and Grid Pressure (enter measured pressures from a practice grid simulation).
                     </div>
                 </details>
 
@@ -557,10 +528,38 @@
                         Yes. The Track Relations Matrix generates cross-track coefficients that let you transfer pressure knowledge between circuits. It uses bilinear interpolation within the data range and linear extrapolation outside it, providing reliable starting points even for tracks with limited data.
                     </div>
                 </details>
+
+                <details class="faq-item">
+                    <summary>Does it work for long runs vs qualifying?</summary>
+                    <div class="faq-answer">
+                        Yes. Training runs (qualifying, practice) feed the ML model for cold pressure prediction. Long runs and race stints are handled by Tire Pressure Logs, which tracks stabilized pressures and calculates K-factors per wheel.
+                    </div>
+                </details>
+
+                <details class="faq-item">
+                    <summary>What is Plateau Detection?</summary>
+                    <div class="faq-answer">
+                        Plateau Detection automatically identifies when tire pressures have stabilized during a run (reached 97% of total build-up). These stabilized runs are auto-saved to your Session Logs as verified baselines, giving you reliable reference data without manual work.
+                    </div>
+                </details>
+
+                <details class="faq-item">
+                    <summary>Can I use it without TPMS?</summary>
+                    <div class="faq-answer">
+                        Yes. If you record pressures manually (pre-session cold, post-session hot), you can use the Tire Pressure Logs in the Session Logs tab to track compounds, calculate K-factors, and get cold pressure recommendations.
+                    </div>
+                </details>
+
+                <details class="faq-item">
+                    <summary>What is Tire Pressure Logs?</summary>
+                    <div class="faq-answer">
+                        Tire Pressure Logs lets you track tire compounds, build &Delta;P vs &Delta;T charts with trend lines, and auto-calculate K-factor regression per wheel. It includes a pressure calculator with OptimumG gas law formula for hot/cold conversion. Free-text cells with autocomplete and autosave.
+                    </div>
+                </details>
             </div>
 
             <p class="faq-more">
-                More details? <a href="/race-car-tyre-pressure-predictor/">Read the Technical Guide</a>
+                More questions? <a href="mailto:lvillaengineering@gmail.com">Email us</a>
             </p>
         </div>
     </section>
@@ -568,13 +567,11 @@
     <!-- ==================== CONTACT / CTA ==================== -->
     <section id="contact" class="section section-dark">
         <div class="container">
-            <h2 class="section-title">Request a Demo</h2>
-            <p class="section-subtitle">See the Tire Pressure Predictor in action</p>
+            <h2 class="section-title">Download the App</h2>
+            <p class="section-subtitle">Fill in the form and start using Tire Pressure Predictor</p>
 
-            <form class="contact-form" id="contactForm" action="https://formsubmit.co/lvillaengineering@gmail.com" method="POST">
+            <form class="contact-form" id="contactForm">
                 <input type="text" name="_honey" style="display:none">
-                <input type="hidden" name="_captcha" value="false">
-                <input type="hidden" name="_next" value="https://tirepressurepredictor.com?success=true">
 
                 <div class="form-row">
                     <div class="form-group">
@@ -587,21 +584,48 @@
                     </div>
                 </div>
 
-                <div class="form-group">
-                    <label for="organization">Team <span class="optional">(optional)</span></label>
-                    <input type="text" id="organization" name="organization" placeholder="Racing Team Name">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="organization">Team</label>
+                        <input type="text" id="organization" name="organization" placeholder="Racing Team Name">
+                    </div>
+                    <div class="form-group">
+                        <label for="series">Series / Vehicle</label>
+                        <input type="text" id="series" name="series" placeholder="e.g. GT3 — Porsche 992">
+                    </div>
                 </div>
 
                 <div class="form-group">
-                    <label for="message">Message <span class="required">*</span></label>
-                    <textarea id="message" name="message" rows="3" required placeholder="What series do you compete in? What's your current setup process?"></textarea>
+                    <label>Telemetry Software</label>
+                    <div class="radio-row">
+                        <label class="radio-label"><input type="radio" name="hasTelemetry" value="yes"> Yes</label>
+                        <label class="radio-label"><input type="radio" name="hasTelemetry" value="no"> No</label>
+                    </div>
                 </div>
 
-                <div class="form-buttons">
-                    <button type="submit" class="btn btn-primary btn-large">Request Demo</button>
-                    <button type="button" id="downloadBtn" class="btn btn-primary btn-large">Download App</button>
+                <div class="form-group" id="telemetryTypeGroup" style="display:none">
+                    <label for="telemetryType">Which software?</label>
+                    <select id="telemetryType" name="telemetryType">
+                        <option value="" disabled selected>Select telemetry software</option>
+                        <option value="WinTAX4">WinTAX4</option>
+                        <option value="WinDarab">WinDarab</option>
+                        <option value="MoTeC">MoTeC</option>
+                        <option value="Other">Other</option>
+                    </select>
                 </div>
-                <p class="form-hint">* Email required for download. A license key will be sent separately.</p>
+
+                <div class="form-group" id="telemetryOtherGroup" style="display:none">
+                    <label for="telemetryOther">Please specify</label>
+                    <input type="text" id="telemetryOther" name="telemetryOther" placeholder="e.g. AiM, Cosworth, Pi Toolbox">
+                </div>
+
+                <button type="submit" id="downloadBtn" class="btn btn-primary btn-large" style="width:100%">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align: middle; margin-right: 8px; margin-top: -2px;">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
+                    </svg>
+                    Download App
+                </button>
+                <p class="form-hint">A license key will be sent to your email after verification. Includes a 6-month free trial.</p>
             </form>
 
             <p class="contact-email">Or email directly: <a href="mailto:lvillaengineering@gmail.com">lvillaengineering@gmail.com</a></p>
@@ -619,6 +643,6 @@
     </div>
 
 
-    <script src="script.js?v=2.7.1"></script>
+    <script src="script.js?v=2.10.3b"></script>
 </body>
 </html>

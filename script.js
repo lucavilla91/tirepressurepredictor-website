@@ -43,7 +43,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
             if (targetElement) {
                 const headerHeight = document.querySelector('.header').offsetHeight;
-                const targetPosition = targetElement.offsetTop - headerHeight - 20;
+                const targetPosition = targetElement.getBoundingClientRect().top + window.scrollY - headerHeight - 20;
 
                 window.scrollTo({
                     top: targetPosition,
@@ -59,8 +59,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // ==================== DOWNLOAD BUTTON ====================
-    const downloadBtn = document.getElementById('downloadBtn');
+    // ==================== DOWNLOAD / FORM ====================
     const RELEASE_FALLBACK = 'https://github.com/lucavilla91/TirePressurePredictor/releases/latest';
 
     // Resolve latest .exe download URL from GitHub API (cached for the session)
@@ -75,219 +74,148 @@ document.addEventListener('DOMContentLoaded', function() {
         })
         .catch(function() { /* fallback to releases/latest */ });
 
-    // Send license request to Supabase (Telegram notification)
-    function sendSupabaseRequest() {
-        const emailField = document.getElementById('email');
-        const nameField = document.getElementById('name');
-        const orgField = document.getElementById('organization');
+    // Toggle telemetry type dropdown based on radio selection
+    const telemetryRadios = document.querySelectorAll('input[name="hasTelemetry"]');
+    const telemetryTypeGroup = document.getElementById('telemetryTypeGroup');
+    const telemetryTypeSelect = document.getElementById('telemetryType');
+    const telemetryOtherGroup = document.getElementById('telemetryOtherGroup');
+    const telemetryOtherInput = document.getElementById('telemetryOther');
 
-        const requestData = {
-            email: emailField ? emailField.value.trim() : '',
-            name: nameField ? nameField.value.trim() : '',
-            organization: orgField ? orgField.value.trim() : ''
-        };
+    telemetryRadios.forEach(function(radio) {
+        radio.addEventListener('change', function() {
+            if (this.value === 'yes') {
+                telemetryTypeGroup.style.display = '';
+                telemetryTypeSelect.setAttribute('required', '');
+            } else {
+                telemetryTypeGroup.style.display = 'none';
+                telemetryOtherGroup.style.display = 'none';
+                telemetryTypeSelect.removeAttribute('required');
+                telemetryOtherInput.removeAttribute('required');
+                telemetryTypeSelect.value = '';
+                telemetryOtherInput.value = '';
+            }
+        });
+    });
 
-        if (!requestData.email) return;
+    // Toggle "Other" text field based on select value
+    if (telemetryTypeSelect) {
+        telemetryTypeSelect.addEventListener('change', function() {
+            if (this.value === 'Other') {
+                telemetryOtherGroup.style.display = '';
+                telemetryOtherInput.setAttribute('required', '');
+            } else {
+                telemetryOtherGroup.style.display = 'none';
+                telemetryOtherInput.removeAttribute('required');
+                telemetryOtherInput.value = '';
+            }
+        });
+    }
 
+    // Send to Supabase (Telegram notification)
+    function sendSupabaseRequest(data) {
         fetch('https://ivvxbkpkefryyiiqqbxt.supabase.co/functions/v1/hyper-responder', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(requestData)
-        }).catch(err => console.log('License request error:', err));
+            body: JSON.stringify(data)
+        }).catch(function(err) { console.log('Supabase error:', err); });
     }
 
-    // Send form data to FormSubmit.co (email notification)
-    function sendFormSubmitRequest() {
-        const emailField = document.getElementById('email');
-        const nameField = document.getElementById('name');
-        const orgField = document.getElementById('organization');
-        const messageField = document.getElementById('message');
-
-        const formData = new FormData();
-        formData.append('email', emailField ? emailField.value.trim() : '');
-        formData.append('name', nameField ? nameField.value.trim() : '');
-        formData.append('organization', orgField ? orgField.value.trim() : '');
-        formData.append('message', messageField ? messageField.value.trim() : '[Download App button — no message]');
+    // Send to FormSubmit (email notification)
+    function sendFormSubmitRequest(data) {
+        var formData = new FormData();
+        formData.append('name', data.name);
+        formData.append('email', data.email);
+        formData.append('organization', data.organization);
+        formData.append('message',
+            'Series/Vehicle: ' + data.series +
+            '\nTelemetry Software: ' + data.hasTelemetry +
+            (data.telemetryType ? ' (' + data.telemetryType + ')' : '')
+        );
         formData.append('_captcha', 'false');
 
         fetch('https://formsubmit.co/ajax/lvillaengineering@gmail.com', {
             method: 'POST',
             body: formData
-        }).catch(err => console.log('FormSubmit error:', err));
+        }).catch(function(err) { console.log('FormSubmit error:', err); });
     }
 
-    if (downloadBtn) {
-        downloadBtn.addEventListener('click', function(e) {
+    // Form submit handler
+    const contactForm = document.getElementById('contactForm');
+    const downloadBtn = document.getElementById('downloadBtn');
+
+    if (contactForm && downloadBtn) {
+        var nameField = document.getElementById('name');
+        var emailField = document.getElementById('email');
+        var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+        // Enable/disable button based on Name + Email
+        function updateDownloadBtn() {
+            var nameOk = nameField.value.trim().length > 0;
+            var emailOk = emailRegex.test(emailField.value.trim());
+            downloadBtn.disabled = !(nameOk && emailOk);
+        }
+
+        // Initial state: disabled
+        downloadBtn.disabled = true;
+
+        [nameField, emailField].forEach(function(f) {
+            f.addEventListener('input', updateDownloadBtn);
+        });
+
+        contactForm.addEventListener('submit', function(e) {
             e.preventDefault();
 
-            const emailField = document.getElementById('email');
-            const emailValue = emailField.value.trim();
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            var orgField = document.getElementById('organization');
+            var seriesField = document.getElementById('series');
+            var telemetryChecked = document.querySelector('input[name="hasTelemetry"]:checked');
 
-            // Validate email
-            if (!emailValue) {
-                alert('Please enter your email address to download the app.');
-                emailField.focus();
-                emailField.style.borderColor = '#DC0000';
-                return;
-            }
+            // Collect data
+            var data = {
+                name: nameField.value.trim(),
+                email: emailField.value.trim(),
+                organization: orgField.value.trim(),
+                series: seriesField.value.trim(),
+                hasTelemetry: telemetryChecked ? telemetryChecked.value : '',
+                telemetryType: telemetryTypeSelect.value === 'Other'
+                    ? 'Other: ' + telemetryOtherInput.value.trim()
+                    : (telemetryTypeSelect.value || '')
+            };
 
-            if (!emailRegex.test(emailValue)) {
-                alert('Please enter a valid email address.');
-                emailField.focus();
-                emailField.style.borderColor = '#DC0000';
-                return;
-            }
+            // Send to both channels
+            sendSupabaseRequest(data);
+            sendFormSubmitRequest(data);
 
-            // Clear error styling
-            emailField.style.borderColor = '';
-
-            // Send to both: Supabase (Telegram) + FormSubmit (email)
-            sendSupabaseRequest();
-            sendFormSubmitRequest();
-
-            // Start download - use resolved URL or fallback to releases page
+            // Start download
             window.open(resolvedDownloadUrl || RELEASE_FALLBACK, '_blank');
 
             // Show confirmation
-            showDownloadMessage(emailValue);
+            showDownloadMessage(data.email);
+        });
+
+        // Real-time: clear error styling on input
+        contactForm.querySelectorAll('input, select').forEach(function(input) {
+            input.addEventListener('input', function() { this.style.borderColor = ''; });
         });
     }
 
     function showDownloadMessage(email) {
-        const msgDiv = document.createElement('div');
-        msgDiv.style.cssText = `
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: #111111;
-            border: 1px solid #333;
-            padding: 40px;
-            border-radius: 12px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.6);
-            text-align: center;
-            z-index: 10001;
-            max-width: 450px;
-        `;
+        var msgDiv = document.createElement('div');
+        msgDiv.style.cssText = 'position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:#111;border:1px solid #333;padding:40px;border-radius:12px;box-shadow:0 20px 40px rgba(0,0,0,0.6);text-align:center;z-index:10001;max-width:450px;';
 
-        msgDiv.innerHTML = `
-            <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="2" style="margin-bottom: 20px;">
-                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-                <polyline points="7 10 12 15 17 10"/>
-                <line x1="12" y1="15" x2="12" y2="3"/>
-            </svg>
-            <h3 style="font-size: 24px; color: #e5e5e5; margin-bottom: 12px;">Download Started!</h3>
-            <p style="color: #888; margin-bottom: 16px;">Your download should begin automatically.</p>
-            <p style="color: #666; font-size: 14px; margin-bottom: 24px;">A license key will be sent to <strong style="color: #e5e5e5;">${email}</strong> after verification.</p>
-            <button onclick="this.parentElement.remove(); document.getElementById('downloadOverlay').remove();"
-                style="background: #DC0000; color: white; border: none; padding: 12px 32px; border-radius: 8px; cursor: pointer; font-size: 16px; font-weight: 600;">
-                Close
-            </button>
-        `;
+        msgDiv.innerHTML = '<svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="2" style="margin-bottom:20px;">' +
+            '<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>' +
+            '<h3 style="font-size:24px;color:#e5e5e5;margin-bottom:12px;">Download Started!</h3>' +
+            '<p style="color:#888;margin-bottom:16px;">Your download should begin automatically.</p>' +
+            '<p style="color:#666;font-size:14px;margin-bottom:24px;">A license key will be sent to <strong style="color:#e5e5e5;">' + email + '</strong> after verification.<br>Includes a 6-month free trial.</p>' +
+            '<button onclick="this.parentElement.remove();document.getElementById(\'downloadOverlay\').remove();" ' +
+            'style="background:#DC0000;color:white;border:none;padding:12px 32px;border-radius:8px;cursor:pointer;font-size:16px;font-weight:600;">Close</button>';
 
-        const overlay = document.createElement('div');
+        var overlay = document.createElement('div');
         overlay.id = 'downloadOverlay';
-        overlay.style.cssText = `
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0,0,0,0.7);
-            z-index: 10000;
-        `;
+        overlay.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.7);z-index:10000;';
 
         document.body.appendChild(overlay);
         document.body.appendChild(msgDiv);
-    }
-
-    // ==================== FORM VALIDATION ====================
-    const contactForm = document.getElementById('contactForm');
-
-    if (contactForm) {
-        contactForm.addEventListener('submit', function(e) {
-            let isValid = true;
-            const errors = [];
-
-            // Get form fields
-            const nameField = document.getElementById('name');
-            const emailField = document.getElementById('email');
-            const messageField = document.getElementById('message');
-
-            // Clear previous error styles
-            [nameField, emailField, messageField].forEach(field => {
-                field.style.borderColor = '';
-            });
-
-            // Validate name
-            if (!nameField.value.trim()) {
-                isValid = false;
-                errors.push('Please enter your name');
-                nameField.style.borderColor = '#DC0000';
-            }
-
-            // Validate email
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (!emailField.value.trim()) {
-                isValid = false;
-                errors.push('Please enter your email');
-                emailField.style.borderColor = '#DC0000';
-            } else if (!emailRegex.test(emailField.value)) {
-                isValid = false;
-                errors.push('Please enter a valid email address');
-                emailField.style.borderColor = '#DC0000';
-            }
-
-            // Validate message
-            if (!messageField.value.trim()) {
-                isValid = false;
-                errors.push('Please enter a message');
-                messageField.style.borderColor = '#DC0000';
-            }
-
-            // Show errors or submit
-            if (!isValid) {
-                e.preventDefault();
-                alert('Please correct the following errors:\n\n' + errors.join('\n'));
-            } else {
-                // Also send to Supabase (Telegram notification) alongside FormSubmit
-                sendSupabaseRequest();
-            }
-        });
-
-        // Real-time validation feedback
-        const inputs = contactForm.querySelectorAll('input, textarea');
-        inputs.forEach(input => {
-            input.addEventListener('blur', function() {
-                validateField(this);
-            });
-
-            input.addEventListener('input', function() {
-                // Remove error styling when user starts typing
-                this.style.borderColor = '';
-            });
-        });
-    }
-
-    function validateField(field) {
-        const value = field.value.trim();
-
-        if (field.hasAttribute('required') && !value) {
-            field.style.borderColor = '#DC0000';
-            return false;
-        }
-
-        if (field.type === 'email' && value) {
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (!emailRegex.test(value)) {
-                field.style.borderColor = '#DC0000';
-                return false;
-            }
-        }
-
-        field.style.borderColor = '';
-        return true;
     }
 
     // ==================== HEADER SCROLL EFFECT ====================
@@ -312,56 +240,8 @@ document.addEventListener('DOMContentLoaded', function() {
     // ==================== CHECK FOR SUCCESS PARAMETER ====================
     const urlParams = new URLSearchParams(window.location.search);
     if (urlParams.get('success') === 'true') {
-        // Show success message
-        showSuccessMessage();
-        // Clean URL
+        showDownloadMessage('your email');
         window.history.replaceState({}, document.title, window.location.pathname);
-    }
-
-    function showSuccessMessage() {
-        const successDiv = document.createElement('div');
-        successDiv.style.cssText = `
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: #111111;
-            border: 1px solid #333;
-            padding: 40px;
-            border-radius: 12px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.6);
-            text-align: center;
-            z-index: 10001;
-            max-width: 400px;
-        `;
-
-        successDiv.innerHTML = `
-            <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="2" style="margin-bottom: 20px;">
-                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
-                <polyline points="22 4 12 14.01 9 11.01"/>
-            </svg>
-            <h3 style="font-size: 24px; color: #e5e5e5; margin-bottom: 12px;">Thank You!</h3>
-            <p style="color: #888; margin-bottom: 24px;">Your demo request has been received. We'll be in touch soon.</p>
-            <button onclick="this.parentElement.remove(); document.getElementById('overlay').remove();"
-                style="background: #DC0000; color: white; border: none; padding: 12px 32px; border-radius: 8px; cursor: pointer; font-size: 16px; font-weight: 600;">
-                Close
-            </button>
-        `;
-
-        const overlay = document.createElement('div');
-        overlay.id = 'overlay';
-        overlay.style.cssText = `
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0,0,0,0.7);
-            z-index: 10000;
-        `;
-
-        document.body.appendChild(overlay);
-        document.body.appendChild(successDiv);
     }
 
     // ==================== WORKFLOW TOOLTIPS ====================
@@ -432,6 +312,31 @@ document.addEventListener('DOMContentLoaded', function() {
         observer.observe(card);
     });
 
+    // ==================== SCREENSHOT DARK/LIGHT TOGGLE ====================
+    const themeBtns = document.querySelectorAll('.theme-btn');
+
+    themeBtns.forEach(function(btn) {
+        btn.addEventListener('click', function() {
+            var theme = this.getAttribute('data-theme');
+
+            // Update active button
+            themeBtns.forEach(function(b) { b.classList.remove('active'); });
+            this.classList.add('active');
+
+            // Toggle screenshot visibility
+            var darkImgs = document.querySelectorAll('.screenshot-dark');
+            var lightImgs = document.querySelectorAll('.screenshot-light');
+
+            if (theme === 'dark') {
+                darkImgs.forEach(function(img) { img.style.display = ''; });
+                lightImgs.forEach(function(img) { img.style.display = 'none'; });
+            } else {
+                darkImgs.forEach(function(img) { img.style.display = 'none'; });
+                lightImgs.forEach(function(img) { img.style.display = ''; });
+            }
+        });
+    });
+
     // ==================== LIGHTBOX FOR SCREENSHOTS ====================
     const lightbox = document.getElementById('lightbox');
     const lightboxImg = document.getElementById('lightbox-img');
@@ -440,38 +345,59 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Check if lightbox elements exist
     if (lightbox && lightboxImg && lightboxCaption && lightboxClose) {
-        // Add click event to all clickable screenshots
-        const screenshots = document.querySelectorAll('.screenshot-clickable');
+        // Add zoom hint element
+        var zoomHint = document.createElement('div');
+        zoomHint.className = 'lightbox-zoom-hint';
+        zoomHint.textContent = 'Click image to zoom in';
+        lightbox.appendChild(zoomHint);
 
-        screenshots.forEach((img) => {
-            img.addEventListener('click', function(e) {
+        // Add click event to all visible clickable screenshots (use event delegation)
+        document.addEventListener('click', function(e) {
+            var img = e.target.closest('.screenshot-clickable');
+            if (img && img.style.display !== 'none') {
                 e.preventDefault();
                 lightbox.classList.add('active');
-                lightboxImg.src = this.src;
-                lightboxCaption.textContent = this.alt;
+                lightbox.classList.remove('zoomed');
+                lightboxImg.src = img.src;
+                lightboxCaption.textContent = img.alt;
                 document.body.style.overflow = 'hidden';
-            });
+            }
+        });
+
+        // Toggle zoom on image click
+        lightboxImg.addEventListener('click', function(e) {
+            e.stopPropagation();
+            lightbox.classList.toggle('zoomed');
         });
 
         // Close lightbox on X click
         lightboxClose.addEventListener('click', closeLightbox);
 
-        // Close lightbox on background click
+        // Close lightbox on background click (only when not zoomed, or clicking outside image when zoomed)
         lightbox.addEventListener('click', function(e) {
             if (e.target === lightbox) {
-                closeLightbox();
+                if (lightbox.classList.contains('zoomed')) {
+                    lightbox.classList.remove('zoomed');
+                } else {
+                    closeLightbox();
+                }
             }
         });
 
         // Close lightbox on Escape key
         document.addEventListener('keydown', function(e) {
             if (e.key === 'Escape' && lightbox.classList.contains('active')) {
-                closeLightbox();
+                if (lightbox.classList.contains('zoomed')) {
+                    lightbox.classList.remove('zoomed');
+                } else {
+                    closeLightbox();
+                }
             }
         });
 
         function closeLightbox() {
             lightbox.classList.remove('active');
+            lightbox.classList.remove('zoomed');
             document.body.style.overflow = '';
         }
     }
