@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<meta name="robots" content="noindex">
+<title>TPP Mobile Calculator</title>
+<style>
+  :root {
+    --red: #dc2626;
+    --red-light: #fef2f2;
+    --red-mid: #fecaca;
+    --blue: #2563eb;
+    --blue-light: #eff6ff;
+    --blue-mid: #bfdbfe;
+    --green: #16a34a;
+    --green-light: #f0fdf4;
+    --gray-50: #f9fafb;
+    --gray-100: #f3f4f6;
+    --gray-200: #e5e7eb;
+    --gray-300: #d1d5db;
+    --gray-500: #6b7280;
+    --gray-700: #374151;
+    --gray-800: #1f2937;
+    --gray-900: #111827;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: auto;
+    opacity: 1;
+  }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    background: var(--gray-50);
+    color: var(--gray-900);
+    font-size: 14px;
+    -webkit-text-size-adjust: 100%;
+    padding-bottom: env(safe-area-inset-bottom, 20px);
+  }
+  .header {
+    background: var(--gray-900);
+    color: white;
+    padding: 12px 16px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .header h1 { font-size: 16px; font-weight: 700; }
+  .header .sub { font-size: 11px; color: var(--gray-300); margin-top: 2px; }
+
+  /* Loading / Error states */
+  .state-screen {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 60vh;
+    padding: 24px;
+    text-align: center;
+  }
+  .spinner {
+    width: 40px; height: 40px;
+    border: 4px solid var(--gray-200);
+    border-top-color: var(--red);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    margin-bottom: 16px;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .error-icon { font-size: 48px; margin-bottom: 12px; }
+  .error-msg { font-size: 15px; font-weight: 600; color: var(--gray-700); margin-bottom: 6px; }
+  .error-detail { font-size: 12px; color: var(--gray-500); }
+
+  /* Tabs */
+  .tabs {
+    display: flex;
+    background: var(--gray-200);
+    border-bottom: 1px solid var(--gray-300);
+    position: sticky;
+    top: 52px;
+    z-index: 99;
+  }
+  .tab-btn {
+    flex: 1;
+    padding: 10px 8px;
+    text-align: center;
+    font-size: 13px;
+    font-weight: 600;
+    border: none;
+    background: none;
+    cursor: pointer;
+    color: var(--gray-500);
+    border-bottom: 3px solid transparent;
+  }
+  .tab-btn.active {
+    color: var(--red);
+    border-bottom-color: var(--red);
+    background: white;
+  }
+  .panel { display: none; }
+  .panel.active { display: block; }
+  .section { padding: 12px; }
+
+  /* Table */
+  .table-wrap {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    border: 1px solid var(--gray-300);
+    border-radius: 8px;
+    background: white;
+  }
+  table {
+    border-collapse: collapse;
+    white-space: nowrap;
+    font-size: 12px;
+    width: max-content;
+    min-width: 100%;
+  }
+  th, td {
+    padding: 6px 8px;
+    border: 1px solid var(--gray-200);
+    text-align: center;
+  }
+  th {
+    background: var(--gray-100);
+    font-weight: 700;
+    font-size: 10px;
+    color: var(--gray-700);
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    white-space: normal;
+    word-break: break-word;
+    line-height: 1.2;
+    padding: 4px 3px;
+  }
+  th small { display: block; font-weight: 600; font-size: 9px; opacity: 0.7; }
+  th.cold { background: var(--blue-mid); color: #1e40af; }
+  th.hot { background: var(--red-mid); color: #991b1b; }
+  td.cold { background: var(--blue-light); }
+  td.hot { background: var(--red-light); }
+  tr.selected { background: #fef9c3 !important; }
+  tr.selected td { background: #fef9c3 !important; }
+  .cb { width: 18px; height: 18px; accent-color: var(--red); }
+
+  /* Filter bar */
+  .filter-bar { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 8px; }
+  .filter-bar select {
+    border: 1.5px solid var(--gray-300); border-radius: 6px;
+    padding: 6px 8px; font-size: 12px; background: white; flex: 1; min-width: 0;
+  }
+  .select-actions { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+  .btn-sm {
+    padding: 5px 10px; border: 1px solid var(--gray-300); border-radius: 6px;
+    font-size: 11px; font-weight: 600; background: white; cursor: pointer;
+  }
+  .btn-sm:active { background: var(--gray-100); }
+  .badge {
+    display: inline-block; background: var(--green-light); color: var(--green);
+    font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 99px; border: 1px solid currentColor;
+  }
+  .sel-summary {
+    background: #fef9c3; border: 1px solid #fde047; border-radius: 8px;
+    padding: 8px 12px; font-size: 12px; font-weight: 600; color: #854d0e; margin-bottom: 10px;
+  }
+
+  /* Cards */
+  .card {
+    background: white; border: 1px solid var(--gray-200); border-radius: 10px;
+    padding: 14px; margin-bottom: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+  }
+  .card-title {
+    font-size: 12px; font-weight: 700; color: var(--gray-500);
+    text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 10px;
+  }
+
+  /* Input grid */
+  .input-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
+  @media (max-width: 420px) { .input-grid { grid-template-columns: 1fr; } }
+  .input-group { display: flex; flex-direction: column; gap: 3px; }
+  .input-group label { font-size: 11px; font-weight: 600; color: var(--gray-500); }
+  .input-group input, .input-group select {
+    border: 1.5px solid var(--gray-300); border-radius: 6px;
+    padding: 8px 10px; font-size: 15px; font-weight: 500;
+    text-align: center; outline: none; background: white;
+  }
+  .input-group input:focus { border-color: var(--red); box-shadow: 0 0 0 2px rgba(220,38,38,0.15); }
+
+  /* Wheel pressure grid */
+  .wheel-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-top: 6px; }
+  .wheel-input { position: relative; }
+  .wheel-input label {
+    position: absolute; top: 50%; left: 8px; transform: translateY(-50%);
+    font-size: 11px; font-weight: 700; color: var(--gray-500); z-index: 1;
+  }
+  .wheel-input input {
+    width: 100%; border: 1.5px solid var(--gray-300); border-radius: 6px;
+    padding: 6px 8px 6px 32px; font-size: 15px; font-weight: 700;
+    text-align: center; outline: none;
+  }
+  .wheel-input input:focus { border-color: var(--red); box-shadow: 0 0 0 2px rgba(220,38,38,0.15); }
+  .wheel-input.hot input { border-color: var(--red-mid); background: var(--red-light); }
+  .wheel-input.hot input:focus { border-color: var(--red); }
+
+  /* Calculate button */
+  .btn-calc {
+    width: 100%; padding: 12px; background: var(--red); color: white;
+    border: none; border-radius: 8px; font-size: 14px; font-weight: 700;
+    cursor: pointer; margin-top: 10px; letter-spacing: 0.5px;
+  }
+  .btn-calc:active { background: #b91c1c; }
+  .calc-error {
+    background: #fef2f2; border: 1px solid #fecaca; border-radius: 8px;
+    padding: 8px 12px; font-size: 13px; font-weight: 600; color: #dc2626;
+    margin-bottom: 6px; text-align: center;
+  }
+
+  /* Results */
+  .result-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 8px; }
+  .result-cell {
+    background: var(--blue-light); border: 2px solid var(--blue); border-radius: 8px;
+    padding: 8px; text-align: center; display: flex; align-items: center; gap: 6px;
+  }
+  .result-cell .wlabel { font-size: 11px; font-weight: 700; color: var(--blue); }
+  .result-cell .value { font-size: 20px; font-weight: 800; color: #1e3a8a; flex: 1; }
+
+  /* K Factors */
+  .kfactors {
+    background: #fffbeb; border: 1px solid #fde68a; border-radius: 8px;
+    padding: 10px 12px; margin-top: 10px;
+  }
+  .kfactors .kf-title { font-size: 11px; font-weight: 700; color: #92400e; margin-bottom: 6px; }
+  .kf-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+  .kf-grid .input-group input { font-size: 13px; padding: 6px 8px; }
+
+  .footer {
+    text-align: center; font-size: 10px; color: var(--gray-500);
+    padding: 16px; border-top: 1px solid var(--gray-200); margin-top: 16px;
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>Tire Pressure Logs</h1>
+  <div class="sub" id="headerSub">Loading...</div>
+</div>
+
+<!-- Loading state -->
+<div id="loadingState" class="state-screen">
+  <div class="spinner"></div>
+  <div class="error-msg">Loading session...</div>
+</div>
+
+<!-- Error state -->
+<div id="errorState" class="state-screen" style="display:none">
+  <div class="error-icon"></div>
+  <div class="error-msg" id="errorMsg">Session not found</div>
+  <div class="error-detail" id="errorDetail">The session may have expired or the link is invalid.</div>
+</div>
+
+<!-- Main content (hidden until data loads) -->
+<div id="mainContent" style="display:none">
+
+<div class="tabs">
+  <button class="tab-btn active" onclick="switchTab('table')">Runs Table</button>
+  <button class="tab-btn" onclick="switchTab('calc')">Calculator</button>
+</div>
+
+<!-- TABLE PANEL -->
+<div id="panel-table" class="panel active">
+  <div class="section">
+    <div class="filter-bar">
+      <select id="fTrack" onchange="filterTable()"><option value="">All Tracks</option></select>
+      <select id="fDriver" onchange="filterTable()"><option value="">All Drivers</option></select>
+      <select id="fSession" onchange="filterTable()"><option value="">All Sessions</option></select>
+    </div>
+    <div class="select-actions">
+      <span id="runCount" class="badge"></span>
+      <div style="display:flex;gap:4px">
+        <button class="btn-sm" onclick="selectAll()">Select All</button>
+        <button class="btn-sm" onclick="deselectAll()">Deselect All</button>
+      </div>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th style="width:20px"></th>
+            <th>Track</th><th>Event</th><th>Sess</th><th>Driver</th><th>Set</th>
+            <th class="cold" id="thColdFL">FL</th>
+            <th class="cold" id="thColdFR">FR</th>
+            <th class="cold" id="thColdRL">RL</th>
+            <th class="cold" id="thColdRR">RR</th>
+            <th class="cold" id="thColdT">Tyre</th>
+            <th class="hot" id="thHotFL">FL</th>
+            <th class="hot" id="thHotFR">FR</th>
+            <th class="hot" id="thHotRL">RL</th>
+            <th class="hot" id="thHotRR">RR</th>
+            <th class="hot" id="thHotAir">Air</th>
+            <th class="hot" id="thHotTrk">Trk</th>
+            <th>Laps</th>
+          </tr>
+        </thead>
+        <tbody id="runsBody"></tbody>
+      </table>
+    </div>
+    <div id="selSummary" class="sel-summary" style="display:none;margin-top:8px"></div>
+  </div>
+</div>
+
+<!-- CALCULATOR PANEL -->
+<div id="panel-calc" class="panel">
+  <div class="section">
+    <div id="calcSelSummary" class="sel-summary" style="display:none"></div>
+
+    <div class="card">
+      <div class="card-title" id="conditionsTitle">Target Conditions</div>
+      <div class="input-grid">
+        <div class="input-group">
+          <label id="lblSetup">T Setup</label>
+          <input type="number" id="tSetup" step="0.5" placeholder="—" inputmode="decimal">
+        </div>
+        <div class="input-group">
+          <label id="lblAir">T Air</label>
+          <input type="number" id="tAir" step="0.5" placeholder="—" inputmode="decimal">
+        </div>
+        <div class="input-group">
+          <label id="lblTrack">T Track</label>
+          <input type="number" id="tTrack" step="0.5" placeholder="—" inputmode="decimal">
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title" id="hotTitle">Target Hot Pressures</div>
+      <div class="wheel-grid">
+        <div class="wheel-input hot"><label>FL</label><input type="number" id="hotFL" step="0.01" placeholder="—" inputmode="decimal"></div>
+        <div class="wheel-input hot"><label>FR</label><input type="number" id="hotFR" step="0.01" placeholder="—" inputmode="decimal"></div>
+        <div class="wheel-input hot"><label>RL</label><input type="number" id="hotRL" step="0.01" placeholder="—" inputmode="decimal"></div>
+        <div class="wheel-input hot"><label>RR</label><input type="number" id="hotRR" step="0.01" placeholder="—" inputmode="decimal"></div>
+      </div>
+    </div>
+
+    <div id="calcError" class="calc-error" style="display:none"></div>
+    <button class="btn-calc" onclick="calculate()">CALCULATE COLD PRESSURES</button>
+
+    <div id="resultSection" style="display:none;margin-top:14px">
+      <div class="card" style="border-color:var(--blue);border-width:2px">
+        <div class="card-title" style="color:var(--blue)" id="coldTitle">Predicted Cold Pressures</div>
+        <div class="result-grid">
+          <div class="result-cell"><span class="wlabel">FL</span><div class="value" id="resFL">&mdash;</div></div>
+          <div class="result-cell"><span class="wlabel">FR</span><div class="value" id="resFR">&mdash;</div></div>
+          <div class="result-cell"><span class="wlabel">RL</span><div class="value" id="resRL">&mdash;</div></div>
+          <div class="result-cell"><span class="wlabel">RR</span><div class="value" id="resRR">&mdash;</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="kfactors">
+      <div class="kf-title">K Factors (OptimumG)</div>
+      <div class="kf-grid">
+        <div class="input-group">
+          <label>WF (Weighting Factor)</label>
+          <input type="number" id="kWF" step="0.05" value="0.8" inputmode="decimal">
+        </div>
+        <div class="input-group">
+          <label id="lblPAtm">P atm</label>
+          <input type="number" id="kPAtm" step="0.001" value="1.013" inputmode="decimal">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="footer" id="footerText">Tire Pressure Predictor — Mobile Calculator</div>
+
+</div><!-- /mainContent -->
+
+<script>
+// === CONFIG ===
+var SUPABASE_URL = 'https://ivvxbkpkefryyiiqqbxt.supabase.co';
+var SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Iml2dnhia3BrZWZyeXlpaXFxYnh0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njc5NzkxMjMsImV4cCI6MjA4MzU1NTEyM30.RST6VLV58WnO1olTZUeBRKSgfWqclOIOXZ_GVDMFh9c';
+
+// === STATE ===
+var RUNS = [];
+var WHEELS = ['FL','FR','RL','RR'];
+var selectedIds = {};
+var IS_PSI = false;
+var IS_F = false;
+var BAR_TO_PSI = 14.50377;
+var P_DECIMALS = 2;
+var P_STEP = '0.01';
+var T_STEP = '0.5';
+
+// === UNIT CONVERSION ===
+function pToDisplay(bar) { return IS_PSI ? bar * BAR_TO_PSI : bar; }
+function pFromDisplay(v) { return IS_PSI ? v / BAR_TO_PSI : v; }
+function tToDisplay(c) { return IS_F ? c * 9 / 5 + 32 : c; }
+function tFromDisplay(v) { return IS_F ? (v - 32) * 5 / 9 : v; }
+
+// === HELPERS ===
+function fp(v) { return v != null ? pToDisplay(v).toFixed(P_DECIMALS) : ''; }
+function ft(v) { return v != null ? tToDisplay(v).toFixed(1) : ''; }
+function esc(s) { if (!s) return ''; var d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
+
+function showError(msg) {
+  var el = document.getElementById('calcError');
+  if (el) { el.textContent = msg; el.style.display = 'block'; }
+}
+function hideError() {
+  var el = document.getElementById('calcError');
+  if (el) el.style.display = 'none';
+}
+function getSelectedRuns() {
+  return RUNS.filter(function(r) { return selectedIds[r.id]; });
+}
+
+// === TABS ===
+function switchTab(tab) {
+  document.querySelectorAll('.tab-btn').forEach(function(b, i) {
+    b.classList.toggle('active', (i === 0 && tab === 'table') || (i === 1 && tab === 'calc'));
+  });
+  document.getElementById('panel-table').classList.toggle('active', tab === 'table');
+  document.getElementById('panel-calc').classList.toggle('active', tab === 'calc');
+}
+
+// === FILTERS ===
+function populateFilter(id, options) {
+  var el = document.getElementById(id);
+  if (!el) return;
+  var first = el.options[0].text;
+  el.innerHTML = '<option value="">' + first + '</option>';
+  options.forEach(function(o) {
+    var opt = document.createElement('option');
+    opt.value = o; opt.textContent = o;
+    el.appendChild(opt);
+  });
+}
+
+function getFilteredRuns() {
+  var fTrack = document.getElementById('fTrack').value;
+  var fDriver = document.getElementById('fDriver').value;
+  var fSess = document.getElementById('fSession').value;
+  return RUNS.filter(function(r) {
+    return (!fTrack || r.track === fTrack) &&
+      (!fDriver || r.driver === fDriver) &&
+      (!fSess || r.session === fSess);
+  });
+}
+
+// === TABLE ===
+function renderTable() {
+  var runs = getFilteredRuns();
+  var tbody = document.getElementById('runsBody');
+  if (!tbody) return;
+  tbody.innerHTML = '';
+  runs.forEach(function(r) {
+    var sel = !!selectedIds[r.id];
+    var tr = document.createElement('tr');
+    if (sel) tr.classList.add('selected');
+    tr.innerHTML =
+      '<td><input type="checkbox" class="cb" data-id="' + r.id + '"' + (sel ? ' checked' : '') + '></td>' +
+      '<td>' + esc(r.track) + '</td>' +
+      '<td>' + esc(r.event) + '</td>' +
+      '<td>' + esc(r.session) + '</td>' +
+      '<td>' + esc(r.driver) + '</td>' +
+      '<td>' + esc(r.tireSet) + '</td>' +
+      '<td class="cold">' + fp(r.coldPressures.FL) + '</td>' +
+      '<td class="cold">' + fp(r.coldPressures.FR) + '</td>' +
+      '<td class="cold">' + fp(r.coldPressures.RL) + '</td>' +
+      '<td class="cold">' + fp(r.coldPressures.RR) + '</td>' +
+      '<td class="cold">' + ft(r.tColdAir) + '</td>' +
+      '<td class="hot">' + fp(r.hotPressures.FL) + '</td>' +
+      '<td class="hot">' + fp(r.hotPressures.FR) + '</td>' +
+      '<td class="hot">' + fp(r.hotPressures.RL) + '</td>' +
+      '<td class="hot">' + fp(r.hotPressures.RR) + '</td>' +
+      '<td class="hot">' + ft(r.tAir) + '</td>' +
+      '<td class="hot">' + ft(r.tTarmac) + '</td>' +
+      '<td>' + (r.nLaps != null ? r.nLaps : '') + '</td>';
+    tbody.appendChild(tr);
+  });
+
+  var cbs = tbody.querySelectorAll('.cb');
+  for (var i = 0; i < cbs.length; i++) {
+    (function(cb) {
+      cb.addEventListener('change', function() {
+        var id = cb.getAttribute('data-id');
+        if (cb.checked) selectedIds[id] = true;
+        else delete selectedIds[id];
+        cb.parentElement.parentElement.classList.toggle('selected', cb.checked);
+        updateSummary();
+      });
+    })(cbs[i]);
+  }
+
+  var rc = document.getElementById('runCount');
+  if (rc) rc.textContent = runs.length + ' run' + (runs.length !== 1 ? 's' : '');
+}
+
+function filterTable() { renderTable(); }
+function selectAll() {
+  getFilteredRuns().forEach(function(r) { selectedIds[r.id] = true; });
+  renderTable(); updateSummary();
+}
+function deselectAll() {
+  getFilteredRuns().forEach(function(r) { delete selectedIds[r.id]; });
+  renderTable(); updateSummary();
+}
+
+function updateSummary() {
+  var selRuns = getSelectedRuns();
+  var n = selRuns.length;
+  var el = document.getElementById('selSummary');
+  var el2 = document.getElementById('calcSelSummary');
+  if (n === 0) {
+    if (el) el.style.display = 'none';
+    if (el2) el2.style.display = 'none';
+    return;
+  }
+  var txt = n + ' run' + (n > 1 ? 's' : '') + ' selected for calculation';
+  if (el) { el.style.display = 'block'; el.textContent = txt; }
+  if (el2) { el2.style.display = 'block'; el2.textContent = txt; }
+}
+
+// === CALCULATOR (OptimumG) ===
+function calculate() {
+  hideError();
+  var selRuns = getSelectedRuns();
+  if (selRuns.length === 0) {
+    showError('Select at least one run from the Runs Table');
+    return;
+  }
+
+  var pAtmDisplay = parseFloat(document.getElementById('kPAtm').value);
+  var pAtm = !isNaN(pAtmDisplay) ? pFromDisplay(pAtmDisplay) : 1.013;
+  var WF = parseFloat(document.getElementById('kWF').value) || 0.8;
+  var K = 273.15;
+
+  var rawSetup = parseFloat(document.getElementById('tSetup').value);
+  var rawAir = parseFloat(document.getElementById('tAir').value);
+  var rawTrack = parseFloat(document.getElementById('tTrack').value);
+
+  if (isNaN(rawSetup)) { showError('Enter T Setup'); return; }
+  var targetTSetup = tFromDisplay(rawSetup);
+  var tAir = !isNaN(rawAir) ? tFromDisplay(rawAir) : 25;
+  var tTarmac = !isNaN(rawTrack) ? tFromDisplay(rawTrack) : tAir;
+
+  var tSum = tAir + tTarmac;
+  var targetCombined = tSum > 0 ? (tAir * tAir + tTarmac * tTarmac) / tSum : tAir;
+
+  var results = {};
+  var hasAnyResult = false;
+
+  WHEELS.forEach(function(wheel) {
+    var tireTempsList = [];
+    var combinedTempsList = [];
+
+    selRuns.forEach(function(run) {
+      var cold = run.coldPressures[wheel];
+      var hot = run.hotPressures[wheel];
+      var tColdAir = run.tColdAir;
+      var rTAir = run.tAir;
+      var rTTarmac = run.tTarmac != null ? run.tTarmac : run.tAir;
+
+      if (cold == null || hot == null || cold <= 0 || hot <= 0) return;
+      if (tColdAir == null || tColdAir <= 0) return;
+      if (rTAir == null) return;
+      if ((rTAir === 0 || rTAir == null) && (rTTarmac === 0 || rTTarmac == null)) return;
+
+      var tTire = (hot + pAtm) * (tColdAir + K) / (cold + pAtm) - K;
+      var tAirVal = rTAir || 0;
+      var tTarmacVal = rTTarmac || tAirVal;
+      var valSum = tAirVal + tTarmacVal;
+      var combined = valSum > 0 ? (tAirVal * tAirVal + tTarmacVal * tTarmacVal) / valSum : tAirVal;
+
+      tireTempsList.push(tTire);
+      combinedTempsList.push(combined);
+    });
+
+    if (tireTempsList.length > 0) {
+      var avgTire = tireTempsList.reduce(function(a, b) { return a + b; }, 0) / tireTempsList.length;
+      var avgCombined = combinedTempsList.reduce(function(a, b) { return a + b; }, 0) / combinedTempsList.length;
+
+      var influence = (targetCombined - avgCombined) * WF;
+      var adjusted = avgTire + influence;
+
+      var hotDisplay = parseFloat(document.getElementById('hot' + wheel).value);
+      if (isNaN(hotDisplay)) return;
+      var targetHot = pFromDisplay(hotDisplay);
+
+      var pColdBar = (targetHot + pAtm) * (targetTSetup + K) / (adjusted + K) - pAtm;
+      results[wheel] = pToDisplay(pColdBar);
+      hasAnyResult = true;
+    }
+  });
+
+  if (!hasAnyResult) { showError('Enter Target Hot Pressures'); return; }
+
+  document.getElementById('resultSection').style.display = 'block';
+  WHEELS.forEach(function(wheel) {
+    var el = document.getElementById('res' + wheel);
+    if (el) el.textContent = results[wheel] != null ? results[wheel].toFixed(P_DECIMALS) : '\u2014';
+  });
+}
+
+// === CONFIGURE UNITS ===
+function configureUnits(pUnit, tUnit) {
+  IS_PSI = pUnit === 'psi';
+  IS_F = tUnit === 'fahrenheit';
+  P_DECIMALS = IS_PSI ? 1 : 2;
+  P_STEP = IS_PSI ? '0.1' : '0.01';
+  T_STEP = IS_F ? '1' : '0.5';
+  var pLabel = IS_PSI ? 'PSI' : 'bar';
+  var tLabel = IS_F ? '\u00b0F' : '\u00b0C';
+
+  // Update labels
+  document.getElementById('lblSetup').textContent = 'T Setup (' + tLabel + ')';
+  document.getElementById('lblAir').textContent = 'T Air (' + tLabel + ')';
+  document.getElementById('lblTrack').textContent = 'T Track (' + tLabel + ')';
+  document.getElementById('hotTitle').textContent = 'Target Hot Pressures (' + pLabel + ')';
+  document.getElementById('coldTitle').textContent = 'Predicted Cold Pressures (' + pLabel + ')';
+  document.getElementById('lblPAtm').textContent = 'P atm (' + pLabel + ')';
+
+  // Update steps
+  document.getElementById('tSetup').step = T_STEP;
+  document.getElementById('tAir').step = T_STEP;
+  document.getElementById('tTrack').step = T_STEP;
+  ['hotFL','hotFR','hotRL','hotRR'].forEach(function(id) {
+    document.getElementById(id).step = P_STEP;
+  });
+
+  // Update P atm default
+  document.getElementById('kPAtm').value = IS_PSI ? '14.696' : '1.013';
+  document.getElementById('kPAtm').step = IS_PSI ? '0.01' : '0.001';
+
+  // Update table headers
+  ['thColdFL','thColdFR','thColdRL','thColdRR'].forEach(function(id) {
+    var el = document.getElementById(id);
+    el.innerHTML = el.textContent.split('<')[0] + '<small>' + pLabel + '</small>';
+  });
+  ['thHotFL','thHotFR','thHotRL','thHotRR'].forEach(function(id) {
+    var el = document.getElementById(id);
+    el.innerHTML = el.textContent.split('<')[0] + '<small>' + pLabel + '</small>';
+  });
+  document.getElementById('thColdT').innerHTML = 'Tyre<small>' + tLabel + '</small>';
+  document.getElementById('thHotAir').innerHTML = 'Air<small>' + tLabel + '</small>';
+  document.getElementById('thHotTrk').innerHTML = 'Trk<small>' + tLabel + '</small>';
+}
+
+// === PRE-FILL PREDICTION ===
+function prefillPrediction(pred) {
+  if (!pred) return;
+  if (pred.setupAirTemp != null) document.getElementById('tSetup').value = tToDisplay(pred.setupAirTemp).toFixed(1);
+  if (pred.onTrackAirTemp != null) document.getElementById('tAir').value = tToDisplay(pred.onTrackAirTemp).toFixed(1);
+  if (pred.onTrackTarmacTemp != null) document.getElementById('tTrack').value = tToDisplay(pred.onTrackTarmacTemp).toFixed(1);
+  WHEELS.forEach(function(w) {
+    if (pred.targetHotPressures && pred.targetHotPressures[w] != null) {
+      document.getElementById('hot' + w).value = pToDisplay(pred.targetHotPressures[w]).toFixed(P_DECIMALS);
+    }
+  });
+}
+
+// === FETCH SESSION FROM SUPABASE ===
+function getSessionId() {
+  var params = new URLSearchParams(window.location.search);
+  return params.get('s');
+}
+
+function showErrorScreen(msg, detail) {
+  document.getElementById('loadingState').style.display = 'none';
+  document.getElementById('errorState').style.display = 'flex';
+  document.getElementById('errorMsg').textContent = msg;
+  if (detail) document.getElementById('errorDetail').textContent = detail;
+}
+
+function loadSession() {
+  var sessionId = getSessionId();
+  if (!sessionId) {
+    showErrorScreen('No session ID', 'Add ?s=XXXXXX to the URL.');
+    return;
+  }
+
+  fetch(SUPABASE_URL + '/rest/v1/mobile_sessions?id=eq.' + encodeURIComponent(sessionId) + '&select=*', {
+    headers: {
+      'apikey': SUPABASE_ANON_KEY,
+      'Authorization': 'Bearer ' + SUPABASE_ANON_KEY,
+    }
+  })
+  .then(function(res) {
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    return res.json();
+  })
+  .then(function(data) {
+    if (!data || data.length === 0) {
+      showErrorScreen('Session not found', 'The session "' + sessionId + '" does not exist or has expired.');
+      return;
+    }
+
+    var session = data[0];
+
+    // Check expiration
+    if (session.expires_at && new Date(session.expires_at) < new Date()) {
+      showErrorScreen('Session expired', 'This session has expired. Please create a new one from the app.');
+      return;
+    }
+
+    // Configure
+    RUNS = session.runs || [];
+    configureUnits(session.pressure_unit, session.temp_unit);
+
+    // Update header
+    var pLabel = IS_PSI ? 'PSI' : 'bar';
+    var tLabel = IS_F ? '\u00b0F' : '\u00b0C';
+    document.getElementById('headerSub').textContent =
+      session.car_model + ' \u2014 ' + session.tyre_compound + ' | ' + pLabel + ' \u00b7 ' + tLabel;
+    document.title = 'TPP Mobile \u2014 ' + session.car_model;
+
+    // Populate filters
+    var trackSet = {}, driverSet = {}, sessionSet = {};
+    var tracks = [], drivers = [], sessions = [];
+    RUNS.forEach(function(r) {
+      if (r.track && !trackSet[r.track]) { trackSet[r.track] = true; tracks.push(r.track); }
+      if (r.driver && !driverSet[r.driver]) { driverSet[r.driver] = true; drivers.push(r.driver); }
+      if (r.session && !sessionSet[r.session]) { sessionSet[r.session] = true; sessions.push(r.session); }
+    });
+    tracks.sort(); drivers.sort(); sessions.sort();
+    populateFilter('fTrack', tracks);
+    populateFilter('fDriver', drivers);
+    populateFilter('fSession', sessions);
+
+    // Pre-select included runs
+    RUNS.forEach(function(r) { if (r.include) selectedIds[r.id] = true; });
+
+    // Pre-fill prediction inputs
+    prefillPrediction(session.prediction);
+
+    // Render
+    renderTable();
+    updateSummary();
+
+    // Show main content
+    document.getElementById('loadingState').style.display = 'none';
+    document.getElementById('mainContent').style.display = 'block';
+
+    // Footer
+    document.getElementById('footerText').innerHTML =
+      'Tire Pressure Predictor \u2014 Mobile Calculator<br>' +
+      esc(session.car_model) + ' | ' + esc(session.tyre_compound) + ' | Session ' + sessionId;
+  })
+  .catch(function(err) {
+    showErrorScreen('Connection error', 'Could not load session. Check your internet connection.');
+    console.error(err);
+  });
+}
+
+// === INIT ===
+loadSession();
+</script>
+</body>
+</html>
