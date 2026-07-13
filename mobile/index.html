@@ -388,15 +388,17 @@ var RUNS = [];
 var WHEELS = ['FL','FR','RL','RR'];
 var selectedIds = {};
 var IS_PSI = false;
+var IS_KPA = false;
 var IS_F = false;
 var BAR_TO_PSI = 14.50377;
+var BAR_TO_KPA = 100;
 var P_DECIMALS = 2;
 var P_STEP = '0.01';
 var T_STEP = '0.5';
 
 // === UNIT CONVERSION ===
-function pToDisplay(bar) { return IS_PSI ? bar * BAR_TO_PSI : bar; }
-function pFromDisplay(v) { return IS_PSI ? v / BAR_TO_PSI : v; }
+function pToDisplay(bar) { return IS_PSI ? bar * BAR_TO_PSI : (IS_KPA ? bar * BAR_TO_KPA : bar); }
+function pFromDisplay(v) { return IS_PSI ? v / BAR_TO_PSI : (IS_KPA ? v / BAR_TO_KPA : v); }
 function tToDisplay(c) { return IS_F ? c * 9 / 5 + 32 : c; }
 function tFromDisplay(v) { return IS_F ? (v - 32) * 5 / 9 : v; }
 
@@ -608,11 +610,12 @@ function calculate() {
 // === CONFIGURE UNITS ===
 function configureUnits(pUnit, tUnit) {
   IS_PSI = pUnit === 'psi';
+  IS_KPA = pUnit === 'kpa';
   IS_F = tUnit === 'fahrenheit';
-  P_DECIMALS = IS_PSI ? 1 : 2;
-  P_STEP = IS_PSI ? '0.1' : '0.01';
+  P_DECIMALS = IS_PSI ? 1 : (IS_KPA ? 0 : 2);
+  P_STEP = IS_PSI ? '0.1' : (IS_KPA ? '1' : '0.01');
   T_STEP = IS_F ? '1' : '0.5';
-  var pLabel = IS_PSI ? 'PSI' : 'bar';
+  var pLabel = IS_PSI ? 'PSI' : (IS_KPA ? 'kPa' : 'bar');
   var tLabel = IS_F ? '\u00b0F' : '\u00b0C';
 
   // Update labels
@@ -632,8 +635,8 @@ function configureUnits(pUnit, tUnit) {
   });
 
   // Update P atm default
-  document.getElementById('kPAtm').value = IS_PSI ? '14.696' : '1.013';
-  document.getElementById('kPAtm').step = IS_PSI ? '0.01' : '0.001';
+  document.getElementById('kPAtm').value = IS_PSI ? '14.696' : (IS_KPA ? '101.3' : '1.013');
+  document.getElementById('kPAtm').step = IS_PSI ? '0.01' : (IS_KPA ? '0.1' : '0.001');
 
   // Update table headers
   ['thColdFL','thColdFR','thColdRL','thColdRR'].forEach(function(id) {
@@ -711,7 +714,7 @@ function loadSession() {
     configureUnits(session.pressure_unit, session.temp_unit);
 
     // Update header
-    var pLabel = IS_PSI ? 'PSI' : 'bar';
+    var pLabel = IS_PSI ? 'PSI' : (IS_KPA ? 'kPa' : 'bar');
     var tLabel = IS_F ? '\u00b0F' : '\u00b0C';
     document.getElementById('headerSub').textContent =
       session.car_model + ' \u2014 ' + session.tyre_compound + ' | ' + pLabel + ' \u00b7 ' + tLabel;

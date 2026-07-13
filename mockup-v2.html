@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TPP — Mockup v2 (Hero + Feature section)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&family=Sora:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+    --page-bg:#070707;
+    --panel-edge:rgba(255,255,255,0.1);
+    --muted:#919191;
+    --text:#f3f3f3;
+    --accent:#DC0000;          /* Ferrari red — TPP brand accent (Lap Analysis uses #f97316) */
+    --accent-hot:#ff2a2a;
+    --cool:#60a5fa;            /* TPP "output" cool blue */
+    --accent-soft:rgba(220,0,0,0.16);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{
+    font-family:"IBM Plex Sans",sans-serif;
+    color:var(--text);
+    background:
+        radial-gradient(circle at top, rgba(220,0,0,0.13), transparent 30%),
+        radial-gradient(circle at 82% 8%, rgba(96,165,250,0.10), transparent 24%),
+        linear-gradient(180deg, rgba(255,255,255,0.02), transparent 18%),
+        var(--page-bg);
+    overflow-x:hidden;
+    -webkit-font-smoothing:antialiased;
+}
+::-webkit-scrollbar{width:8px;height:8px;}
+::-webkit-scrollbar-track{background:var(--page-bg);}
+::-webkit-scrollbar-thumb{background:#222;border-radius:4px;}
+::-webkit-scrollbar-thumb:hover{background:#444;}
+.wrap{max-width:1200px;margin:0 auto;padding:0 24px;width:100%;}
+a{text-decoration:none;color:inherit;}
+
+/* ===== HEADER ===== */
+.site-header{
+    position:fixed;top:0;left:0;right:0;z-index:1000;height:68px;
+    background:rgba(7,7,7,0.72);
+    backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+    border-bottom:1px solid rgba(255,255,255,0.06);
+}
+.site-header .wrap{height:100%;display:flex;align-items:center;justify-content:space-between;}
+.brand{display:flex;align-items:center;gap:10px;}
+.brand img{width:26px;height:26px;}
+.brand-name{font-family:"Sora",sans-serif;font-weight:600;font-size:15px;letter-spacing:0.01em;}
+.nav-links{display:flex;align-items:center;gap:28px;}
+.nav-links a{color:var(--muted);font-size:14px;font-weight:500;transition:color .2s;}
+.nav-links a:hover{color:#fff;}
+.btn{
+    display:inline-flex;align-items:center;justify-content:center;gap:8px;
+    min-height:44px;padding:0 20px;border-radius:999px;border:0;cursor:pointer;
+    font-family:"IBM Plex Sans",sans-serif;font-size:14px;font-weight:600;
+    transition:background-color .2s,border-color .2s,color .2s,transform .2s,box-shadow .2s;
+}
+.btn-primary{background:var(--accent);color:#fff;}
+.btn-primary:hover{background:var(--accent-hot);transform:translateY(-1px);box-shadow:0 10px 30px -8px rgba(220,0,0,0.5);}
+.btn-ghost{border:1px solid rgba(255,255,255,0.14);color:#e9e9e9;background:rgba(255,255,255,0.02);}
+.btn-ghost:hover{border-color:rgba(255,255,255,0.26);background:rgba(255,255,255,0.05);transform:translateY(-1px);}
+.btn-sm{min-height:38px;padding:0 16px;font-size:13px;}
+
+/* ===== HERO ===== */
+.hero{position:relative;min-height:100vh;display:flex;align-items:center;padding:120px 0 80px;}
+.hero::before{
+    content:"";position:absolute;inset:0;pointer-events:none;
+    background-image:
+        linear-gradient(rgba(255,255,255,0.035) 1px,transparent 1px),
+        linear-gradient(90deg,rgba(255,255,255,0.035) 1px,transparent 1px);
+    background-size:64px 64px;
+    mask-image:radial-gradient(circle at center,black 32%,transparent 82%);
+    -webkit-mask-image:radial-gradient(circle at center,black 32%,transparent 82%);
+}
+.hero::after{
+    content:"";position:absolute;inset:auto 0 0;height:220px;pointer-events:none;
+    background:linear-gradient(180deg,transparent 0%,rgba(7,7,7,0.7) 55%,var(--page-bg) 100%);
+}
+.hero-grid{position:relative;z-index:1;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);gap:40px;align-items:center;}
+.hero-copy{position:relative;z-index:2;max-width:600px;}
+.brand-pill{
+    display:inline-flex;align-items:center;gap:10px;margin-bottom:24px;
+    padding:9px 16px;border-radius:999px;
+    background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);
+    box-shadow:0 16px 40px rgba(0,0,0,0.22);backdrop-filter:blur(14px);
+}
+.brand-pill img{width:22px;height:22px;}
+.brand-pill span{font-family:"Sora",sans-serif;font-size:13px;font-weight:600;}
+.kicker{
+    font-family:"IBM Plex Mono",monospace;font-size:12px;letter-spacing:0.24em;
+    text-transform:uppercase;color:var(--muted);margin-bottom:18px;
+}
+.hero-title{
+    font-family:"Sora",sans-serif;font-weight:600;letter-spacing:-0.04em;
+    font-size:clamp(2.7rem,4.6vw,4.6rem);line-height:0.98;margin-bottom:22px;text-wrap:balance;
+}
+.gradient-text{
+    display:block;
+    background:linear-gradient(135deg,#fff 0%,#ff5b5b 58%,#7a0000 100%);
+    -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+}
+.hero-lede{font-size:18px;line-height:1.7;color:#b8b8b8;max-width:520px;margin-bottom:32px;}
+.hero-actions{display:flex;flex-wrap:wrap;gap:14px;margin-bottom:34px;}
+.hero-proof{display:grid;gap:12px;max-width:520px;}
+.proof-item{display:grid;grid-template-columns:14px 1fr;gap:14px;align-items:start;font-size:14px;line-height:1.6;color:#a9a9a9;}
+.proof-item::before{
+    content:"";margin-top:5px;width:14px;height:14px;border-radius:999px;
+    background:linear-gradient(135deg,rgba(255,255,255,0.92),rgba(220,0,0,0.7));
+    box-shadow:0 0 0 6px rgba(220,0,0,0.08);
+}
+.proof-item strong{color:#e9e9e9;font-weight:600;}
+
+/* hero screenshot panel */
+.hero-shot{
+    position:relative;border-radius:26px;padding:14px;
+    background:
+        linear-gradient(180deg,rgba(255,255,255,0.07),rgba(255,255,255,0.02)),
+        linear-gradient(135deg,rgba(220,0,0,0.16),rgba(220,0,0,0.03) 46%,rgba(8,8,8,0.92));
+    border:1px solid rgba(255,255,255,0.1);
+    box-shadow:0 36px 90px rgba(0,0,0,0.5),0 0 140px rgba(220,0,0,0.1);
+    will-change:transform;transition:transform .18s ease-out;
+}
+.hero-shot img{display:block;width:100%;height:auto;border-radius:18px;border:1px solid rgba(255,255,255,0.08);box-shadow:0 24px 60px rgba(0,0,0,0.34);}
+.hero-shot-badge{
+    position:absolute;left:24px;bottom:-16px;z-index:3;
+    display:inline-flex;align-items:center;gap:8px;
+    padding:9px 15px;border-radius:999px;
+    background:rgba(12,12,12,0.92);border:1px solid rgba(255,255,255,0.12);
+    backdrop-filter:blur(10px);box-shadow:0 14px 30px rgba(0,0,0,0.4);
+    font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:#cfcfcf;
+}
+.hero-shot-badge b{color:var(--accent);}
+
+/* ===== METRICS STRIP ===== */
+.metrics{position:relative;z-index:1;margin-top:72px;}
+.metrics-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:20px;}
+.metric{
+    position:relative;overflow:hidden;padding:24px 22px;border-radius:22px;
+    border:1px solid rgba(255,255,255,0.1);
+    background:
+        linear-gradient(180deg,rgba(60,60,64,0.78),rgba(30,30,34,0.72)),
+        linear-gradient(135deg,rgba(220,0,0,0.1),transparent 48%);
+    box-shadow:0 20px 50px rgba(0,0,0,0.28),0 0 0 1px rgba(255,255,255,0.02) inset;
+    backdrop-filter:blur(16px);
+    transition:transform .32s ease,border-color .32s ease,box-shadow .32s ease;
+}
+.metric:hover{transform:translateY(-6px);border-color:rgba(255,255,255,0.18);box-shadow:0 28px 60px rgba(0,0,0,0.34);}
+.metric .tag{display:block;margin-bottom:12px;font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:var(--accent);}
+.metric p{font-size:14px;line-height:1.65;color:#c5c5c8;}
+
+/* ===== SECTION ===== */
+.section{position:relative;padding:108px 0;border-top:1px solid rgba(255,255,255,0.08);}
+.section-head{max-width:640px;margin-bottom:48px;}
+.section-title{font-family:"Sora",sans-serif;font-weight:600;letter-spacing:-0.035em;font-size:clamp(2rem,3.6vw,3.2rem);line-height:1.04;margin:14px 0 18px;}
+.section-lede{font-size:17px;line-height:1.7;color:#b8b8b8;}
+
+/* feature cards with Discover more */
+.feature-list{display:grid;gap:18px;}
+.fcard{
+    border:1px solid rgba(255,255,255,0.09);border-radius:24px;overflow:hidden;
+    background:linear-gradient(180deg,rgba(255,255,255,0.035),rgba(255,255,255,0.012)),rgba(9,9,9,0.86);
+    transition:border-color .3s ease,transform .3s ease,box-shadow .3s ease;
+}
+.fcard:hover{border-color:rgba(255,255,255,0.16);}
+.fcard.open{border-color:rgba(220,0,0,0.4);box-shadow:0 24px 60px rgba(0,0,0,0.34),0 0 80px rgba(220,0,0,0.06);}
+.fcard-head{
+    display:grid;grid-template-columns:auto 1fr auto;gap:22px;align-items:center;
+    padding:28px 30px;cursor:pointer;
+}
+.fcard-num{
+    font-family:"IBM Plex Mono",monospace;font-size:13px;font-weight:500;color:var(--accent);
+    width:42px;height:42px;border-radius:12px;display:flex;align-items:center;justify-content:center;
+    border:1px solid rgba(220,0,0,0.3);background:rgba(220,0,0,0.08);
+}
+.fcard-titles h3{font-family:"Sora",sans-serif;font-weight:600;font-size:21px;letter-spacing:-0.02em;margin-bottom:4px;}
+.fcard-titles p{font-size:14.5px;color:#a9a9a9;line-height:1.5;}
+.discover{
+    display:inline-flex;align-items:center;gap:9px;white-space:nowrap;
+    font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;
+    color:#cfcfcf;padding:10px 16px;border-radius:999px;
+    border:1px solid rgba(255,255,255,0.12);background:rgba(255,255,255,0.02);
+    transition:border-color .2s,background-color .2s,color .2s;
+}
+.fcard:hover .discover{border-color:rgba(255,255,255,0.24);color:#fff;}
+.fcard.open .discover{border-color:rgba(220,0,0,0.45);background:rgba(220,0,0,0.12);color:#ffb3b3;}
+.discover .chev{transition:transform .35s cubic-bezier(.2,.8,.2,1);font-size:14px;}
+.fcard.open .discover .chev{transform:rotate(180deg);}
+.fcard-body{
+    display:grid;grid-template-rows:0fr;
+    transition:grid-template-rows .45s cubic-bezier(.2,.8,.2,1);
+}
+.fcard.open .fcard-body{grid-template-rows:1fr;}
+.fcard-body-inner{overflow:hidden;}
+.fcard-deep{
+    display:grid;grid-template-columns:1fr 1.25fr;gap:34px;align-items:start;
+    padding:8px 30px 32px;
+}
+.deep-points{display:grid;gap:18px;}
+.deep-point{padding-top:16px;border-top:1px solid rgba(255,255,255,0.08);}
+.deep-point .l{display:block;margin-bottom:6px;font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);}
+.deep-point .c{font-size:14.5px;line-height:1.65;color:#cfcfcf;}
+.deep-shot{border-radius:18px;overflow:hidden;border:1px solid rgba(255,255,255,0.08);background:rgba(4,4,4,0.7);padding:12px;}
+.deep-shot img{display:block;width:100%;height:auto;border-radius:12px;box-shadow:0 18px 50px rgba(0,0,0,0.34);}
+
+/* ===== reveal motion ===== */
+.reveal{opacity:1;transform:none;}
+body.motion .reveal{opacity:0;transform:translateY(30px);transition:opacity .7s cubic-bezier(.2,.8,.2,1),transform .7s cubic-bezier(.2,.8,.2,1);}
+body.motion .reveal.vis{opacity:1;transform:none;}
+body.motion [data-stagger]{opacity:0;transform:translateY(20px);transition:opacity .6s cubic-bezier(.2,.8,.2,1),transform .6s cubic-bezier(.2,.8,.2,1);transition-delay:calc(var(--i,0) * 85ms);}
+body.motion .reveal.vis [data-stagger]{opacity:1;transform:none;}
+
+.mock-note{position:fixed;bottom:14px;right:14px;z-index:2000;font-family:"IBM Plex Mono",monospace;font-size:11px;color:#777;background:rgba(0,0,0,0.6);border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:7px 11px;}
+
+@media (max-width:1024px){
+    .hero-grid{grid-template-columns:1fr;gap:48px;}
+    .hero-shot{max-width:620px;margin:0 auto;}
+    .metrics-grid{grid-template-columns:repeat(2,1fr);}
+    .fcard-deep{grid-template-columns:1fr;gap:22px;}
+}
+@media (max-width:680px){
+    .nav-links a:not(.btn){display:none;}
+    .metrics-grid{grid-template-columns:1fr;}
+    .fcard-head{grid-template-columns:auto 1fr;gap:16px;padding:22px;}
+    .discover{grid-column:1 / -1;justify-self:start;margin-top:4px;}
+    .fcard-deep{padding:8px 22px 26px;}
+}
+@media (prefers-reduced-motion:reduce){
+    body.motion .reveal,body.motion [data-stagger]{opacity:1!important;transform:none!important;transition:none!important;}
+    .hero-shot{transition:none!important;}
+}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+    <div class="wrap">
+        <div class="brand">
+            <img src="logo.svg" alt="">
+            <span class="brand-name">Tire Pressure Predictor</span>
+        </div>
+        <nav class="nav-links">
+            <a href="#features">Features</a>
+            <a href="#">Vehicles</a>
+            <a href="#">FAQ</a>
+            <a href="#" class="btn btn-primary btn-sm">Download App</a>
+        </nav>
+    </div>
+</header>
+
+<main>
+    <!-- ===== HERO ===== -->
+    <section class="hero">
+        <div class="wrap">
+            <div class="hero-grid">
+                <div class="hero-copy">
+                    <div class="brand-pill">
+                        <img src="logo.svg" alt="">
+                        <span>Tire Pressure Predictor</span>
+                    </div>
+                    <div class="kicker">Cold Pressure Prediction For Motorsport Teams</div>
+                    <h1 class="hero-title">
+                        Stop guessing
+                        <span class="gradient-text">cold pressures.</span>
+                    </h1>
+                    <p class="hero-lede">
+                        Train the model on your telemetry, get per-corner cold pressures corrected for the day's conditions — qualifying or race. Data stays on your computer.
+                    </p>
+                    <div class="hero-actions">
+                        <a href="#" class="btn btn-primary">Download App</a>
+                        <a href="#features" class="btn btn-ghost">See how it works</a>
+                    </div>
+                    <div class="hero-proof">
+                        <div class="proof-item"><span><strong>Per-corner cold pressures</strong> corrected for ambient, track surface &amp; tire setup temperature</span></div>
+                        <div class="proof-item"><span><strong>Auto-detects</strong> WinTAX4, WinDarab &amp; MoTeC — drop a ZIP or link a folder</span></div>
+                        <div class="proof-item"><span><strong>6-month free trial</strong> — a license key is emailed after verification</span></div>
+                    </div>
+                </div>
+
+                <div class="hero-shot" id="heroShot">
+                    <img src="images/3-dark.png" alt="Prediction view with Run Filter, cold pressures and charts">
+                    <div class="hero-shot-badge"><b>●</b> Run Filter &nbsp;·&nbsp; live prediction</div>
+                </div>
+            </div>
+
+            <!-- ===== METRICS ===== -->
+            <div class="metrics reveal">
+                <div class="metrics-grid">
+                    <div class="metric" data-stagger style="--i:0">
+                        <span class="tag">Per corner</span>
+                        <p>Independent cold pressures for each wheel with MIN / P50 / MAX confidence intervals.</p>
+                    </div>
+                    <div class="metric" data-stagger style="--i:1">
+                        <span class="tag">Built for race day</span>
+                        <p>Three decomposed temperature corrections via the OptimumG gas law — not a generic table.</p>
+                    </div>
+                    <div class="metric" data-stagger style="--i:2">
+                        <span class="tag">Data-driven bleed</span>
+                        <p>Per-wheel expansion ratios from your real telemetry, with a formation-lap grid model.</p>
+                    </div>
+                    <div class="metric" data-stagger style="--i:3">
+                        <span class="tag">Works without TPMS</span>
+                        <p>Tire Pressure Logs track compounds and auto-fit K-factor regression per wheel.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== FEATURES (clean + Discover more) ===== -->
+    <section class="section" id="features">
+        <div class="wrap">
+            <div class="section-head reveal">
+                <div class="kicker">What's inside</div>
+                <h2 class="section-title">Direct on the surface. Deep when you need it.</h2>
+                <p class="section-lede">Four tools cover the whole weekend. Open any one to see exactly how it works — screenshots and the physics behind it.</p>
+            </div>
+
+            <div class="feature-list">
+                <!-- 1 -->
+                <article class="fcard reveal" data-fcard>
+                    <div class="fcard-head" data-fcard-toggle>
+                        <div class="fcard-num">01</div>
+                        <div class="fcard-titles">
+                            <h3>Run Filter</h3>
+                            <p>Pick exactly which training runs feed the prediction.</p>
+                        </div>
+                        <button class="discover" type="button">Discover more <span class="chev">▾</span></button>
+                    </div>
+                    <div class="fcard-body"><div class="fcard-body-inner">
+                        <div class="fcard-deep">
+                            <div class="deep-points">
+                                <div class="deep-point"><span class="l">Scatter selection</span><span class="c">Runs plotted by ambient temperature and best lap time. Drag a region or step ±0.5 °C / ±0.5 s to match race-day conditions.</span></div>
+                                <div class="deep-point"><span class="l">Runs summary</span><span class="c">Per-run detail, a laps histogram (green = enough laps, amber = fewer) and a warning when your target laps exceed available data.</span></div>
+                                <div class="deep-point"><span class="l">Why it matters</span><span class="c">Exclude outlier sessions so the model learns from data that actually represents the stint you're predicting.</span></div>
+                            </div>
+                            <div class="deep-shot"><img src="images/3-dark.png" alt="Run Filter scatter plot"></div>
+                        </div>
+                    </div></div>
+                </article>
+
+                <!-- 2 -->
+                <article class="fcard reveal" data-fcard>
+                    <div class="fcard-head" data-fcard-toggle>
+                        <div class="fcard-num">02</div>
+                        <div class="fcard-titles">
+                            <h3>Temperature Corrections</h3>
+                            <p>Three decomposed corrections, per wheel — not one rule of thumb.</p>
+                        </div>
+                        <button class="discover" type="button">Discover more <span class="chev">▾</span></button>
+                    </div>
+                    <div class="fcard-body"><div class="fcard-body-inner">
+                        <div class="fcard-deep">
+                            <div class="deep-points">
+                                <div class="deep-point"><span class="l">ΔT.Amb</span><span class="c">Ambient change between training and target conditions, applied through the OptimumG gas law.</span></div>
+                                <div class="deep-point"><span class="l">ΔT.Track</span><span class="c">Track-surface temperature shift handled separately from air temperature.</span></div>
+                                <div class="deep-point"><span class="l">T.Tires@Press</span><span class="c">Corrects when tires are pressurized at a different temperature than ambient. Each correction shows per-wheel deltas with a color-coded magnitude bar.</span></div>
+                            </div>
+                            <div class="deep-shot"><img src="images/2-dark.png" alt="Temperature corrections"></div>
+                        </div>
+                    </div></div>
+                </article>
+
+                <!-- 3 -->
+                <article class="fcard reveal" data-fcard>
+                    <div class="fcard-head" data-fcard-toggle>
+                        <div class="fcard-num">03</div>
+                        <div class="fcard-titles">
+                            <h3>Bleed Correction</h3>
+                            <p>Know exactly how much to bleed on the grid.</p>
+                        </div>
+                        <button class="discover" type="button">Discover more <span class="chev">▾</span></button>
+                    </div>
+                    <div class="fcard-body"><div class="fcard-body-inner">
+                        <div class="fcard-deep">
+                            <div class="deep-points">
+                                <div class="deep-point"><span class="l">Expansion ratio</span><span class="c">R = P_hot / P_cold computed per wheel from an exponential build-up model fitted to your telemetry.</span></div>
+                                <div class="deep-point"><span class="l">Three modes</span><span class="c">Constant Bleed, Custom Start Pressure and Grid Pressure (enter measured pressures from a practice grid).</span></div>
+                                <div class="deep-point"><span class="l">Ratio trend</span><span class="c">Per-wheel R over laps with a formation-lap marker — see precisely when and how much pressure builds.</span></div>
+                            </div>
+                            <div class="deep-shot"><img src="images/4-dark.png" alt="Bleed correction"></div>
+                        </div>
+                    </div></div>
+                </article>
+
+                <!-- 4 -->
+                <article class="fcard reveal" data-fcard>
+                    <div class="fcard-head" data-fcard-toggle>
+                        <div class="fcard-num">04</div>
+                        <div class="fcard-titles">
+                            <h3>Tire Pressure Logs</h3>
+                            <p>For long runs, endurance and cars without TPMS.</p>
+                        </div>
+                        <button class="discover" type="button">Discover more <span class="chev">▾</span></button>
+                    </div>
+                    <div class="fcard-body"><div class="fcard-body-inner">
+                        <div class="fcard-deep">
+                            <div class="deep-points">
+                                <div class="deep-point"><span class="l">Compound tracking</span><span class="c">Cold/hot pressures, compounds and air/track temperature per run, with ΔP vs ΔT charts and trend lines.</span></div>
+                                <div class="deep-point"><span class="l">K-factor regression</span><span class="c">Auto-fit per-wheel thermal expansion, plus an OptimumG calculator for hot/cold conversion.</span></div>
+                                <div class="deep-point"><span class="l">Plateau auto-save</span><span class="c">Stabilized runs (97 % build-up) are detected from telemetry and saved as verified baselines automatically.</span></div>
+                            </div>
+                            <div class="deep-shot"><img src="images/5-dark.png" alt="Tire Pressure Logs"></div>
+                        </div>
+                    </div></div>
+                </article>
+            </div>
+        </div>
+    </section>
+</main>
+
+<div class="mock-note">MOCKUP v2 — hero + feature section</div>
+
+<script>
+const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* reveal on scroll */
+if(!prefersReduced){
+    document.body.classList.add('motion');
+    const io = new IntersectionObserver((entries)=>{
+        entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('vis'); } });
+    },{threshold:0.14,rootMargin:'0px 0px -40px 0px'});
+    document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+}
+
+/* hero parallax-ish float */
+const heroShot = document.getElementById('heroShot');
+if(heroShot && !prefersReduced){
+    window.addEventListener('scroll',()=>{
+        const r = heroShot.getBoundingClientRect();
+        const vh = window.innerHeight || 1;
+        const p = Math.max(-1,Math.min(1,(r.top + r.height*0.5 - vh*0.5)/vh));
+        heroShot.style.transform = `translateY(${p*-16}px) rotate(${p*-0.6}deg)`;
+    },{passive:true});
+}
+
+/* Discover more — accordion (multiple can stay open) */
+document.querySelectorAll('[data-fcard-toggle]').forEach(head=>{
+    head.addEventListener('click',()=>{
+        head.closest('[data-fcard]').classList.toggle('open');
+    });
+});
+</script>
+</body>
+</html>
