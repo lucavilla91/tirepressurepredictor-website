@@ -113,7 +113,7 @@ CNAME   www     your-site.netlify.app
 The contact form uses [FormSubmit.co](https://formsubmit.co) for serverless form handling.
 
 Current setup:
-- Action: `https://formsubmit.co/lvillaengineering@gmail.com`
+- Action: `https://formsubmit.co/support@motorsportsoftware.com`
 - Anti-spam honeypot enabled
 - CAPTCHA disabled (can enable if needed)
 - Redirects to `?success=true` after submission

@@ -133,7 +133,7 @@ document.addEventListener('DOMContentLoaded', function() {
         );
         formData.append('_captcha', 'false');
 
-        fetch('https://formsubmit.co/ajax/lvillaengineering@gmail.com', {
+        fetch('https://formsubmit.co/ajax/support@motorsportsoftware.com', {
             method: 'POST',
             body: formData
         }).catch(function(err) { console.log('FormSubmit error:', err); });
