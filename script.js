@@ -321,6 +321,46 @@ document.addEventListener('DOMContentLoaded', function() {
         observer.observe(card);
     });
 
+    // ==================== APP SECTIONS (Telemetry | Session Logs) ====================
+    var appTabs = Array.prototype.slice.call(document.querySelectorAll('.app-tab'));
+    var appPanels = Array.prototype.slice.call(document.querySelectorAll('.app-panel'));
+
+    if (appTabs.length && appTabs.length === appPanels.length) {
+        function showApp(next) {
+            appPanels.forEach(function(panel, i) {
+                panel.classList.toggle('is-active', i === next);
+            });
+            appTabs.forEach(function(tab, i) {
+                tab.classList.toggle('is-active', i === next);
+                tab.setAttribute('aria-selected', i === next ? 'true' : 'false');
+                tab.tabIndex = i === next ? 0 : -1;
+            });
+        }
+
+        appTabs.forEach(function(tab, i) {
+            tab.addEventListener('click', function() {
+                showApp(i);
+                // Switching section swaps the whole page below the bar; without
+                // this the reader is left wherever the previous, longer section
+                // had scrolled to.
+                var bar = document.querySelector('.app-bar');
+                if (bar && bar.getBoundingClientRect().top < 0) {
+                    window.scrollTo({ top: bar.offsetTop - 80, behavior: 'smooth' });
+                }
+            });
+
+            tab.addEventListener('keydown', function(e) {
+                var target = null;
+                if (e.key === 'ArrowRight') target = (i + 1) % appTabs.length;
+                else if (e.key === 'ArrowLeft') target = (i - 1 + appTabs.length) % appTabs.length;
+                if (target === null) return;
+                e.preventDefault();
+                showApp(target);
+                appTabs[target].focus();
+            });
+        });
+    }
+
     // ==================== TELEMETRY FLOW (chevron tabs) ====================
     var flowTabs = Array.prototype.slice.call(document.querySelectorAll('.chevron'));
     var flowPanels = Array.prototype.slice.call(document.querySelectorAll('.flow-panel'));

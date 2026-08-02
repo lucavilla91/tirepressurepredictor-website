@@ -272,19 +272,24 @@
     <!-- ==================== HERO SECTION (FIXED PARALLAX) ==================== -->
     <section class="hero" id="hero">
         <div class="container hero-content">
-            <h1>Stop guessing cold pressures. Start predicting them.</h1>
-            <p class="hero-subtitle">
-                Train the predictive model with telemetry data, get per-corner cold pressures. Get predictions corrected for current temperatures, whether for qualifying or a race.
-            </p>
-            <ul class="hero-outcomes">
-                <li><strong>Cold pressures per corner</strong> corrected for ambient, track surface, and tire setup temperature</li>
-                <li><strong>Run Filter</strong> &mdash; scatter plot to select training runs by T.Ambient and lap time</li>
-                <li><strong>Transparent data pipeline</strong> &mdash; every run stored or discarded with its reason, recoverable in one click</li>
-                <li><strong>Tire Pressure Logs</strong> for compound tracking, stabilized pressure analysis, and K-factor regression</li>
-            </ul>
-            <div class="hero-cta">
-                <a href="#contact" class="btn btn-primary btn-large">Download App</a>
-                <a href="#features" class="btn btn-link">See the features &rarr;</a>
+            <div class="hero-copy">
+                <h1>Stop guessing cold pressures. Start predicting them.</h1>
+                <p class="hero-subtitle">
+                    Train the model on the telemetry you already have, and get the cold pressure for every corner &mdash; corrected for the conditions of the day, for qualifying as for a race.
+                </p>
+                <ul class="hero-outcomes">
+                    <li><strong>Cold pressures per corner</strong> corrected for ambient, track surface, and tire setup temperature</li>
+                    <li><strong>Run Filter</strong> &mdash; pick the runs that match the session ahead, by driver, temperature and lap time</li>
+                    <li><strong>Transparent data pipeline</strong> &mdash; every run stored or discarded with its reason, recoverable in one click</li>
+                    <li><strong>Tire Pressure Logs</strong> &mdash; enter pressures by hand for long runs, for cars without TPMS, or when you use tire warmers</li>
+                </ul>
+                <div class="hero-cta">
+                    <a href="#contact" class="btn btn-primary btn-large">Download App</a>
+                    <a href="#features" class="btn btn-link">See the features &rarr;</a>
+                </div>
+            </div>
+            <div class="hero-figure">
+                <img src="images/prediction-dark.jpg" width="2866" height="1607" alt="The prediction screen: run filter narrowed to two drivers, recommended cold pressures per corner and the pressure build-up curve" fetchpriority="high">
             </div>
         </div>
     </section>
@@ -295,67 +300,33 @@
     <!-- ==================== MAIN CONTENT ==================== -->
     <div class="main-content">
 
-    <!-- ==================== WHAT YOU GET ==================== -->
-    <section class="section outcome-section">
-        <div class="container">
-            <div class="outcome-strip">
-                <div class="outcome-steps">
-                    <h2>Three things in. Four numbers out.</h2>
-                    <ol class="outcome-list">
-                        <li>
-                            <span class="outcome-num">1</span>
-                            <div>
-                                <strong>Point it at your telemetry</strong>
-                                Link the folder your logger exports to. Every session you have already run becomes training data.
-                            </div>
-                        </li>
-                        <li>
-                            <span class="outcome-num">2</span>
-                            <div>
-                                <strong>Say where you are racing</strong>
-                                The track, how many laps, and the hot pressures you want to be running on.
-                            </div>
-                        </li>
-                        <li>
-                            <span class="outcome-num">3</span>
-                            <div>
-                                <strong>Set the cold pressures</strong>
-                                One value per corner, ready for the garage &mdash; with the range to expect around it.
-                            </div>
-                        </li>
-                    </ol>
-                </div>
-                <figure class="outcome-figure">
-                    <img src="images/hero-result.jpg" width="1518" height="526" alt="Recommended cold pressures per corner with the minimum and maximum of the expected range" loading="lazy">
-                    <figcaption>The real output for a six-lap stint at Portimao.</figcaption>
-                </figure>
-            </div>
-
-            <p class="path-lead">Two ways in, depending on what your car gives you.</p>
-            <div class="path-cards">
-                <a class="path-card path-red" href="#features">
-                    <span class="path-tag">Your car has TPMS</span>
-                    <strong>Let the telemetry do it</strong>
-                    <span>Pressures and temperatures are read lap by lap, and the model builds itself from your own sessions.</span>
-                </a>
-                <a class="path-card path-blue" href="#features">
-                    <span class="path-tag">No TPMS, or you run tyre warmers</span>
-                    <strong>Write them down instead</strong>
-                    <span>Type the cold and hot pressures you measure at the car. Same maths, same recommendation.</span>
-                </a>
-            </div>
-        </div>
-    </section>
-
     <!-- ==================== FEATURES + SCREENSHOTS (UNIFIED) ==================== -->
     <section id="features" class="section">
         <div class="container">
             <h2 class="section-title">Features</h2>
+            <p class="section-subtitle">The app has two halves. So does this page &mdash; pick one and scroll.</p>
 
-            <div class="screenshot-theme-toggle">
-                <button class="theme-btn active" data-theme="dark">Dark</button>
-                <button class="theme-btn" data-theme="light">Light</button>
+            <!-- Stays pinned while you scroll a section, exactly like the app's
+                 own top bar, so the other half is always one click away. -->
+            <div class="app-bar">
+                <div class="app-tabs" role="tablist" aria-label="Sections of the app">
+                    <button type="button" class="app-tab is-active" role="tab" id="apptab-tel" aria-controls="apppanel-tel" aria-selected="true" data-app="0">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 17l6-6 4 4 8-8"/></svg>
+                        Telemetry
+                    </button>
+                    <button type="button" class="app-tab" role="tab" id="apptab-logs" aria-controls="apppanel-logs" aria-selected="false" tabindex="-1" data-app="1">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 7h6M9 11h6M9 15h4"/></svg>
+                        Session Logs
+                    </button>
+                </div>
+                <div class="screenshot-theme-toggle">
+                    <button class="theme-btn active" data-theme="dark">Dark</button>
+                    <button class="theme-btn" data-theme="light">Light</button>
+                </div>
             </div>
+
+            <!-- ========== TELEMETRY ========== -->
+            <div class="app-panel is-active" role="tabpanel" id="apppanel-tel" aria-labelledby="apptab-tel">
 
             <!-- ---------- The telemetry workflow, mirrored from the app ---------- -->
             <div class="flow">
@@ -364,18 +335,27 @@
                     <p>The same three steps you walk through in the app. Click one to see it.</p>
                 </div>
 
+                <!-- Three chevrons and then the Start Processing button, laid out
+                     exactly as the app does it: the fourth step is not a step of
+                     the wizard, it is the button that runs it. -->
                 <div class="chevrons" role="tablist" aria-label="Telemetry workflow">
-                    <button type="button" class="chevron is-active" role="tab" id="fltab-0" aria-controls="flpanel-0" aria-selected="true" data-flow="0">
-                        <span class="chevron-num">1</span>
-                        <span class="chevron-txt"><strong>Upload Data</strong><em>Link the folder</em></span>
-                    </button>
-                    <button type="button" class="chevron" role="tab" id="fltab-1" aria-controls="flpanel-1" aria-selected="false" tabindex="-1" data-flow="1">
-                        <span class="chevron-num">2</span>
-                        <span class="chevron-txt"><strong>Channel Mapping</strong><em>Match your channels</em></span>
-                    </button>
-                    <button type="button" class="chevron" role="tab" id="fltab-2" aria-controls="flpanel-2" aria-selected="false" tabindex="-1" data-flow="2">
-                        <span class="chevron-num">3</span>
-                        <span class="chevron-txt"><strong>Processing</strong><em>Train, and recover runs</em></span>
+                    <div class="chevron-group" role="presentation">
+                        <button type="button" class="chevron is-active" role="tab" id="fltab-0" aria-controls="flpanel-0" aria-selected="true" data-flow="0">
+                            <span class="chevron-num">1</span>
+                            <span class="chevron-txt"><strong>Upload Data</strong><em>Link the folder</em></span>
+                        </button>
+                        <button type="button" class="chevron" role="tab" id="fltab-1" aria-controls="flpanel-1" aria-selected="false" tabindex="-1" data-flow="1">
+                            <span class="chevron-num">2</span>
+                            <span class="chevron-txt"><strong>Channel Mapping</strong><em>Match your channels</em></span>
+                        </button>
+                        <button type="button" class="chevron" role="tab" id="fltab-2" aria-controls="flpanel-2" aria-selected="false" tabindex="-1" data-flow="2">
+                            <span class="chevron-num">3</span>
+                            <span class="chevron-txt"><strong>Settings</strong><em>What counts as valid</em></span>
+                        </button>
+                    </div>
+                    <button type="button" class="chevron chevron-start" role="tab" id="fltab-3" aria-controls="flpanel-3" aria-selected="false" tabindex="-1" data-flow="3">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+                        Start Processing
                     </button>
                 </div>
 
@@ -383,23 +363,23 @@
                     <!-- Step 1 -->
                     <div class="flow-panel is-active" role="tabpanel" id="flpanel-0" aria-labelledby="fltab-0">
                         <div class="flow-shot">
-                            <img src="images/upload-dark.png" width="1920" height="1111" alt="Data tab with the linked telemetry folder, auto-detected software and the processing readiness checklist" loading="lazy" class="screenshot-clickable screenshot-dark">
-                            <img src="images/upload-light.png" width="1920" height="1111" alt="Data tab (Light)" loading="lazy" class="screenshot-clickable screenshot-light" style="display:none">
+                            <img src="images/upload-dark.jpg" width="2866" height="1668" alt="Upload Data step: linked folder, detected software, and the new runs listed with driver and track temperature to fill in" loading="lazy" class="screenshot-clickable screenshot-dark">
+                            <img src="images/upload-light.jpg" width="2871" height="1665" alt="Upload Data step (Light)" loading="lazy" class="screenshot-clickable screenshot-light" style="display:none">
                         </div>
                         <div class="flow-copy">
                             <h4>Link the folder, not the files</h4>
-                            <p>Point the app at the folder your logger already exports to. It scans it, works out which software produced the files, and remembers the path.</p>
+                            <p>Point the app at the folder your logger already exports to. It scans it, works out which software produced the files, and lists what is new since last time.</p>
                             <div class="feature-detail">
                                 <strong>It recognises your software</strong>
                                 <p>WinTax4, WinDarab, MoTeC or PiToolbox, identified from the content of the files themselves. Reads .csv, .txt, .xls and .xlsx.</p>
                             </div>
                             <div class="feature-detail">
-                                <strong>Always in sync</strong>
-                                <p>Refresh Folder picks up whatever was added since last time. Nothing to zip, nothing to copy by hand.</p>
+                                <strong>Name the driver, not much else</strong>
+                                <p>Each new run takes a driver and, if your export does not carry it, a track temperature. Everything else is read from the file.</p>
                             </div>
                             <div class="feature-detail">
                                 <strong>One archive per car</strong>
-                                <p>Each vehicle/tyre pair keeps its own data. Export it as a single .tpp file and it moves to another PC complete with settings, mappings and logs.</p>
+                                <p>Each vehicle/tire pair keeps its own data. Export it as a single .tpp file and it moves to another PC complete with settings, mappings and logs.</p>
                             </div>
                         </div>
                     </div>
@@ -431,23 +411,47 @@
                     <!-- Step 3 -->
                     <div class="flow-panel" role="tabpanel" id="flpanel-2" aria-labelledby="fltab-2">
                         <div class="flow-shot">
-                            <img src="images/processing-dark.png" width="1920" height="1111" alt="Run Metadata tabs showing discarded runs with their reason and a Retry button" loading="lazy" class="screenshot-clickable screenshot-dark">
-                            <img src="images/processing-light.png" width="1920" height="1111" alt="Discarded runs and their reasons (Light)" loading="lazy" class="screenshot-clickable screenshot-light" style="display:none">
+                            <img src="images/settings-dark.jpg" width="2860" height="1661" alt="Settings step with saved parameter profiles, the readiness checklist and the notice that 20 runs were discarded, with a Retry button" loading="lazy" class="screenshot-clickable screenshot-dark">
+                            <img src="images/settings-light.jpg" width="2860" height="1599" alt="Settings step (Light)" loading="lazy" class="screenshot-clickable screenshot-light" style="display:none">
                         </div>
                         <div class="flow-copy">
                             <h4>Nothing is discarded silently</h4>
-                            <p>A four-point checklist tells you what is still missing before you start. Then every run is either stored or set aside with the reason written next to it &mdash; and a run set aside is never lost.</p>
+                            <p>Set what counts as a valid lap, and the app tells you what is still missing before it will start. Then every run is either stored or set aside with the reason written next to it &mdash; and a run set aside is never lost.</p>
                             <div class="feature-detail">
-                                <strong>Runs in three lists</strong>
-                                <p>New, stored and discarded, each on its own tab. Set the driver and the ambient temperature per run and it is reprocessed from the original telemetry.</p>
+                                <strong>Parameters you write once</strong>
+                                <p>Save a set of processing parameters as a profile and hand it to every car that needs it. Import it, export it, share it with the rest of the team.</p>
                             </div>
                             <div class="feature-detail">
-                                <strong>Recover what was excluded</strong>
-                                <p>Wet, pre-warmed, too few valid laps &mdash; the reason is there. Change the threshold and retry it, or delete it for good, telemetry file included.</p>
+                                <strong>Get excluded runs back</strong>
+                                <p>Wet, pre-warmed, too few valid laps &mdash; the reason is always there. Loosen the threshold that caused it and queue them again, or delete them for good.</p>
                             </div>
                             <div class="feature-detail">
                                 <strong>Clean data, on purpose</strong>
                                 <p>Wet sessions, out-laps, pit bleeds and sensor spikes are filtered out before training, so the model only ever learns from representative laps.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 4 -->
+                    <div class="flow-panel" role="tabpanel" id="flpanel-3" aria-labelledby="fltab-3">
+                        <div class="flow-shot">
+                            <img src="images/processing-dark.jpg" width="2858" height="1669" alt="Processing complete: two runs added with their lap count and plateau lap, three excluded for pre-warmed tires with the temperature above ambient for each" loading="lazy" class="screenshot-clickable screenshot-dark">
+                            <img src="images/processing-light.jpg" width="2865" height="1666" alt="Processing complete (Light)" loading="lazy" class="screenshot-clickable screenshot-light" style="display:none">
+                        </div>
+                        <div class="flow-copy">
+                            <h4>Press Start, and read the receipt</h4>
+                            <p>The app works through the folder run by run, then tells you what it kept and what it left out &mdash; and, for anything left out, by how much it missed.</p>
+                            <div class="feature-detail">
+                                <strong>A verdict for every run</strong>
+                                <p>Added, with laps and the lap the pressures settled on. Or excluded, with the number that caused it &mdash; tires 19 &deg;C above ambient, not just "pre-warmed".</p>
+                            </div>
+                            <div class="feature-detail">
+                                <strong>It flags what it skipped</strong>
+                                <p>Non-telemetry files it ignored, mixed separators, exports that carry different channels: warnings you can act on, not silent assumptions.</p>
+                            </div>
+                            <div class="feature-detail">
+                                <strong>Only what changed</strong>
+                                <p>Runs already in the database are skipped. Come back after a test day and only the new sessions are processed, in seconds rather than minutes.</p>
                             </div>
                         </div>
                     </div>
@@ -467,7 +471,7 @@
                         </div>
                         <div class="feature-detail">
                             <strong>Corrected for the day you are having</strong>
-                            <p>Colder or hotter than when you trained? The prediction is adjusted for air, for track surface, and for tyres inflated in a warm garage.</p>
+                            <p>Colder or hotter than when you trained? The prediction is adjusted for air, for track surface, and for tires inflated in a warm garage.</p>
                         </div>
                         <div class="feature-detail">
                             <strong>A range, not a lone number</strong>
@@ -508,14 +512,21 @@
                     </div>
                 </div>
 
-                <!-- 5. Session Logs + TPL (text left, image right) -->
+            </div><!-- /.feature-showcase -->
+            </div><!-- /#apppanel-tel -->
+
+            <!-- ========== SESSION LOGS ========== -->
+            <div class="app-panel" role="tabpanel" id="apppanel-logs" aria-labelledby="apptab-logs">
+            <div class="feature-showcase">
+
+                <!-- Session Logs + TPL (text left, image right) -->
                 <div class="feature-block">
                     <div class="feature-block-text">
                         <h3>Session Logs & Tire Pressure Logs</h3>
                         <p>For cars without TPMS, or whenever you measure at the car by hand. Type the cold and hot pressures you read, get the recommendation from the same gas-law maths.</p>
                         <div class="feature-detail">
                             <strong>The whole weekend in one sheet</strong>
-                            <p>Cold, hot, tyre, air and track temperature per run, with driver, event and session. Filter it, reorder it, export it for the tyre engineer.</p>
+                            <p>Cold, hot, tire, air and track temperature per run, with driver, event and session. Filter it, reorder it, export it for the tire engineer.</p>
                         </div>
                         <div class="feature-detail">
                             <strong>The calculator</strong>
@@ -532,7 +543,8 @@
                     </div>
                 </div>
 
-            </div>
+            </div><!-- /.feature-showcase -->
+            </div><!-- /#apppanel-logs -->
         </div>
     </section>
 

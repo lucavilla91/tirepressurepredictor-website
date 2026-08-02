@@ -220,19 +220,25 @@ a:hover {
     pointer-events: none;
 }
 
+/* Copy on the left, the actual prediction screen on the right. The hero is
+   fixed and exactly one viewport tall, so the figure has to be capped by
+   height rather than width or it pushes the CTA off screen on short displays. */
 .hero-content {
-    text-align: center;
-    max-width: 800px;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr);
+    gap: 48px;
+    align-items: center;
+    max-width: 1380px;
     margin: 0 auto;
     position: relative;
     z-index: 2;
 }
 
 .hero h1 {
-    font-size: 48px;
+    font-size: 42px;
     font-weight: 700;
-    line-height: 1.2;
-    margin-bottom: 24px;
+    line-height: 1.15;
+    margin-bottom: 20px;
     background: linear-gradient(135deg, #fff 0%, #888 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -240,26 +246,37 @@ a:hover {
 }
 
 .hero-subtitle {
-    font-size: 20px;
+    font-size: 18px;
     color: var(--text-secondary);
-    margin-bottom: 40px;
-    max-width: 600px;
-    margin-left: auto;
-    margin-right: auto;
+    margin-bottom: 28px;
 }
 
 .hero-cta {
     display: flex;
     gap: 16px;
-    justify-content: center;
-    margin-bottom: 60px;
+    margin-bottom: 0;
+}
+
+.hero-figure {
+    min-width: 0;
+}
+
+.hero-figure img {
+    width: 100%;
+    height: auto;
+    max-height: 62vh;
+    object-fit: contain;
+    object-position: left center;
+    display: block;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    box-shadow: 0 18px 60px rgba(0, 0, 0, 0.7);
 }
 
 .hero-outcomes {
     list-style: none;
     text-align: left;
-    max-width: 520px;
-    margin: 0 auto 40px;
+    margin: 0 0 28px;
     padding: 0;
 }
 
@@ -578,167 +595,94 @@ a:hover {
     grid-column: 1 / -1;
 }
 
-/* ==================== OUTCOME STRIP (what you put in, what you get) ==================== */
-.outcome-section {
-    padding: 64px 0 56px;
-}
-
-.outcome-strip {
-    display: grid;
-    grid-template-columns: 1fr 1.15fr;
-    gap: 56px;
-    align-items: center;
-    margin-bottom: 64px;
-}
-
-.outcome-steps h2 {
-    font-size: 34px;
-    font-weight: 700;
-    color: var(--white);
-    line-height: 1.2;
-    margin-bottom: 28px;
-}
-
-.outcome-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
-.outcome-list li {
+/* ==================== APP-STYLE SECTION BAR (Telemetry | Session Logs) ==================== */
+/* Pinned under the site header while you scroll a section, so the other half
+   of the app is always one click away — same role as the bar inside the app. */
+.app-bar {
+    position: sticky;
+    /* The site header is fixed and 71px tall: park the bar just below it,
+       otherwise it slides underneath (the header sits at z-index 1000). */
+    top: 79px;
+    z-index: 50;
     display: flex;
+    align-items: center;
+    justify-content: space-between;
     gap: 16px;
-    padding: 14px 0;
-    border-bottom: 1px solid var(--border-color);
-}
-
-.outcome-list li:last-child {
-    border-bottom: none;
-}
-
-.outcome-num {
-    flex-shrink: 0;
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    background: var(--ferrari-red);
-    color: #fff;
-    font-size: 14px;
-    font-weight: 700;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.outcome-list div {
-    font-size: 14.5px;
-    color: var(--text-secondary);
-    line-height: 1.6;
-}
-
-.outcome-list strong {
-    display: block;
-    font-size: 16px;
-    color: var(--white);
-    margin-bottom: 3px;
-}
-
-.outcome-figure {
-    margin: 0;
-}
-
-.outcome-figure img {
-    width: 100%;
-    height: auto;
-    display: block;
-    border-radius: 12px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
-}
-
-.outcome-figure figcaption {
-    margin-top: 12px;
-    font-size: 13px;
-    color: var(--text-secondary);
-    text-align: center;
-}
-
-/* ---- the two entry paths ---- */
-.path-lead {
-    text-align: center;
-    font-size: 15px;
-    color: var(--text-secondary);
-    margin-bottom: 20px;
-}
-
-.path-cards {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 20px;
-    max-width: 940px;
-    margin: 0 auto;
-}
-
-.path-card {
-    display: block;
-    padding: 24px 26px;
-    background: var(--bg-card);
+    flex-wrap: wrap;
+    margin: 8px 0 40px;
+    padding: 10px 14px;
+    background: rgba(8, 8, 10, 0.92);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
     border: 1px solid var(--border-color);
-    border-left-width: 3px;
-    border-radius: 10px;
-    text-decoration: none;
+    border-radius: 12px;
+}
+
+.app-tabs {
+    display: flex;
+    gap: 6px;
+}
+
+.app-tab {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    background: transparent;
+    color: var(--text-secondary);
+    font-family: var(--font-family);
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
     transition: var(--transition);
 }
 
-.path-card:hover {
-    transform: translateY(-3px);
-    border-color: rgba(255, 255, 255, 0.18);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
-}
-
-.path-red { border-left-color: var(--ferrari-red); }
-.path-blue { border-left-color: #60a5fa; }
-.path-red:hover { border-left-color: var(--ferrari-red); }
-.path-blue:hover { border-left-color: #60a5fa; }
-
-.path-tag {
-    display: block;
-    font-size: 12px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    margin-bottom: 8px;
-}
-
-.path-red .path-tag { color: var(--ferrari-red); }
-.path-blue .path-tag { color: #60a5fa; }
-
-.path-card strong {
-    display: block;
-    font-size: 19px;
+.app-tab:hover {
     color: var(--white);
-    margin-bottom: 8px;
+    background: rgba(255, 255, 255, 0.05);
 }
 
-.path-card > span:last-child {
+.app-tab.is-active {
+    background: var(--ferrari-red);
+    color: #fff;
+}
+
+.app-tab:focus-visible {
+    outline: 2px solid #fff;
+    outline-offset: 2px;
+}
+
+/* The inactive half stays in the DOM so its copy is still indexed. */
+.app-panel {
+    display: none;
+}
+
+.app-panel.is-active {
     display: block;
-    font-size: 14px;
-    color: var(--text-secondary);
-    line-height: 1.6;
 }
 
-@media (max-width: 900px) {
-    .outcome-strip {
-        grid-template-columns: 1fr;
-        gap: 32px;
+.app-bar .screenshot-theme-toggle {
+    margin: 0;
+}
+
+@media (max-width: 768px) {
+    .app-bar {
+        justify-content: center;
+        padding: 8px 10px;
     }
 
-    .outcome-steps h2 {
-        font-size: 27px;
+    /* Tabs and theme toggle together wrap onto two rows, and a 110px sticky
+       bar eats a seventh of a phone screen. The screenshots are barely
+       legible at this width anyway, so the light/dark choice steps aside. */
+    .app-bar .screenshot-theme-toggle {
+        display: none;
     }
 
-    .path-cards {
-        grid-template-columns: 1fr;
+    .app-tab {
+        padding: 9px 14px;
+        font-size: 14px;
     }
 }
 
@@ -770,8 +714,41 @@ a:hover {
    operable and screen readers announce it as a tab list. */
 .chevrons {
     display: flex;
-    gap: 3px;
+    align-items: stretch;
+    gap: 14px;
     margin-bottom: 28px;
+}
+
+.chevron-group {
+    display: flex;
+    flex: 1;
+    min-width: 0;
+    gap: 3px;
+}
+
+/* Not a fourth chevron: in the app this is the button that runs the wizard,
+   so it keeps the button shape and stays red whether or not it is selected.
+   Selectors are doubled up to outrank the generic .chevron rules below. */
+.chevrons .chevron-start {
+    flex: 0 0 auto;
+    justify-content: center;
+    gap: 10px;
+    padding: 16px 26px;
+    clip-path: none;
+    border-radius: 8px;
+    background: var(--ferrari-red);
+    color: #fff;
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.chevrons .chevron-start:hover {
+    background: var(--ferrari-red-dark);
+}
+
+.chevrons .chevron-start.is-active {
+    background: var(--ferrari-red);
+    box-shadow: 0 0 0 3px rgba(220, 0, 0, 0.35);
 }
 
 .chevron {
@@ -790,13 +767,11 @@ a:hover {
     transition: background 0.25s ease;
 }
 
-.chevron:first-child {
+/* Only the first one is squared off on the left. All three keep the arrow on
+   the right, pointing at the Start Processing button, as in the app. */
+.chevron-group .chevron:first-child {
     padding-left: 26px;
     clip-path: polygon(0 0, calc(100% - 20px) 0, 100% 50%, calc(100% - 20px) 100%, 0 100%);
-}
-
-.chevron:last-child {
-    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%, 20px 50%);
 }
 
 .chevron:hover {
@@ -939,22 +914,32 @@ a:hover {
         gap: 10px;
     }
 
+    .chevrons .chevron-start {
+        padding: 12px 18px;
+        font-size: 14px;
+    }
+
     .chevron-txt em {
         display: none;
     }
 }
 
 @media (max-width: 768px) {
-    .chevrons {
+    .chevrons,
+    .chevron-group {
         flex-direction: column;
         gap: 6px;
     }
 
     .chevron,
-    .chevron:first-child,
-    .chevron:last-child {
+    .chevron-group .chevron:first-child {
         clip-path: none;
         border-radius: 8px;
+        padding: 12px 16px;
+    }
+
+    .chevrons .chevron-start {
+        justify-content: flex-start;
         padding: 12px 16px;
     }
 
@@ -1847,7 +1832,18 @@ a:hover {
 /* Tablet */
 @media (max-width: 1024px) {
     .hero h1 {
-        font-size: 40px;
+        font-size: 36px;
+    }
+
+    /* Below two comfortable columns the screenshot becomes illegible long
+       before it becomes small, so the hero goes back to copy only. */
+    .hero-content {
+        grid-template-columns: 1fr;
+        max-width: 720px;
+    }
+
+    .hero-figure {
+        display: none;
     }
 
     .need-get-grid {

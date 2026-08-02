@@ -5,6 +5,18 @@ Per tornare a una versione precedente: `git revert <commit>` oppure `git checkou
 
 ---
 
+## 2026-08-02 (3) — Home come l'app: Telemetry | Session Logs *(non ancora pubblicata)*
+
+**File modificati:** `index.html`, `styles.css`, `script.js`, `images/settings-*.jpg`
+
+- **Hero con lo screenshot della Prediction** a destra del testo (due colonne). Sotto i 1024px torna a colonna singola senza immagine: a quella larghezza lo screenshot diventa illeggibile prima di diventare piccolo.
+- **Eliminata la sezione di apertura** ("Three things in. Four numbers out.", i tre passi, le due card TPMS/no-TPMS e il riquadro delle pressioni): ripeteva l'hero, e la scelta dei percorsi è ora la barra Telemetry|Session Logs. Rimosse anche le 165 righe di CSS relative.
+- **Barra Telemetry | Session Logs sticky** sotto l'header, come nell'app: l'utente sceglie la metà che gli interessa e scorre. Il pannello non attivo resta nel DOM per l'indicizzazione. Su mobile il toggle Dark/Light esce dalla barra per non farla diventare alta 110px.
+- **Il flusso ricalca l'app anche nella forma**: tre chevron (1 Upload · 2 Channel Mapping · 3 **Settings**) seguiti dal pulsante rosso **Start Processing**, che è il quarto pannello. Non un quarto chevron: nell'app quello è il pulsante che avvia il wizard, non un suo passo.
+- Step 3 usa lo screenshot Settings con i profili salvati, la readiness 3/4 e il banner dei run scartati con il pulsante Retry. Step 1 e 4 usano gli screenshot nuovi: i run appena trovati con driver e T.Track da compilare, e l'esito del processing (2 aggiunti con giri e plateau lap, 3 esclusi con i °C sopra ambiente).
+
+---
+
 ## 2026-08-02 (2) — Features come flusso, apertura visiva
 
 Riorganizzazione della home in due atti: il workflow Telemetry a chevron come nell'app, poi i blocchi sul risultato.
