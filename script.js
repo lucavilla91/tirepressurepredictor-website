@@ -120,28 +120,32 @@ document.addEventListener('DOMContentLoaded', function() {
         }).catch(function(err) { console.log('Supabase error:', err); });
     }
 
-    // Send to FormSubmit (email notification)
+    // Send to Netlify Forms (email notification + stored submissions).
+    //
+    // Replaces FormSubmit, which kept mailing an "Activate Form" link on every
+    // submission: its activation confirms a registration that later AJAX calls do
+    // not attach to, so clicking it never ended the loop. Netlify hosts the site
+    // already — no third party, nothing to activate, and every request is kept in
+    // the site's Forms dashboard as a second copy of the lead alongside Supabase.
+    //
+    // The POST goes to the page itself as url-encoded data, which is how Netlify
+    // accepts an AJAX submission; `form-name` selects the form declared in the
+    // markup and must match its name attribute.
     function sendFormSubmitRequest(data) {
-        var formData = new FormData();
-        formData.append('name', data.name);
-        formData.append('email', data.email);
-        formData.append('organization', data.organization);
-        formData.append('message',
-            'Series/Vehicle: ' + data.series +
-            '\nTelemetry Software: ' + data.hasTelemetry +
-            (data.telemetryType ? ' (' + data.telemetryType + ')' : '')
-        );
-        formData.append('_captcha', 'false');
+        var body = new URLSearchParams();
+        body.append('form-name', 'download-request');
+        body.append('name', data.name);
+        body.append('email', data.email);
+        body.append('organization', data.organization);
+        body.append('series', data.series);
+        body.append('hasTelemetry', data.hasTelemetry);
+        body.append('telemetryType', data.telemetryType);
 
-        // FormSubmit's own form token, not the naked address. With the address in
-        // the URL, FormSubmit treats it as a form pending confirmation and mails an
-        // "Activate Form" link on submissions — which kept arriving even after the
-        // activation was clicked. The token is issued per recipient, needs no
-        // activation, and keeps support@ out of the page source where scrapers read it.
-        fetch('https://formsubmit.co/ajax/f739365a43dab5e9474115aba1c347b1', {
+        fetch('/', {
             method: 'POST',
-            body: formData
-        }).catch(function(err) { console.log('FormSubmit error:', err); });
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: body.toString()
+        }).catch(function(err) { console.log('Netlify form error:', err); });
     }
 
     // Form submit handler

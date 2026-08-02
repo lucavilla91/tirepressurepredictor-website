@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- SEO Meta Tags -->
-    <meta name="description" content="Tire pressure predictor for race cars. Filter training runs by ambient temperature and lap time, get optimal cold pressures with decomposed temperature corrections (ambient, track surface, tire setup), data-driven bleed correction with formation lap expansion ratios and grid pressure mode, and confidence intervals. Features run filter scatter plot, tire pressure logs with K-factor regression, session logs, plateau detection, and cross-track analysis.">
-    <meta name="keywords" content="tire pressure, tyre pressure, motorsport, racing, telemetry, Ferrari Challenge, prediction, ML, machine learning, racing setup, data analysis, tire pressure logs, session logs, plateau detection, track relations matrix, WinDarab, WinTax4, MoTeC, tire compound, bleed correction, temperature correction, linked folder, cold pressure calculator, formation lap bleed, expansion ratio, run filter, scatter plot, track temperature, grid pressure, laps histogram, run analytics, event conditions, OptimumG">
+    <meta name="description" content="Tire pressure predictor for race cars. Filter training runs by ambient temperature and lap time, get optimal cold pressures with decomposed temperature corrections (ambient, track surface, tire setup) and confidence intervals. Guided data workflow with channel mapping, run metadata, and recoverable discarded runs. Features run filter scatter plot, tire pressure logs with K-factor regression, session logs, and plateau detection. Supports WinTax4, WinDarab, MoTeC, and PiToolbox.">
+    <meta name="keywords" content="tire pressure, tyre pressure, motorsport, racing, telemetry, Ferrari Challenge, prediction, ML, machine learning, racing setup, data analysis, tire pressure logs, session logs, plateau detection, WinDarab, WinTax4, MoTeC, PiToolbox, tire compound, bleed correction, temperature correction, linked folder, cold pressure calculator, run filter, scatter plot, track temperature, laps histogram, run analytics, run metadata, discarded runs, OptimumG">
     <meta name="author" content="LVilla Engineering">
     <meta name="robots" content="index, follow">
     <meta name="language" content="English">
@@ -16,7 +16,7 @@
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://tirepressurepredictor.com">
     <meta property="og:title" content="Tire Pressure Predictor for Race Cars">
-    <meta property="og:description" content="Filter training runs by temperature and lap time, get optimal cold pressures with decomposed temperature corrections, data-driven bleed correction with formation lap expansion ratios, and confidence intervals. Features run filter scatter plot, tire pressure logs, session logs, and cross-track analysis.">
+    <meta property="og:description" content="Filter training runs by temperature and lap time, get optimal cold pressures with decomposed temperature corrections and confidence intervals. Guided data workflow, run filter scatter plot, tire pressure logs, and session logs. Supports WinTax4, WinDarab, MoTeC, and PiToolbox.">
     <meta property="og:image" content="https://tirepressurepredictor.com/og-image.png">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
@@ -27,7 +27,7 @@
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:url" content="https://tirepressurepredictor.com">
     <meta name="twitter:title" content="Tire Pressure Predictor for Race Cars">
-    <meta name="twitter:description" content="Filter training runs by temperature and lap time, get optimal cold pressures with decomposed temperature corrections, data-driven bleed correction with formation lap expansion ratios, and confidence intervals. Features run filter scatter plot, tire pressure logs, session logs, and cross-track analysis.">
+    <meta name="twitter:description" content="Filter training runs by temperature and lap time, get optimal cold pressures with decomposed temperature corrections and confidence intervals. Guided data workflow, run filter scatter plot, tire pressure logs, and session logs. Supports WinTax4, WinDarab, MoTeC, and PiToolbox.">
     <meta name="twitter:image" content="https://tirepressurepredictor.com/og-image.png">
 
     <!-- Canonical URL -->
@@ -47,7 +47,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-    <link rel="stylesheet" href="styles.css?v=2.10.3d">
+    <link rel="stylesheet" href="styles.css?v=2.17.0">
 
     <!-- JSON-LD Structured Data -->
     <script type="application/ld+json">
@@ -57,7 +57,7 @@
       "name": "Tire Pressure Predictor",
       "applicationCategory": "BusinessApplication",
       "operatingSystem": "Windows 10/11",
-      "softwareVersion": "2.10.3",
+      "softwareVersion": "2.17.0",
       "offers": {
         "@type": "Offer",
         "price": "0",
@@ -68,7 +68,7 @@
         "ratingValue": "5",
         "ratingCount": "1"
       },
-      "description": "Desktop application for motorsport teams to predict optimal cold tire pressures from telemetry data. Features interactive scatter plot run filter by ambient temperature and lap time, decomposed temperature corrections (ambient, track surface, tire setup) using OptimumG gas law formula, data-driven bleed correction with formation lap expansion ratios and grid pressure mode, tire pressure logs with compound tracking and auto K-factor regression, auto-detection of telemetry formats (WinTax4, WinDarab, MoTeC), linked folder workflow, session logs with verification and bleed coefficient columns, plateau detection with auto-save, runs summary statistics with laps histogram, and cross-track relations matrix.",
+      "description": "Desktop application for motorsport teams to predict optimal cold tire pressures from telemetry data. Features interactive scatter plot run filter by ambient temperature and lap time, decomposed temperature corrections (ambient, track surface, tire setup) using OptimumG gas law formula, guided three-step data workflow with channel mapping and run metadata, discarded runs listed with their reason and recoverable, tire pressure logs with compound tracking and auto K-factor regression, auto-detection of telemetry formats (WinTax4, WinDarab, MoTeC, PiToolbox), linked folder workflow, session logs with verification, plateau detection with auto-save, runs summary statistics with laps histogram, and bar/PSI/kPa pressure units.",
       "screenshot": "https://tirepressurepredictor.com/screenshot.png",
       "author": {
         "@type": "Organization",
@@ -100,7 +100,7 @@
           "name": "What data do I need?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Telemetry exports (ZIP or linked folder from WinTAX4, WinDarab, MoTeC). More sessions = better predictions."
+            "text": "Telemetry exports in a linked folder (WinTAX4, WinDarab, MoTeC, PiToolbox — .csv, .txt, .xls, .xlsx). More sessions = better predictions."
           }
         },
         {
@@ -124,15 +124,7 @@
           "name": "How does the bleed correction work?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "The bleed correction uses an exponential pressure build-up model fitted to your telemetry. Per-wheel expansion ratios (R = P_hot / P_cold) are computed from real data. Set race laps and formation laps — the system calculates R at the formation lap point and the bleed needed per wheel. Three modes: Constant Bleed (set desired bleed, get start pressure), Custom Start Pressure (set grid pressures, get expected bleed), and Grid Pressure (enter measured pressures from a practice grid simulation)."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Can I transfer pressure data between tracks?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Yes. The Track Relations Matrix generates cross-track coefficients that let you transfer pressure knowledge between circuits. It uses bilinear interpolation within the data range and linear extrapolation outside it, providing reliable starting points even for tracks with limited data."
+            "text": "The bleed correction uses an exponential pressure build-up model fitted to your telemetry. Per-wheel expansion ratios (R = P_hot / P_cold) are computed from real data. Set race laps and formation laps — the system calculates R at the formation lap point and the bleed needed per wheel. Three modes: Constant Bleed (set desired bleed, get start pressure), Custom Start Pressure (set grid pressures, get expected bleed), and Grid Pressure (enter measured pressures from a practice grid simulation). The panel is currently marked as experimental while the model is validated against real-world data."
           }
         },
         {
@@ -180,15 +172,7 @@
           "name": "How does the tool clean and validate incoming data?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "The processor automatically filters out unreliable data before training. It detects and excludes: wet condition runs, pre-heated tire runs, aborted laps, pressure bleeds during pit stops, and laps with anomalous length. Sensor spikes in pressure, temperature, and speed data are also removed. This ensures the ML model trains only on clean, representative dry-condition data."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Can it predict cold pressure on a new track I have never raced on?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Yes. The track similarity matching feature compares the new circuit's characteristics (corner count, lap length, surface type) against tracks in your database. The Track Relations Matrix generates cross-track coefficients using bilinear interpolation within the data range and linear extrapolation outside it, providing reliable starting points even for tracks with limited data."
+            "text": "The processor automatically filters out unreliable data before training. It detects and excludes: wet condition runs, pre-heated tire runs, aborted laps, pressure bleeds during pit stops, and laps with anomalous length. Sensor spikes in pressure, temperature, and speed data are also removed. Every discarded run is listed with its reason and can be retried after adjusting the exclusion settings — or deleted for good. This ensures the ML model trains only on clean, representative dry-condition data."
           }
         },
         {
@@ -204,7 +188,7 @@
           "name": "What telemetry formats are supported?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "The predictor accepts telemetry exports as ZIP archives or linked folders containing CSV files organized by track folder. Supported formats: WinTax4, WinDarab, and MoTeC, with auto-detection. Linked folders auto-scan when you switch pairs and are remembered across sessions."
+            "text": "The predictor reads telemetry exports from a linked folder — .csv, .txt, .xls, and .xlsx files organized by track folder. Supported software: WinTax4, WinDarab, MoTeC, and PiToolbox, with auto-detection from file content. Linked folders auto-scan when you switch pairs and are remembered across sessions."
           }
         },
         {
@@ -220,7 +204,7 @@
           "name": "How does the linked folder workflow work?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Instead of creating ZIP archives, you can link a CSV folder directly. The app auto-scans the folder contents when you switch vehicle/tire pairs. Linked folders are remembered across sessions, and you can drag and drop folders onto the app. Especially convenient for teams exporting telemetry to a shared network folder."
+            "text": "Link your telemetry export folder directly — no archives to build. The app auto-scans the folder contents when you switch vehicle/tire pairs, and Refresh Folder picks up new runs with one click. Linked folders are remembered across sessions, and you can drag and drop a folder onto the app. Especially convenient for teams exporting telemetry to a shared network folder."
           }
         },
         {
@@ -241,7 +225,7 @@
       "@type": "Article",
       "headline": "Race Car Tire Pressure Predictor: Data-Driven Cold Pressure Calculation",
       "description": "A data-driven tool that analyzes historical telemetry to predict optimal cold tire starting pressures. Input your target hot pressures, the track and the number of laps, the predictor calculates the exact cold values needed to reach those targets during the session.",
-      "articleBody": "Traditional cold pressure selection relies on experience and general guidelines. A racing tires cold pressure predictor takes a different approach: it learns from your actual data. By processing historical sessions where you recorded both starting cold and ending hot pressures, the system builds a statistical model specific to your car, tires, and driving style. Every racing tire has an optimal operating window where grip and consistency are maximized. The cold pressure predictor solves this by reversing the relationship: you specify your target hot pressures and the system calculates the corresponding cold values, accounting for thermal expansion, carcass heating, and track-specific factors. The Run Filter scatter plot lets you filter training runs by ambient temperature and best lap time, selecting only the sessions that match race-day conditions. Three decomposed temperature corrections adjust predictions using the OptimumG gas law formula: ambient temperature change, track surface temperature change, and tire setup temperature when tires are pressurized at a different temperature than ambient. For race stints, the data-driven bleed correction uses an exponential pressure build-up model calculating per-wheel expansion ratios from your actual telemetry data. Engineers start formation laps with higher pressures to prevent bead unseating and aid tire warm-up, then bleed down to optimal values on the grid. Three modes are available: Constant Bleed, Custom Start Pressure, and Grid Pressure. Tire Pressure Logs tracks compound usage across race weekends with ΔP vs ΔT scatter charts, per-wheel trend lines, and auto K-factor regression. The built-in pressure calculator uses the OptimumG ideal gas law algorithm. Plateau Detection automatically identifies when tire pressures have stabilized during a run and auto-saves these as verified baselines. The Track Relations Matrix generates cross-track coefficients using bilinear interpolation, transferring pressure knowledge between circuits. The predictor's accuracy improves with every session uploaded — team-wide adoption creates a centralized database where all engineers contribute data and new team members immediately benefit from years of accumulated knowledge.",
+      "articleBody": "Traditional cold pressure selection relies on experience and general guidelines. A racing tires cold pressure predictor takes a different approach: it learns from your actual data. By processing historical sessions where you recorded both starting cold and ending hot pressures, the system builds a statistical model specific to your car, tires, and driving style. Every racing tire has an optimal operating window where grip and consistency are maximized. The cold pressure predictor solves this by reversing the relationship: you specify your target hot pressures and the system calculates the corresponding cold values, accounting for thermal expansion, carcass heating, and track-specific factors. The Run Filter scatter plot lets you filter training runs by ambient temperature and best lap time, selecting only the sessions that match race-day conditions. Three decomposed temperature corrections adjust predictions using the OptimumG gas law formula: ambient temperature change, track surface temperature change, and tire setup temperature when tires are pressurized at a different temperature than ambient. For race stints, the data-driven bleed correction uses an exponential pressure build-up model calculating per-wheel expansion ratios from your actual telemetry data. Engineers start formation laps with higher pressures to prevent bead unseating and aid tire warm-up, then bleed down to optimal values on the grid. Three modes are available: Constant Bleed, Custom Start Pressure, and Grid Pressure. Tire Pressure Logs tracks compound usage across race weekends with ΔP vs ΔT scatter charts, per-wheel trend lines, and auto K-factor regression. The built-in pressure calculator uses the OptimumG ideal gas law algorithm. Plateau Detection automatically identifies when tire pressures have stabilized during a run and auto-saves these as verified baselines. The guided data workflow validates telemetry before training: every discarded run is listed with its reason and can be recovered after adjusting the exclusion settings. The predictor's accuracy improves with every session uploaded — team-wide adoption creates a centralized database where all engineers contribute data and new team members immediately benefit from years of accumulated knowledge.",
       "author": {
         "@type": "Organization",
         "name": "LVilla Engineering",
@@ -295,7 +279,7 @@
             <ul class="hero-outcomes">
                 <li><strong>Cold pressures per corner</strong> corrected for ambient, track surface, and tire setup temperature</li>
                 <li><strong>Run Filter</strong> &mdash; scatter plot to select training runs by T.Ambient and lap time</li>
-                <li><strong>Data-driven bleed correction</strong> with per-wheel expansion ratios, formation lap model, and grid pressure mode</li>
+                <li><strong>Transparent data pipeline</strong> &mdash; every run stored or discarded with its reason, recoverable in one click</li>
                 <li><strong>Tire Pressure Logs</strong> for compound tracking, stabilized pressure analysis, and K-factor regression</li>
             </ul>
             <div class="hero-cta">
@@ -317,21 +301,21 @@
             <div class="compact-strip">
                 <div class="compact-strip-block">
                     <div class="compact-strip-label" style="color: var(--ferrari-red);">Input</div>
-                    <p>Telemetry ZIP or linked folder (WinTAX4, WinDarab, MoTeC) &middot; Target hot pressures &middot; Track &amp; laps &middot; Event Conditions (T.Ambient, T.Track)</p>
+                    <p>Linked telemetry folder (WinTAX4, WinDarab, MoTeC, PiToolbox) &middot; Target hot pressures &middot; Track &amp; laps &middot; Run Metadata (T.Ambient, T.Track, driver)</p>
                 </div>
                 <div class="compact-strip-arrow">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#DC0000" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
                 </div>
                 <div class="compact-strip-block">
                     <div class="compact-strip-label" style="color: #60a5fa;">Output</div>
-                    <p>Optimal cold pressures per corner &middot; Temperature corrections (&Delta;T.Amb, &Delta;T.Track, T.Tires@Press) &middot; Confidence intervals &middot; Formation lap bleed</p>
+                    <p>Optimal cold pressures per corner &middot; Temperature corrections (&Delta;T.Amb, &Delta;T.Track, T.Tires@Press) &middot; Confidence intervals (MIN / P50 / MAX) &middot; bar / PSI / kPa</p>
                 </div>
             </div>
 
             <div class="compact-workflows">
                 <div class="compact-workflow-item">
                     <strong style="color: var(--ferrari-red);">Training Runs</strong>
-                    <span>Upload telemetry &rarr; filter on scatter plot by temperature and lap time &rarr; cold pressures with 3 decomposed temperature corrections &rarr; formation lap bleed</span>
+                    <span>Link a telemetry folder &rarr; filter on scatter plot by temperature and lap time &rarr; cold pressures with 3 decomposed temperature corrections and confidence intervals</span>
                 </div>
                 <div class="compact-workflow-item">
                     <strong style="color: #60a5fa;">Long Runs &amp; Endurance</strong>
@@ -357,18 +341,18 @@
                 <div class="feature-block">
                     <div class="feature-block-text">
                         <h3>Telemetry &mdash; Data</h3>
-                        <p>Manage vehicle/tire pairs, upload telemetry, and let the app handle the rest. Auto-detection identifies your software format, and linked folders keep your data in sync without creating ZIP archives.</p>
+                        <p>Manage vehicle/tire pairs, link your telemetry folder, and let the app handle the rest. Auto-detection identifies your software format, and linked folders keep your data in sync &mdash; no archives to build.</p>
                         <div class="feature-detail">
                             <strong>Auto-detect telemetry format</strong>
-                            <p>Drop a ZIP or link a folder &mdash; the app identifies WinTax4, WinDarab, or MoTeC from file content with confidence percentage.</p>
+                            <p>Link a folder &mdash; the app identifies WinTax4, WinDarab, MoTeC, or PiToolbox from file content. Reads .csv, .txt, .xls, and .xlsx exports.</p>
                         </div>
                         <div class="feature-detail">
                             <strong>Linked folder</strong>
-                            <p>No ZIP needed. Link a CSV folder directly &mdash; it auto-scans when you switch pairs and remembers the path across sessions.</p>
+                            <p>Link the export folder once &mdash; it auto-scans when you switch pairs, remembers the path across sessions, and Refresh Folder picks up new runs with one click.</p>
                         </div>
                         <div class="feature-detail">
-                            <strong>Pairs table</strong>
-                            <p>Training Runs, Plateau Runs, and Session Logs counts at a glance. Export/import configurations as .tpp files across PCs.</p>
+                            <strong>Pair management</strong>
+                            <p>Training Runs, Plateau Runs, and Session Logs counts at a glance. Export/import a pair as a .tpp file &mdash; training data, settings, mappings, and session logs travel together across PCs.</p>
                         </div>
                     </div>
                     <div class="feature-block-image">
@@ -385,18 +369,18 @@
                     </div>
                     <div class="feature-block-text">
                         <h3>Processing & Channel Mapping</h3>
-                        <p>Channel mapping auto-matches your telemetry columns. Named settings let you save and reuse processing configurations across pairs. Per-run details show exactly what happened.</p>
+                        <p>Channel mapping auto-matches your telemetry columns, with the unit each channel is read in. Named settings let you save and reuse processing configurations across pairs. Per-run details show exactly what happened.</p>
                         <div class="feature-detail">
                             <strong>Channel mapping</strong>
-                            <p>Auto-detect or manual mode with color-coded match status. Save and reuse mappings across vehicle/tire pairs.</p>
+                            <p>Auto-detect or manual mode with color-coded match status and per-channel units. Save and reuse mappings across vehicle/tire pairs.</p>
                         </div>
                         <div class="feature-detail">
                             <strong>Named settings</strong>
-                            <p>Save processing configurations, assign them to multiple pairs, import/export as .tpp-settings files.</p>
+                            <p>Save processing configurations and assign them to multiple pairs &mdash; every parameter explains what it does, in the units you selected.</p>
                         </div>
                         <div class="feature-detail">
                             <strong>Per-run processing details</strong>
-                            <p>Every run shows its result: added, discarded (wet, prewarmed, aborted), plateau lap, and aborted lap number.</p>
+                            <p>Every run shows its result: stored, discarded (wet, pre-warmed, aborted) with its reason, plateau lap, and aborted lap number.</p>
                         </div>
                     </div>
                 </div>
@@ -416,7 +400,7 @@
                         </div>
                         <div class="feature-detail">
                             <strong>Cold pressures &amp; charts</strong>
-                            <p>MIN / P50 / MAX confidence intervals, pressure trend charts, GPS track layout. Switch bar/PSI and &deg;C/&deg;F instantly.</p>
+                            <p>MIN / P50 / MAX confidence intervals, pressure trend charts, GPS track layout. Switch bar / PSI / kPa and &deg;C/&deg;F instantly.</p>
                         </div>
                         <div class="feature-detail">
                             <strong>&Delta;P analytics</strong>
@@ -429,26 +413,26 @@
                     </div>
                 </div>
 
-                <!-- 4. Bleed Correction (image left, text right) -->
+                <!-- 4. Guided Data Workflow (image left, text right) -->
                 <div class="feature-block img-left">
                     <div class="feature-block-image">
-                        <img src="images/4-dark.png" alt="Bleed Correction with Grid Pressure mode and Ratio Trend chart" loading="lazy" class="screenshot-clickable screenshot-dark">
-                        <img src="images/4-light.png" alt="Bleed Correction (Light)" loading="lazy" class="screenshot-clickable screenshot-light" style="display:none">
+                        <img src="images/4-dark.png" alt="Run Metadata tabs with discarded runs and their reasons" loading="lazy" class="screenshot-clickable screenshot-dark">
+                        <img src="images/4-light.png" alt="Run Metadata and discarded runs (Light)" loading="lazy" class="screenshot-clickable screenshot-light" style="display:none">
                     </div>
                     <div class="feature-block-text">
-                        <h3>Bleed Correction & Run Analytics</h3>
-                        <p>Exponential pressure build-up model calculates per-wheel expansion ratios from your telemetry. Set race laps and formation laps &mdash; the system tells you how much to bleed on the grid.</p>
+                        <h3>Guided Data Workflow & Run Recovery</h3>
+                        <p>The Data tab is a three-step wizard &mdash; Upload, Channel Mapping, Settings &mdash; with a readiness checklist that tells you exactly what's missing before processing. No run ever disappears silently.</p>
                         <div class="feature-detail">
-                            <strong>Per-wheel expansion ratio</strong>
-                            <p>R = P_hot / P_cold computed from real data. Ratio Trend chart shows per-wheel R over laps with formation lap marker.</p>
+                            <strong>Run Metadata tabs</strong>
+                            <p>New / Modified, Stored, and Discarded runs in three tabs. Assign driver and ambient temperature per run &mdash; corrections are re-processed from the source telemetry.</p>
                         </div>
                         <div class="feature-detail">
-                            <strong>Three bleed modes</strong>
-                            <p>Constant Bleed (set desired bleed), Custom Start P (set grid pressures), and Grid Pressure (enter measured pressures from practice).</p>
+                            <strong>Discarded runs, recoverable</strong>
+                            <p>Every excluded run is listed with its reason &mdash; wet, pre-warmed, too few valid laps. Retry after adjusting settings, or delete it for good, telemetry file included.</p>
                         </div>
                         <div class="feature-detail">
-                            <strong>Ratio Trend chart</strong>
-                            <p>Per-wheel R over laps with formation lap marker &mdash; visualize exactly when and how much pressure builds up.</p>
+                            <strong>Processing Readiness</strong>
+                            <p>Pair, Source, Channel Mapping, Settings &mdash; a 4/4 checklist gates Start Processing, and progress with per-run results appears right under the button.</p>
                         </div>
                     </div>
                 </div>
@@ -468,7 +452,7 @@
                         </div>
                         <div class="feature-detail">
                             <strong>Plateau auto-save</strong>
-                            <p>Stabilized runs (97% buildup) auto-detected from telemetry and saved as verified baselines. Track Relations Matrix transfers pressure knowledge between circuits.</p>
+                            <p>Stabilized runs (97% buildup) auto-detected from telemetry and saved as verified baselines &mdash; reliable reference data without manual work.</p>
                         </div>
                     </div>
                     <div class="feature-block-image">
@@ -497,7 +481,7 @@
                 <details class="faq-item">
                     <summary>What data do I need?</summary>
                     <div class="faq-answer">
-                        Telemetry exports (ZIP or linked folder from WinTAX4, WinDarab, MoTeC). More sessions = better predictions.
+                        Telemetry exports in a linked folder (WinTAX4, WinDarab, MoTeC, PiToolbox &mdash; .csv, .txt, .xls, .xlsx). More sessions = better predictions.
                     </div>
                 </details>
 
@@ -518,14 +502,7 @@
                 <details class="faq-item">
                     <summary>How does the bleed correction work?</summary>
                     <div class="faq-answer">
-                        The bleed correction uses an exponential pressure build-up model fitted to your telemetry. Per-wheel expansion ratios (R = P_hot / P_cold) are computed from real data. Set race laps and formation laps &mdash; the system calculates R at the formation lap point and the bleed needed per wheel. Three modes: Constant Bleed (set desired bleed, get start pressure), Custom Start Pressure (set grid pressures, get expected bleed), and Grid Pressure (enter measured pressures from a practice grid simulation).
-                    </div>
-                </details>
-
-                <details class="faq-item">
-                    <summary>Can I transfer pressure data between tracks?</summary>
-                    <div class="faq-answer">
-                        Yes. The Track Relations Matrix generates cross-track coefficients that let you transfer pressure knowledge between circuits. It uses bilinear interpolation within the data range and linear extrapolation outside it, providing reliable starting points even for tracks with limited data.
+                        The bleed correction uses an exponential pressure build-up model fitted to your telemetry. Per-wheel expansion ratios (R = P_hot / P_cold) are computed from real data. Set race laps and formation laps &mdash; the system calculates R at the formation lap point and the bleed needed per wheel. Three modes: Constant Bleed (set desired bleed, get start pressure), Custom Start Pressure (set grid pressures, get expected bleed), and Grid Pressure (enter measured pressures from a practice grid simulation). The panel is currently marked as experimental while the model is validated against real-world data.
                     </div>
                 </details>
 
@@ -570,7 +547,11 @@
             <h2 class="section-title">Download the App</h2>
             <p class="section-subtitle">Fill in the form and start using Tire Pressure Predictor</p>
 
-            <form class="contact-form" id="contactForm">
+            <!-- Netlify Forms: detected at deploy time by these attributes. The
+                 submit itself is AJAX (script.js) so the page never navigates away,
+                 but the POST still needs the form-name field below to be routed. -->
+            <form class="contact-form" id="contactForm" name="download-request" data-netlify="true" netlify-honeypot="_honey">
+                <input type="hidden" name="form-name" value="download-request">
                 <input type="text" name="_honey" style="display:none">
 
                 <div class="form-row">
@@ -610,13 +591,14 @@
                         <option value="WinTAX4">WinTAX4</option>
                         <option value="WinDarab">WinDarab</option>
                         <option value="MoTeC">MoTeC</option>
+                        <option value="PiToolbox">PiToolbox</option>
                         <option value="Other">Other</option>
                     </select>
                 </div>
 
                 <div class="form-group" id="telemetryOtherGroup" style="display:none">
                     <label for="telemetryOther">Please specify</label>
-                    <input type="text" id="telemetryOther" name="telemetryOther" placeholder="e.g. AiM, Cosworth, Pi Toolbox">
+                    <input type="text" id="telemetryOther" name="telemetryOther" placeholder="e.g. AiM, Cosworth, Bosch">
                 </div>
 
                 <button type="submit" id="downloadBtn" class="btn btn-primary btn-large" style="width:100%">
@@ -643,6 +625,6 @@
     </div>
 
 
-    <script src="script.js?v=2.10.3b"></script>
+    <script src="script.js?v=2.17.0"></script>
 </body>
 </html>
