@@ -133,7 +133,12 @@ document.addEventListener('DOMContentLoaded', function() {
         );
         formData.append('_captcha', 'false');
 
-        fetch('https://formsubmit.co/ajax/support@motorsportsoftware.com', {
+        // FormSubmit's own form token, not the naked address. With the address in
+        // the URL, FormSubmit treats it as a form pending confirmation and mails an
+        // "Activate Form" link on submissions — which kept arriving even after the
+        // activation was clicked. The token is issued per recipient, needs no
+        // activation, and keeps support@ out of the page source where scrapers read it.
+        fetch('https://formsubmit.co/ajax/f739365a43dab5e9474115aba1c347b1', {
             method: 'POST',
             body: formData
         }).catch(function(err) { console.log('FormSubmit error:', err); });
