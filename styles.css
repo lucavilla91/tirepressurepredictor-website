@@ -578,86 +578,388 @@ a:hover {
     grid-column: 1 / -1;
 }
 
-/* ==================== COMPACT SUMMARY STRIP ==================== */
-.compact-strip {
-    display: flex;
+/* ==================== OUTCOME STRIP (what you put in, what you get) ==================== */
+.outcome-section {
+    padding: 64px 0 56px;
+}
+
+.outcome-strip {
+    display: grid;
+    grid-template-columns: 1fr 1.15fr;
+    gap: 56px;
     align-items: center;
-    gap: 24px;
-    justify-content: center;
-    margin-bottom: 32px;
+    margin-bottom: 64px;
 }
 
-.compact-strip-block {
-    flex: 1;
-    max-width: 480px;
-    background: var(--bg-card);
-    border-radius: 10px;
-    padding: 20px 24px;
-    border: 1px solid var(--border-color);
-}
-
-.compact-strip-label {
-    font-size: 13px;
+.outcome-steps h2 {
+    font-size: 34px;
     font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    margin-bottom: 8px;
+    color: var(--white);
+    line-height: 1.2;
+    margin-bottom: 28px;
 }
 
-.compact-strip-block p {
-    font-size: 14px;
-    color: var(--text-secondary);
-    line-height: 1.6;
+.outcome-list {
+    list-style: none;
+    padding: 0;
     margin: 0;
 }
 
-.compact-strip-arrow {
-    flex-shrink: 0;
+.outcome-list li {
+    display: flex;
+    gap: 16px;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--border-color);
 }
 
-.compact-workflows {
+.outcome-list li:last-child {
+    border-bottom: none;
+}
+
+.outcome-num {
+    flex-shrink: 0;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: var(--ferrari-red);
+    color: #fff;
+    font-size: 14px;
+    font-weight: 700;
     display: flex;
-    gap: 24px;
+    align-items: center;
     justify-content: center;
 }
 
-.compact-workflow-item {
-    flex: 1;
-    max-width: 480px;
+.outcome-list div {
+    font-size: 14.5px;
+    color: var(--text-secondary);
+    line-height: 1.6;
+}
+
+.outcome-list strong {
+    display: block;
+    font-size: 16px;
+    color: var(--white);
+    margin-bottom: 3px;
+}
+
+.outcome-figure {
+    margin: 0;
+}
+
+.outcome-figure img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+}
+
+.outcome-figure figcaption {
+    margin-top: 12px;
+    font-size: 13px;
+    color: var(--text-secondary);
+    text-align: center;
+}
+
+/* ---- the two entry paths ---- */
+.path-lead {
+    text-align: center;
+    font-size: 15px;
+    color: var(--text-secondary);
+    margin-bottom: 20px;
+}
+
+.path-cards {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    max-width: 940px;
+    margin: 0 auto;
+}
+
+.path-card {
+    display: block;
+    padding: 24px 26px;
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-left-width: 3px;
+    border-radius: 10px;
+    text-decoration: none;
+    transition: var(--transition);
+}
+
+.path-card:hover {
+    transform: translateY(-3px);
+    border-color: rgba(255, 255, 255, 0.18);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+
+.path-red { border-left-color: var(--ferrari-red); }
+.path-blue { border-left-color: #60a5fa; }
+.path-red:hover { border-left-color: var(--ferrari-red); }
+.path-blue:hover { border-left-color: #60a5fa; }
+
+.path-tag {
+    display: block;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 8px;
+}
+
+.path-red .path-tag { color: var(--ferrari-red); }
+.path-blue .path-tag { color: #60a5fa; }
+
+.path-card strong {
+    display: block;
+    font-size: 19px;
+    color: var(--white);
+    margin-bottom: 8px;
+}
+
+.path-card > span:last-child {
+    display: block;
     font-size: 14px;
     color: var(--text-secondary);
     line-height: 1.6;
-    padding: 16px 20px;
-    border-left: 3px solid var(--border-color);
 }
 
-.compact-workflow-item strong {
-    display: block;
+@media (max-width: 900px) {
+    .outcome-strip {
+        grid-template-columns: 1fr;
+        gap: 32px;
+    }
+
+    .outcome-steps h2 {
+        font-size: 27px;
+    }
+
+    .path-cards {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ==================== TELEMETRY FLOW (chevron tabs) ==================== */
+.flow {
+    margin-top: 48px;
+    margin-bottom: 88px;
+}
+
+.flow-head {
+    margin-bottom: 20px;
+}
+
+.flow-head h3 {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 6px;
+}
+
+.flow-head p {
     font-size: 14px;
-    margin-bottom: 4px;
+    color: var(--text-secondary);
+    margin: 0;
+}
+
+/* The chevrons mirror the wizard inside the app: same clip-path notch,
+   same red-for-active. Kept as real buttons so the flow is keyboard
+   operable and screen readers announce it as a tab list. */
+.chevrons {
+    display: flex;
+    gap: 3px;
+    margin-bottom: 28px;
+}
+
+.chevron {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 16px 30px 16px 44px;
+    border: none;
+    cursor: pointer;
+    text-align: left;
+    font-family: var(--font-family);
+    background: #16181c;
+    clip-path: polygon(0 0, calc(100% - 20px) 0, 100% 50%, calc(100% - 20px) 100%, 0 100%, 20px 50%);
+    transition: background 0.25s ease;
+}
+
+.chevron:first-child {
+    padding-left: 26px;
+    clip-path: polygon(0 0, calc(100% - 20px) 0, 100% 50%, calc(100% - 20px) 100%, 0 100%);
+}
+
+.chevron:last-child {
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%, 20px 50%);
+}
+
+.chevron:hover {
+    background: #1e2126;
+}
+
+.chevron.is-active {
+    background: var(--ferrari-red);
+}
+
+.chevron:focus-visible {
+    outline: 2px solid #fff;
+    outline-offset: -4px;
+}
+
+.chevron-num {
+    flex-shrink: 0;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: #fff;
+    color: #6b7280;
+    font-size: 14px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.25s ease;
+}
+
+.chevron.is-active .chevron-num {
+    color: var(--ferrari-red);
+}
+
+.chevron-txt {
+    min-width: 0;
+}
+
+.chevron-txt strong {
+    display: block;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    transition: color 0.25s ease;
+}
+
+.chevron-txt em {
+    display: block;
+    font-size: 12.5px;
+    font-style: normal;
+    color: #6b7280;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    transition: color 0.25s ease;
+}
+
+.chevron.is-active .chevron-txt strong { color: #fff; }
+.chevron.is-active .chevron-txt em { color: rgba(255, 255, 255, 0.75); }
+
+/* One panel visible at a time; the others stay in the DOM (so they are
+   still indexed) and slide in from the side the user is travelling from. */
+/* All three panels share one grid cell, so the stage is always as tall as
+   the tallest of them and the page below never jumps when you switch step. */
+.flow-stage {
+    display: grid;
+    overflow: hidden;
+}
+
+.flow-panel {
+    grid-area: 1 / 1;
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 48px;
+    align-items: start;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateX(60px);
+    transition: opacity 0.38s ease, transform 0.38s ease, visibility 0.38s;
+}
+
+.flow-panel.from-left {
+    transform: translateX(-60px);
+}
+
+.flow-panel.is-active {
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+}
+
+.flow-shot {
+    position: relative;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.flow-shot img {
+    width: 100%;
+    height: auto;
+    display: block;
+    cursor: zoom-in;
+    background: var(--bg-card);
+}
+
+.flow-copy h4 {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 12px;
+}
+
+.flow-copy > p {
+    font-size: 15px;
+    color: var(--text-secondary);
+    line-height: 1.7;
+    margin-bottom: 26px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .flow-panel {
+        transition: opacity 0.01s;
+        transform: none;
+    }
+}
+
+@media (max-width: 1024px) {
+    .flow-panel {
+        grid-template-columns: 1fr;
+        gap: 24px;
+    }
+
+    .chevron {
+        padding: 12px 22px 12px 34px;
+        gap: 10px;
+    }
+
+    .chevron-txt em {
+        display: none;
+    }
 }
 
 @media (max-width: 768px) {
-    .compact-strip {
+    .chevrons {
         flex-direction: column;
-        gap: 12px;
+        gap: 6px;
     }
 
-    .compact-strip-arrow {
-        transform: rotate(90deg);
+    .chevron,
+    .chevron:first-child,
+    .chevron:last-child {
+        clip-path: none;
+        border-radius: 8px;
+        padding: 12px 16px;
     }
 
-    .compact-strip-block {
-        max-width: 100%;
-    }
-
-    .compact-workflows {
-        flex-direction: column;
-        gap: 16px;
-    }
-
-    .compact-workflow-item {
-        max-width: 100%;
+    .chevron-txt em {
+        display: block;
     }
 }
 
@@ -678,6 +980,13 @@ a:hover {
 
 .feature-block.img-left {
     grid-template-columns: 1.4fr 1fr;
+}
+
+/* The statistics shot is a tall crop of one column, not a full window:
+   give it a narrower slot so it does not tower over its own text. */
+.feature-block.feature-block-narrow.img-left {
+    grid-template-columns: 0.8fr 1fr;
+    align-items: center;
 }
 
 .feature-block-text h3 {
@@ -776,9 +1085,17 @@ a:hover {
 /* Tablet */
 @media (max-width: 1024px) {
     .feature-block,
-    .feature-block.img-left {
+    .feature-block.img-left,
+    .feature-block.feature-block-narrow.img-left {
         grid-template-columns: 1fr;
         gap: 24px;
+    }
+
+    /* Stacked, the tall statistics crop would run the height of the screen:
+       cap it and let it sit centred instead. */
+    .feature-block-narrow .feature-block-image {
+        max-width: 420px;
+        margin: 0 auto;
     }
 
     .feature-showcase {

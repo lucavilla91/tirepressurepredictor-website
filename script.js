@@ -321,6 +321,52 @@ document.addEventListener('DOMContentLoaded', function() {
         observer.observe(card);
     });
 
+    // ==================== TELEMETRY FLOW (chevron tabs) ====================
+    var flowTabs = Array.prototype.slice.call(document.querySelectorAll('.chevron'));
+    var flowPanels = Array.prototype.slice.call(document.querySelectorAll('.flow-panel'));
+
+    if (flowTabs.length && flowTabs.length === flowPanels.length) {
+        var currentFlow = 0;
+
+        function showFlow(next) {
+            if (next === currentFlow || next < 0 || next >= flowPanels.length) return;
+
+            // Panels sitting before the selected one are parked on the left,
+            // the ones after it on the right. That single rule makes the step
+            // that leaves and the step that arrives travel the same way, so
+            // going forward always slides left and going back always slides right.
+            flowPanels.forEach(function(panel, i) {
+                panel.classList.toggle('from-left', i < next);
+                panel.classList.toggle('is-active', i === next);
+            });
+
+            flowTabs.forEach(function(tab, i) {
+                tab.classList.toggle('is-active', i === next);
+                tab.setAttribute('aria-selected', i === next ? 'true' : 'false');
+                tab.tabIndex = i === next ? 0 : -1;
+            });
+
+            currentFlow = next;
+        }
+
+        flowTabs.forEach(function(tab, i) {
+            tab.addEventListener('click', function() { showFlow(i); });
+
+            tab.addEventListener('keydown', function(e) {
+                var target = null;
+                if (e.key === 'ArrowRight') target = (i + 1) % flowTabs.length;
+                else if (e.key === 'ArrowLeft') target = (i - 1 + flowTabs.length) % flowTabs.length;
+                else if (e.key === 'Home') target = 0;
+                else if (e.key === 'End') target = flowTabs.length - 1;
+                if (target === null) return;
+
+                e.preventDefault();
+                showFlow(target);
+                flowTabs[target].focus();
+            });
+        });
+    }
+
     // ==================== SCREENSHOT DARK/LIGHT TOGGLE ====================
     const themeBtns = document.querySelectorAll('.theme-btn');
 

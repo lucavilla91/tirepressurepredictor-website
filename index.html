@@ -47,7 +47,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-    <link rel="stylesheet" href="styles.css?v=2.17.0">
+    <link rel="stylesheet" href="styles.css?v=2.17.1">
 
     <!-- JSON-LD Structured Data -->
     <script type="application/ld+json">
@@ -57,7 +57,7 @@
       "name": "Tire Pressure Predictor",
       "applicationCategory": "BusinessApplication",
       "operatingSystem": "Windows 10/11",
-      "softwareVersion": "2.17.0",
+      "softwareVersion": "2.17.1",
       "offers": {
         "@type": "Offer",
         "price": "0",
@@ -295,32 +295,54 @@
     <!-- ==================== MAIN CONTENT ==================== -->
     <div class="main-content">
 
-    <!-- ==================== COMPACT SUMMARY ==================== -->
-    <section class="section" style="padding: 48px 0;">
+    <!-- ==================== WHAT YOU GET ==================== -->
+    <section class="section outcome-section">
         <div class="container">
-            <div class="compact-strip">
-                <div class="compact-strip-block">
-                    <div class="compact-strip-label" style="color: var(--ferrari-red);">Input</div>
-                    <p>Linked telemetry folder (WinTAX4, WinDarab, MoTeC, PiToolbox) &middot; Target hot pressures &middot; Track &amp; laps &middot; Run Metadata (T.Ambient, T.Track, driver)</p>
+            <div class="outcome-strip">
+                <div class="outcome-steps">
+                    <h2>Three things in. Four numbers out.</h2>
+                    <ol class="outcome-list">
+                        <li>
+                            <span class="outcome-num">1</span>
+                            <div>
+                                <strong>Point it at your telemetry</strong>
+                                Link the folder your logger exports to. Every session you have already run becomes training data.
+                            </div>
+                        </li>
+                        <li>
+                            <span class="outcome-num">2</span>
+                            <div>
+                                <strong>Say where you are racing</strong>
+                                The track, how many laps, and the hot pressures you want to be running on.
+                            </div>
+                        </li>
+                        <li>
+                            <span class="outcome-num">3</span>
+                            <div>
+                                <strong>Set the cold pressures</strong>
+                                One value per corner, ready for the garage &mdash; with the range to expect around it.
+                            </div>
+                        </li>
+                    </ol>
                 </div>
-                <div class="compact-strip-arrow">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#DC0000" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-                </div>
-                <div class="compact-strip-block">
-                    <div class="compact-strip-label" style="color: #60a5fa;">Output</div>
-                    <p>Optimal cold pressures per corner &middot; Temperature corrections (&Delta;T.Amb, &Delta;T.Track, T.Tires@Press) &middot; Confidence intervals (MIN / P50 / MAX) &middot; bar / PSI / kPa</p>
-                </div>
+                <figure class="outcome-figure">
+                    <img src="images/hero-result.jpg" width="1518" height="526" alt="Recommended cold pressures per corner with the minimum and maximum of the expected range" loading="lazy">
+                    <figcaption>The real output for a six-lap stint at Portimao.</figcaption>
+                </figure>
             </div>
 
-            <div class="compact-workflows">
-                <div class="compact-workflow-item">
-                    <strong style="color: var(--ferrari-red);">Training Runs</strong>
-                    <span>Link a telemetry folder &rarr; filter on scatter plot by temperature and lap time &rarr; cold pressures with 3 decomposed temperature corrections and confidence intervals</span>
-                </div>
-                <div class="compact-workflow-item">
-                    <strong style="color: #60a5fa;">Long Runs &amp; Endurance</strong>
-                    <span>Tire Pressure Logs with &Delta;P vs &Delta;T charts, K-factor regression, OptimumG calculator, plateau auto-save</span>
-                </div>
+            <p class="path-lead">Two ways in, depending on what your car gives you.</p>
+            <div class="path-cards">
+                <a class="path-card path-red" href="#features">
+                    <span class="path-tag">Your car has TPMS</span>
+                    <strong>Let the telemetry do it</strong>
+                    <span>Pressures and temperatures are read lap by lap, and the model builds itself from your own sessions.</span>
+                </a>
+                <a class="path-card path-blue" href="#features">
+                    <span class="path-tag">No TPMS, or you run tyre warmers</span>
+                    <strong>Write them down instead</strong>
+                    <span>Type the cold and hot pressures you measure at the car. Same maths, same recommendation.</span>
+                </a>
             </div>
         </div>
     </section>
@@ -335,104 +357,153 @@
                 <button class="theme-btn" data-theme="light">Light</button>
             </div>
 
+            <!-- ---------- The telemetry workflow, mirrored from the app ---------- -->
+            <div class="flow">
+                <div class="flow-head">
+                    <h3>Telemetry</h3>
+                    <p>The same three steps you walk through in the app. Click one to see it.</p>
+                </div>
+
+                <div class="chevrons" role="tablist" aria-label="Telemetry workflow">
+                    <button type="button" class="chevron is-active" role="tab" id="fltab-0" aria-controls="flpanel-0" aria-selected="true" data-flow="0">
+                        <span class="chevron-num">1</span>
+                        <span class="chevron-txt"><strong>Upload Data</strong><em>Link the folder</em></span>
+                    </button>
+                    <button type="button" class="chevron" role="tab" id="fltab-1" aria-controls="flpanel-1" aria-selected="false" tabindex="-1" data-flow="1">
+                        <span class="chevron-num">2</span>
+                        <span class="chevron-txt"><strong>Channel Mapping</strong><em>Match your channels</em></span>
+                    </button>
+                    <button type="button" class="chevron" role="tab" id="fltab-2" aria-controls="flpanel-2" aria-selected="false" tabindex="-1" data-flow="2">
+                        <span class="chevron-num">3</span>
+                        <span class="chevron-txt"><strong>Processing</strong><em>Train, and recover runs</em></span>
+                    </button>
+                </div>
+
+                <div class="flow-stage">
+                    <!-- Step 1 -->
+                    <div class="flow-panel is-active" role="tabpanel" id="flpanel-0" aria-labelledby="fltab-0">
+                        <div class="flow-shot">
+                            <img src="images/upload-dark.png" width="1920" height="1111" alt="Data tab with the linked telemetry folder, auto-detected software and the processing readiness checklist" loading="lazy" class="screenshot-clickable screenshot-dark">
+                            <img src="images/upload-light.png" width="1920" height="1111" alt="Data tab (Light)" loading="lazy" class="screenshot-clickable screenshot-light" style="display:none">
+                        </div>
+                        <div class="flow-copy">
+                            <h4>Link the folder, not the files</h4>
+                            <p>Point the app at the folder your logger already exports to. It scans it, works out which software produced the files, and remembers the path.</p>
+                            <div class="feature-detail">
+                                <strong>It recognises your software</strong>
+                                <p>WinTax4, WinDarab, MoTeC or PiToolbox, identified from the content of the files themselves. Reads .csv, .txt, .xls and .xlsx.</p>
+                            </div>
+                            <div class="feature-detail">
+                                <strong>Always in sync</strong>
+                                <p>Refresh Folder picks up whatever was added since last time. Nothing to zip, nothing to copy by hand.</p>
+                            </div>
+                            <div class="feature-detail">
+                                <strong>One archive per car</strong>
+                                <p>Each vehicle/tyre pair keeps its own data. Export it as a single .tpp file and it moves to another PC complete with settings, mappings and logs.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 2 -->
+                    <div class="flow-panel" role="tabpanel" id="flpanel-1" aria-labelledby="fltab-1">
+                        <div class="flow-shot">
+                            <img src="images/mapping-dark.png" width="1920" height="1111" alt="Channel Mapping with all 18 channels auto-matched, each with its unit" loading="lazy" class="screenshot-clickable screenshot-dark">
+                            <img src="images/mapping-light.png" width="1920" height="1111" alt="Channel Mapping (Light)" loading="lazy" class="screenshot-clickable screenshot-light" style="display:none">
+                        </div>
+                        <div class="flow-copy">
+                            <h4>Your channel names, understood</h4>
+                            <p>Every team names its channels differently. The app matches yours to what it needs and shows you exactly what it found &mdash; before you waste a session on a missing one.</p>
+                            <div class="feature-detail">
+                                <strong>Matched automatically</strong>
+                                <p>Eighteen out of eighteen on a standard export, each with the unit it is read in. Anything missing is flagged in red.</p>
+                            </div>
+                            <div class="feature-detail">
+                                <strong>Or mapped by hand</strong>
+                                <p>Switch to Custom to pick a channel yourself, or to declare a different unit &mdash; psi instead of bar, &deg;F instead of &deg;C.</p>
+                            </div>
+                            <div class="feature-detail">
+                                <strong>Saved for next time</strong>
+                                <p>The mapping is stored with the pair and applied at every processing, so you set it up once per car.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 3 -->
+                    <div class="flow-panel" role="tabpanel" id="flpanel-2" aria-labelledby="fltab-2">
+                        <div class="flow-shot">
+                            <img src="images/processing-dark.png" width="1920" height="1111" alt="Run Metadata tabs showing discarded runs with their reason and a Retry button" loading="lazy" class="screenshot-clickable screenshot-dark">
+                            <img src="images/processing-light.png" width="1920" height="1111" alt="Discarded runs and their reasons (Light)" loading="lazy" class="screenshot-clickable screenshot-light" style="display:none">
+                        </div>
+                        <div class="flow-copy">
+                            <h4>Nothing is discarded silently</h4>
+                            <p>A four-point checklist tells you what is still missing before you start. Then every run is either stored or set aside with the reason written next to it &mdash; and a run set aside is never lost.</p>
+                            <div class="feature-detail">
+                                <strong>Runs in three lists</strong>
+                                <p>New, stored and discarded, each on its own tab. Set the driver and the ambient temperature per run and it is reprocessed from the original telemetry.</p>
+                            </div>
+                            <div class="feature-detail">
+                                <strong>Recover what was excluded</strong>
+                                <p>Wet, pre-warmed, too few valid laps &mdash; the reason is there. Change the threshold and retry it, or delete it for good, telemetry file included.</p>
+                            </div>
+                            <div class="feature-detail">
+                                <strong>Clean data, on purpose</strong>
+                                <p>Wet sessions, out-laps, pit bleeds and sensor spikes are filtered out before training, so the model only ever learns from representative laps.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <div class="feature-showcase">
-
-                <!-- 1. Data Tab (text left, image right) -->
-                <div class="feature-block">
-                    <div class="feature-block-text">
-                        <h3>Telemetry &mdash; Data</h3>
-                        <p>Manage vehicle/tire pairs, link your telemetry folder, and let the app handle the rest. Auto-detection identifies your software format, and linked folders keep your data in sync &mdash; no archives to build.</p>
-                        <div class="feature-detail">
-                            <strong>Auto-detect telemetry format</strong>
-                            <p>Link a folder &mdash; the app identifies WinTax4, WinDarab, MoTeC, or PiToolbox from file content. Reads .csv, .txt, .xls, and .xlsx exports.</p>
-                        </div>
-                        <div class="feature-detail">
-                            <strong>Linked folder</strong>
-                            <p>Link the export folder once &mdash; it auto-scans when you switch pairs, remembers the path across sessions, and Refresh Folder picks up new runs with one click.</p>
-                        </div>
-                        <div class="feature-detail">
-                            <strong>Pair management</strong>
-                            <p>Training Runs, Plateau Runs, and Session Logs counts at a glance. Export/import a pair as a .tpp file &mdash; training data, settings, mappings, and session logs travel together across PCs.</p>
-                        </div>
-                    </div>
-                    <div class="feature-block-image">
-                        <img src="images/1-dark.png" alt="Data tab with linked telemetry folder, auto-detected software and processing readiness" loading="lazy" class="screenshot-clickable screenshot-dark">
-                        <img src="images/1-light.png" alt="Data tab (Light)" loading="lazy" class="screenshot-clickable screenshot-light" style="display:none">
-                    </div>
-                </div>
-
-                <!-- 2. Processing (image left, text right) -->
-                <div class="feature-block img-left">
-                    <div class="feature-block-image">
-                        <img src="images/2-dark.png" alt="Channel Mapping with all 18 channels auto-matched and per-channel units" loading="lazy" class="screenshot-clickable screenshot-dark">
-                        <img src="images/2-light.png" alt="Channel Mapping (Light)" loading="lazy" class="screenshot-clickable screenshot-light" style="display:none">
-                    </div>
-                    <div class="feature-block-text">
-                        <h3>Processing & Channel Mapping</h3>
-                        <p>Channel mapping auto-matches your telemetry columns, with the unit each channel is read in. Named settings let you save and reuse processing configurations across pairs. Per-run details show exactly what happened.</p>
-                        <div class="feature-detail">
-                            <strong>Channel mapping</strong>
-                            <p>Auto-detect or manual mode with color-coded match status and per-channel units. Save and reuse mappings across vehicle/tire pairs.</p>
-                        </div>
-                        <div class="feature-detail">
-                            <strong>Named settings</strong>
-                            <p>Save processing configurations and assign them to multiple pairs &mdash; every parameter explains what it does, in the units you selected.</p>
-                        </div>
-                        <div class="feature-detail">
-                            <strong>Per-run processing details</strong>
-                            <p>Every run shows its result: stored, discarded (wet, pre-warmed, aborted) with its reason, plateau lap, and aborted lap number.</p>
-                        </div>
-                    </div>
-                </div>
 
                 <!-- 3. Prediction (text left, image right) -->
                 <div class="feature-block">
                     <div class="feature-block-text">
                         <h3>Cold Pressure Prediction</h3>
-                        <p>The full prediction workflow: filter training runs on the scatter plot, get per-corner cold pressures with confidence intervals, and see how pressures build up over laps.</p>
+                        <p>Keep the runs that look like the session ahead, and read the four numbers. The corrections, the range and the build-up curve all come from your own data.</p>
                         <div class="feature-detail">
-                            <strong>Run Filter scatter plot</strong>
-                            <p>Drag to select by T.Ambient and lap time, step arrows for &plusmn;0.5&deg;C / &plusmn;0.5s. Runs Summary Stats with per-run details, laps histogram, and extrapolation warning.</p>
+                            <strong>Only the runs that matter</strong>
+                            <p>Filter by driver, ambient temperature and lap time. What you keep is what feeds the prediction &mdash; match race-day conditions instead of averaging a whole season.</p>
                         </div>
                         <div class="feature-detail">
-                            <strong>Temperature corrections</strong>
-                            <p>Three decomposed corrections &mdash; &Delta;T.Amb, &Delta;T.Track, T.Tires@Press &mdash; using OptimumG gas law, each with per-wheel pressure deltas.</p>
+                            <strong>Corrected for the day you are having</strong>
+                            <p>Colder or hotter than when you trained? The prediction is adjusted for air, for track surface, and for tyres inflated in a warm garage.</p>
                         </div>
                         <div class="feature-detail">
-                            <strong>Cold pressures &amp; charts</strong>
-                            <p>MIN / P50 / MAX confidence intervals, pressure trend charts, GPS track layout. Switch bar / PSI / kPa and &deg;C/&deg;F instantly.</p>
+                            <strong>A range, not a lone number</strong>
+                            <p>Every corner carries the minimum and maximum to expect, so you can see when the data behind it is thin. In bar, PSI or kPa.</p>
                         </div>
                         <div class="feature-detail">
-                            <strong>&Delta;P analytics</strong>
-                            <p>Pressure buildup per lap, &Delta;P vs T.Ambient, and &Delta;P vs Best Lap Time &mdash; see how conditions and driver pace affect pressure behavior.</p>
+                            <strong>The build-up, lap by lap</strong>
+                            <p>Watch the pressures climb towards your target across the stint, and see where they settle &mdash; per corner, against the target line.</p>
                         </div>
                     </div>
                     <div class="feature-block-image">
-                        <img src="images/3-dark.png" alt="Full prediction view with Run Filter, cold pressures, and charts" loading="lazy" class="screenshot-clickable screenshot-dark">
-                        <img src="images/3-light.png" alt="Full prediction view (Light, bar)" loading="lazy" class="screenshot-clickable screenshot-light" style="display:none">
+                        <img src="images/prediction-dark.jpg" width="2866" height="1607" alt="Prediction view with the run filter narrowed to two drivers, recommended cold pressures and the pressure build-up curve" loading="lazy" class="screenshot-clickable screenshot-dark">
+                        <img src="images/prediction-light.jpg" width="2869" height="1665" alt="Prediction view (Light)" loading="lazy" class="screenshot-clickable screenshot-light" style="display:none">
                     </div>
                 </div>
 
-                <!-- 4. Guided Data Workflow (image left, text right) -->
-                <div class="feature-block img-left">
+                <!-- 4. Run analytics (image left, text right) -->
+                <div class="feature-block img-left feature-block-narrow">
                     <div class="feature-block-image">
-                        <img src="images/4-dark.png" alt="Run Metadata tabs with discarded runs and their reasons" loading="lazy" class="screenshot-clickable screenshot-dark">
-                        <img src="images/4-light.png" alt="Run Metadata and discarded runs (Light)" loading="lazy" class="screenshot-clickable screenshot-light" style="display:none">
+                        <img src="images/statistics-dark.jpg" width="1223" height="1614" alt="Advanced statistics: TPMS at the best lap, pressure distribution per corner and laps per run" loading="lazy" class="screenshot-clickable screenshot-dark">
+                        <img src="images/statistics-light.jpg" width="1225" height="1447" alt="Advanced statistics (Light)" loading="lazy" class="screenshot-clickable screenshot-light" style="display:none">
                     </div>
                     <div class="feature-block-text">
-                        <h3>Guided Data Workflow & Run Recovery</h3>
-                        <p>The Data tab is a three-step wizard &mdash; Upload, Channel Mapping, Settings &mdash; with a readiness checklist that tells you exactly what's missing before processing. No run ever disappears silently.</p>
+                        <h3>Know What Your Data Is Worth</h3>
+                        <p>Before you trust a number, look at what produced it. The statistics panel opens up the runs sitting behind the prediction &mdash; and tells you when there are not enough of them.</p>
                         <div class="feature-detail">
-                            <strong>Run Metadata tabs</strong>
-                            <p>New / Modified, Stored, and Discarded runs in three tabs. Assign driver and ambient temperature per run &mdash; corrections are re-processed from the source telemetry.</p>
+                            <strong>TPMS at the best lap</strong>
+                            <p>Pressure and temperature per corner at the fastest lap of your selection: the reference every setup ends up being judged against.</p>
                         </div>
                         <div class="feature-detail">
-                            <strong>Discarded runs, recoverable</strong>
-                            <p>Every excluded run is listed with its reason &mdash; wet, pre-warmed, too few valid laps. Retry after adjusting settings, or delete it for good, telemetry file included.</p>
+                            <strong>Distribution per corner</strong>
+                            <p>Where each wheel actually sat across the selected runs, by pressure or by temperature. A wide spread on one corner is telling you something.</p>
                         </div>
                         <div class="feature-detail">
-                            <strong>Processing Readiness</strong>
-                            <p>Pair, Source, Channel Mapping, Settings &mdash; a 4/4 checklist gates Start Processing, and progress with per-run results appears right under the button.</p>
+                            <strong>Laps per run</strong>
+                            <p>Green when a run is long enough for the stint you asked for, amber when it is not &mdash; so you never extrapolate without knowing that you are.</p>
                         </div>
                     </div>
                 </div>
@@ -441,23 +512,23 @@
                 <div class="feature-block">
                     <div class="feature-block-text">
                         <h3>Session Logs & Tire Pressure Logs</h3>
-                        <p>Tire Pressure Logs tracks compounds across race weekends with a built-in OptimumG pressure calculator. Plateau detection auto-saves stabilized runs as verified baselines.</p>
+                        <p>For cars without TPMS, or whenever you measure at the car by hand. Type the cold and hot pressures you read, get the recommendation from the same gas-law maths.</p>
                         <div class="feature-detail">
-                            <strong>Tire Pressure Logs</strong>
-                            <p>Cold/hot pressures, compounds, air and track temperature per run. K-factor columns show per-wheel thermal expansion.</p>
+                            <strong>The whole weekend in one sheet</strong>
+                            <p>Cold, hot, tyre, air and track temperature per run, with driver, event and session. Filter it, reorder it, export it for the tyre engineer.</p>
                         </div>
                         <div class="feature-detail">
-                            <strong>Pressure calculator</strong>
-                            <p>OptimumG gas law formula for hot/cold conversion. Enter target conditions, get recommended cold pressures instantly.</p>
+                            <strong>The calculator</strong>
+                            <p>Enter the hot pressures you are targeting and the conditions you expect, read the cold values &mdash; each with the change from the set you ran last.</p>
                         </div>
                         <div class="feature-detail">
-                            <strong>Plateau auto-save</strong>
-                            <p>Stabilized runs (97% buildup) auto-detected from telemetry and saved as verified baselines &mdash; reliable reference data without manual work.</p>
+                            <strong>Baselines that write themselves</strong>
+                            <p>Runs whose pressures stabilised in the telemetry land here on their own, as verified references you did not have to measure.</p>
                         </div>
                     </div>
                     <div class="feature-block-image">
-                        <img src="images/5-dark.png" alt="Tire Pressure Logs with calculator and Plateau Reached Runs" loading="lazy" class="screenshot-clickable screenshot-dark">
-                        <img src="images/5-light.png" alt="Tire Pressure Logs (Light)" loading="lazy" class="screenshot-clickable screenshot-light" style="display:none">
+                        <img src="images/logs-dark.jpg" width="2865" height="1672" alt="Tire Pressure Logs with the cold pressure calculator and a weekend of reference runs" loading="lazy" class="screenshot-clickable screenshot-dark">
+                        <img src="images/logs-light.jpg" width="2864" height="1666" alt="Tire Pressure Logs (Light)" loading="lazy" class="screenshot-clickable screenshot-light" style="display:none">
                     </div>
                 </div>
 
@@ -629,6 +700,6 @@
          max-age=3600, so returning visitors keep running the cached copy until
          the query string differs. Changing the form endpoint without bumping it
          left browsers posting to the old service for an hour. -->
-    <script src="script.js?v=2.17.0-forms"></script>
+    <script src="script.js?v=2.17.1"></script>
 </body>
 </html>

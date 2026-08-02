@@ -5,6 +5,21 @@ Per tornare a una versione precedente: `git revert <commit>` oppure `git checkou
 
 ---
 
+## 2026-08-02 (2) — Features come flusso, apertura visiva
+
+Riorganizzazione della home in due atti: il workflow Telemetry a chevron come nell'app, poi i blocchi sul risultato.
+
+**File modificati:** `index.html`, `styles.css`, `script.js`, `images/*`, `mockup-v2.html`
+
+- **Apertura**: la fascia INPUT/OUTPUT (densa di sigle e senza immagini) è sostituita da tre passi in linguaggio piano + il **riquadro reale delle pressioni consigliate** ritagliato dall'app (`hero-result.jpg`). Sotto, due card che instradano l'utente: con TPMS → telemetria, senza TPMS → log manuali.
+- **Telemetry a chevron**: i blocchi Data e Channel Mapping diventano un'unica sezione con i chevron dell'app (1 Upload · 2 Channel Mapping · 3 Processing) e una sola area screenshot che scorre lateralmente al click. Tab ARIA con navigazione da tastiera; i pannelli restano nel DOM per l'indicizzazione.
+- **Processing assorbe il Run Recovery**: il blocco "Guided Data Workflow & Run Recovery" sparisce come sezione e confluisce nello step 3.
+- **Screenshot nuovi** per Prediction e Tire Pressure Logs (catture dell'utente, 2866px, con filtro driver attivo e tabella piena) + **blocco nuovo "Know What Your Data Is Worth"** con le Advanced Statistics, prima non raccontate sul sito.
+- Immagini rinominate con nomi parlanti minuscoli (`upload-`, `mapping-`, `processing-`, `prediction-`, `statistics-`, `logs-`), `width`/`height` espliciti su tutte per azzerare il layout shift.
+- Altezza dello stage costante tra i tre step (pannelli impilati in una cella di griglia), così il contenuto sotto non salta al cambio.
+
+---
+
 ## 2026-08-02 — Allineamento all'app 2.17.0 (redesign UI)
 
 Screenshot rifatti dall'app 2.17.0 (nuova interfaccia) e testi riallineati alle funzionalità attuali.
