@@ -5,6 +5,23 @@ Per tornare a una versione precedente: `git revert <commit>` oppure `git checkou
 
 ---
 
+## 2026-08-02 — Allineamento all'app 2.17.0 (redesign UI)
+
+Screenshot rifatti dall'app 2.17.0 (nuova interfaccia) e testi riallineati alle funzionalità attuali.
+
+**File modificati:** `index.html`, `race-car-tyre-pressure-predictor/index.html`, `images/*.png`, `og-image.png` (nuova)
+
+- 10 screenshot nuovi (5 viste × dark/light, 1920×1111): Data wizard, Channel Mapping, Prediction con risultato, Discarded Runs, Session Logs
+- Blocco feature 4: Bleed Correction → **Guided Data Workflow & Run Recovery** (wizard 3 step, Run Metadata a tab, run scartati recuperabili)
+- Rimossi i riferimenti allo ZIP (rimane solo la linked folder, formati `.csv .txt .xls .xlsx`)
+- Aggiunto **PiToolbox** ai software supportati (testi, FAQ, JSON-LD, select del form)
+- Unità: bar / PSI / **kPa**; "Event Conditions" → **Run Metadata**; "Prediction History" → **Session Logs**
+- Bleed Correction dichiarata **experimental** nelle FAQ; rimosse le FAQ/sezioni su Track Relations Matrix e new-track prediction (flusso ritirato dalla UI nella 2.17.0)
+- JSON-LD: `softwareVersion` 2.10.3 → 2.17.0, descrizioni aggiornate
+- Creata `og-image.png` 1200×630 (era referenziata dai meta social ma assente)
+
+---
+
 ## 2026-02-13 — Dark Theme Redesign
 **Commit:** `4b27aaf`
 

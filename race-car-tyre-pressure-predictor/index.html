@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- SEO Meta Tags -->
-    <meta name="description" content="Data-driven race car tire pressure predictor. Calculate optimal cold starting pressures, data-driven bleed correction with per-wheel expansion ratios, decomposed temperature corrections, and pressure build-up from telemetry (ZIP or linked folder). Features run filter scatter plot, tire pressure logs, auto-detect telemetry format, session logs with bleed coefficient columns, plateau detection, and track relations matrix.">
-    <meta name="keywords" content="race car tire pressure predictor, tire pressure prediction, cold pressure calculator, formation lap bleed, racing tires, pressure build-up, tire pressure logs, tire compound, K factor, prediction history, plateau detection, track relations matrix, WinDarab, WinTax4, MoTeC, cross-track analysis, linked folder, training conditions correction, bleed correction, expansion ratio, session logs, training runs, bleed coefficient">
+    <meta name="description" content="Data-driven race car tire pressure predictor. Calculate optimal cold starting pressures, decomposed temperature corrections, and pressure build-up from telemetry in a linked folder. Features run filter scatter plot, tire pressure logs, auto-detect telemetry format (WinTax4, WinDarab, MoTeC, PiToolbox), session logs with verification, and plateau detection.">
+    <meta name="keywords" content="race car tire pressure predictor, tire pressure prediction, cold pressure calculator, racing tires, pressure build-up, tire pressure logs, tire compound, K factor, session logs, plateau detection, WinDarab, WinTax4, MoTeC, PiToolbox, linked folder, training conditions correction, temperature correction, run filter, run metadata, training runs, bleed correction">
     <meta name="author" content="LVilla Engineering">
     <meta name="robots" content="index, follow">
     <meta name="language" content="English">
@@ -15,7 +15,7 @@
     <meta property="og:type" content="article">
     <meta property="og:url" content="/race-car-tire-pressure-predictor/">
     <meta property="og:title" content="Race Car Tire Pressure Predictor | Data-Driven Cold Pressure Calculation">
-    <meta property="og:description" content="Data-driven race car tire pressure predictor. Calculate optimal cold starting pressures, data-driven bleed correction with per-wheel expansion ratios, and decomposed temperature corrections from telemetry (ZIP or linked folder). Features run filter scatter plot, tire pressure logs, session logs with verification, plateau detection, and track relations matrix.">
+    <meta property="og:description" content="Data-driven race car tire pressure predictor. Calculate optimal cold starting pressures and decomposed temperature corrections from telemetry in a linked folder. Features run filter scatter plot, tire pressure logs, session logs with verification, and plateau detection.">
     <meta property="og:image" content="/og-image.png">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
@@ -26,7 +26,7 @@
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:url" content="/race-car-tire-pressure-predictor/">
     <meta name="twitter:title" content="Race Car Tire Pressure Predictor | Data-Driven Cold Pressure Calculation">
-    <meta name="twitter:description" content="Data-driven race car tire pressure predictor. Calculate optimal cold starting pressures, data-driven bleed correction with per-wheel expansion ratios, and decomposed temperature corrections from telemetry (ZIP or linked folder). Features run filter scatter plot, tire pressure logs, session logs with verification, plateau detection, and track relations matrix.">
+    <meta name="twitter:description" content="Data-driven race car tire pressure predictor. Calculate optimal cold starting pressures and decomposed temperature corrections from telemetry in a linked folder. Features run filter scatter plot, tire pressure logs, session logs with verification, and plateau detection.">
     <meta name="twitter:image" content="/og-image.png">
 
     <!-- Canonical URL -->
@@ -83,15 +83,7 @@
           "name": "How do you calculate formation lap/grid pressure bleed?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Engineers start formation laps with higher pressures to prevent bead unseating and aid tire warm-up. On the grid, they bleed down to optimal race pressures. The data-driven bleed correction calculates per-wheel expansion ratios (R = P_hot/P_cold) from your telemetry using an exponential pressure build-up model. You specify the race stint length, and the system computes the exact bleed per wheel. Two modes are available: Constant Bleed and Custom Start Pressure."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Can it predict cold pressure on a new track/circuit I have never raced on?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Yes. The track similarity matching feature compares the new circuit's characteristics (corner count, lap length, surface type) against tracks in your database. It finds the most similar tracks and uses their data to provide baseline cold pressure predictions, giving you a reliable starting point for the first session."
+            "text": "Engineers start formation laps with higher pressures to prevent bead unseating and aid tire warm-up. On the grid, they bleed down to optimal race pressures. The data-driven bleed correction calculates per-wheel expansion ratios (R = P_hot/P_cold) from your telemetry using an exponential pressure build-up model. You specify the race stint length, and the system computes the exact bleed per wheel. The Bleed Correction panel is currently marked as experimental while the model is validated against real-world data."
           }
         },
         {
@@ -107,7 +99,7 @@
           "name": "What data formats are supported?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "The predictor accepts telemetry exports as ZIP archives or linked folders containing CSV files organized by track folder. Linked folders auto-scan when you switch pairs and are remembered across sessions. Supported formats: WinTax4, WinDarab, and MoTeC, with auto-detection. For vehicles without TPMS, you can use the Tire Pressure Logs in the Session Logs tab to manually track pressures and calculate K-factors."
+            "text": "The predictor reads telemetry exports from a linked folder — .csv, .txt, .xls, and .xlsx files organized by track folder. Linked folders auto-scan when you switch pairs and are remembered across sessions. Supported software: WinTax4, WinDarab, MoTeC, and PiToolbox, with auto-detection. For vehicles without TPMS, you can use the Tire Pressure Logs in the Session Logs tab to manually track pressures and calculate K-factors."
           }
         },
         {
@@ -147,12 +139,12 @@
           "name": "How does auto-detection of telemetry format work?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "When you upload a ZIP archive, the app samples multiple files inside and identifies the telemetry software (WinTax4, WinDarab, MoTeC) by analyzing file content patterns. A majority vote across sampled files determines the format with a confidence percentage. You can override the detection manually if needed, with visual feedback showing the detected vs selected format."
+            "text": "When you link a telemetry folder, the app samples multiple files inside and identifies the telemetry software (WinTax4, WinDarab, MoTeC, PiToolbox) by analyzing file content patterns. A majority vote across sampled files determines the format with a confidence percentage. You can override the detection manually if needed, with visual feedback showing the detected vs selected format."
           }
         },
         {
           "@type": "Question",
-          "name": "How does Prediction History and verification work?",
+          "name": "How does Session Logs verification work?",
           "acceptedAnswer": {
             "@type": "Answer",
             "text": "Every prediction can be saved with metadata: driver, event, session, tire condition, and notes. Entries are filterable by track, driver, date, and event type. After the session, you add actual hot pressures and the system compares predictions vs reality with color-coded accuracy feedback. Entries are color-coded by status: amber for unverified, green for verified, and emerald for plateau auto-saved."
@@ -163,15 +155,7 @@
           "name": "What is Plateau Detection and auto-save?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Plateau Detection automatically identifies runs where tire pressures have stabilized, meaning they reached 97% of the total expected build-up. These stabilized runs are auto-saved to your Prediction History as verified baselines marked with an emerald badge. This provides reliable reference data without any manual measurement or entry, making it especially useful for building a database of proven pressure values."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "How does the Track Relations Matrix transfer data between circuits?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "The Track Relations Matrix generates cross-track coefficients by analyzing how pressure build-up patterns relate between different circuits in your database. It uses bilinear interpolation within the data range and linear extrapolation outside it. You can export and import matrices as JSON files, making it easy to share cross-track knowledge within your team or transfer it between seasons."
+            "text": "Plateau Detection automatically identifies runs where tire pressures have stabilized, meaning they reached 97% of the total expected build-up. These stabilized runs are auto-saved to your Session Logs as verified baselines marked with an emerald badge. This provides reliable reference data without any manual measurement or entry, making it especially useful for building a database of proven pressure values."
           }
         },
         {
@@ -187,7 +171,7 @@
           "name": "How does the data-driven bleed correction work?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "The bleed correction uses an exponential pressure build-up model to calculate per-wheel expansion ratios (R = P_hot/P_cold) from your telemetry data. You select the race stint length in laps, and the system determines the exact bleed for each wheel individually. Two modes are available: Constant Bleed (same bleed across all wheels) and Custom Start Pressure (independent per wheel). Bleed coefficient columns in Session Logs show R per wheel for each saved entry."
+            "text": "The bleed correction uses an exponential pressure build-up model to calculate per-wheel expansion ratios (R = P_hot/P_cold) from your telemetry data. You select the race stint length in laps, and the system determines the exact bleed for each wheel individually. Bleed coefficient columns in Session Logs show R per wheel for each saved entry. The panel is currently marked as experimental while the model is validated against real-world data."
           }
         },
         {
@@ -195,7 +179,7 @@
           "name": "What is the linked folder workflow?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Instead of creating ZIP archives, you can link a CSV folder directly. The app auto-scans the folder contents when you switch vehicle/tire pairs. Linked folders are remembered across sessions, and you can drag and drop folders onto the app. This is especially convenient for teams that export telemetry to a shared network folder."
+            "text": "Link your telemetry export folder directly — no archives to build. The app auto-scans the folder contents when you switch vehicle/tire pairs, and Refresh Folder picks up new runs with one click. Linked folders are remembered across sessions, and you can drag and drop a folder onto the app. This is especially convenient for teams that export telemetry to a shared network folder."
           }
         }
       ]
@@ -208,7 +192,7 @@
       "@context": "https://schema.org",
       "@type": "Article",
       "headline": "Race Car Tire Pressure Predictor: Data-Driven Cold Pressure Calculation",
-      "description": "Learn how a data-driven tire pressure predictor calculates optimal cold starting pressures, data-driven bleed correction with per-wheel expansion ratios, training conditions adjustment, and handles new track predictions for race cars. Covers tire pressure logs, linked folder workflow, auto-detect telemetry format, session logs with bleed coefficient columns, plateau detection with imported run indicator, and cross-track relations matrix.",
+      "description": "Learn how a data-driven tire pressure predictor calculates optimal cold starting pressures and training conditions adjustment for race cars. Covers tire pressure logs, linked folder workflow, auto-detect telemetry format (WinTax4, WinDarab, MoTeC, PiToolbox), session logs with verification, and plateau detection.",
       "author": {
         "@type": "Organization",
         "name": "LVilla Engineering"
@@ -242,8 +226,8 @@
             </div>
             <nav class="nav">
                 <a href="/">Home</a>
-                <a href="/#how-it-works">How It Works</a>
                 <a href="/#features">Features</a>
+                <a href="/#faq">FAQ</a>
                 <a href="/#contact" class="btn btn-primary btn-small">Download App</a>
             </nav>
             <button class="mobile-menu-btn" aria-label="Toggle menu">
@@ -298,7 +282,7 @@
                 Once the car reaches the grid after the formation lap, the engineer performs a pressure bleed to bring the tires down to the optimal values suggested by the predictor. The data-driven bleed correction uses an exponential pressure build-up model, calculating per-wheel expansion ratios (R = P_hot/P_cold) from your actual telemetry data. This replaced the earlier linear k = ΔP/ΔT model, providing more accurate bleed values because each wheel's unique thermal behavior is captured individually.
             </p>
             <p style="margin-bottom: 24px; line-height: 1.8;">
-                You select the race stint length (Race Laps selector), and the system determines the bleed needed per wheel. Two modes are available: <strong>Constant Bleed</strong> applies the same bleed reduction to all four wheels, while <strong>Custom Start Pressure</strong> lets you set an independent starting pressure per wheel. Bleed coefficient columns in Session Logs display the expansion ratio R for each wheel on every saved prediction entry.
+                You select the race stint length (Race Laps selector), and the system determines the bleed needed per wheel. Two modes are available: <strong>Constant Bleed</strong> applies the same bleed reduction to all four wheels, while <strong>Custom Start Pressure</strong> lets you set an independent starting pressure per wheel. Bleed coefficient columns in Session Logs display the expansion ratio R for each wheel on every saved prediction entry. The Bleed Correction panel is currently marked as experimental while the model is validated against real-world data.
             </p>
             <ul style="margin-bottom: 48px; color: var(--text-secondary); line-height: 2; padding-left: 24px;">
                 <li>Start formation lap with higher pressures for safety and faster warm-up</li>
@@ -307,16 +291,6 @@
                 <li>Two modes: Constant Bleed and Custom Start Pressure</li>
                 <li>Race Laps selector determines stint length for bleed calculation</li>
             </ul>
-
-            <!-- Section 5: New track prediction -->
-            <h2 class="section-title" style="text-align: left; margin-bottom: 16px;">New Track/Circuit Prediction (Baseline from Similarity)</h2>
-            <p style="margin-bottom: 24px; line-height: 1.8;">
-                Racing at a new circuit presents a challenge: you have no historical data for that track. How can you predict cold pressure for a new racetrack you've never visited? The track similarity matching feature addresses this by comparing the new circuit's characteristics against all tracks in your database.
-            </p>
-            <p style="margin-bottom: 24px; line-height: 1.8;">
-                The matching algorithm considers factors like corner count, lap length and average speed. It identifies the most similar tracks and uses weighted data from those circuits to generate baseline predictions. This gives you a reliable starting point for your first practice session, which you can then refine as you collect track-specific data.
-            </p>
-
 
             <!-- Section 6: Long run vs short run -->
             <h2 class="section-title" style="text-align: left; margin-bottom: 16px;">Pressure Build-Up: Long Run vs Short Run</h2>
@@ -376,7 +350,7 @@
                 Different telemetry software packages export data in different CSV formats — column names, separators, header structures, and file organization all vary. Rather than requiring you to manually select the correct format, the app automatically identifies which telemetry software produced your data.
             </p>
             <p style="margin-bottom: 24px; line-height: 1.8;">
-                When you upload a ZIP archive or link a folder, the system samples multiple files and analyzes their content patterns. It recognizes WinTax4, WinDarab, and MoTeC formats by examining column headers, separator characters, and file structure. A majority vote across sampled files determines the format, with a confidence percentage displayed so you know how certain the detection is.
+                When you link a telemetry folder, the system samples multiple files and analyzes their content patterns. It recognizes WinTax4, WinDarab, MoTeC, and PiToolbox formats by examining column headers, separator characters, and file structure. A majority vote across sampled files determines the format, with a confidence percentage displayed so you know how certain the detection is.
             </p>
             <p style="margin-bottom: 48px; line-height: 1.8;">
                 If the auto-detection doesn't match your setup (for example, with a custom export template), you can override it manually. The interface provides visual feedback showing both the detected format and your selected format, so you always know what parser will be used for processing.
@@ -400,13 +374,13 @@
             <!-- Section 11: Linked Folder Workflow -->
             <h2 class="section-title" style="text-align: left; margin-bottom: 16px;">Linked Folder Workflow</h2>
             <p style="margin-bottom: 24px; line-height: 1.8;">
-                As an alternative to ZIP archives, you can link a CSV folder directly to the app. This is especially convenient for teams that export telemetry to a shared network location or a local folder that gets updated after each session. The app auto-scans the linked folder contents whenever you switch vehicle/tire pairs, so new data is picked up automatically.
+                Link your telemetry export folder directly to the app — no archives to build. This is especially convenient for teams that export telemetry to a shared network location or a local folder that gets updated after each session. The app auto-scans the linked folder contents whenever you switch vehicle/tire pairs, and Refresh Folder picks up new runs with one click.
             </p>
             <p style="margin-bottom: 24px; line-height: 1.8;">
-                Linked folders are remembered across sessions — you set it once and the path persists. You can also drag & drop a folder onto the app window to link it. This workflow reduces the friction of creating ZIP archives after every session and integrates naturally into teams that already have a structured folder hierarchy for their telemetry exports.
+                Linked folders are remembered across sessions — you set it once and the path persists. You can also drag & drop a folder onto the app window to link it. This workflow integrates naturally into teams that already have a structured folder hierarchy for their telemetry exports.
             </p>
             <ul style="margin-bottom: 48px; color: var(--text-secondary); line-height: 2; padding-left: 24px;">
-                <li>Link a CSV folder instead of creating ZIP archives</li>
+                <li>Link your export folder — .csv, .txt, .xls, .xlsx files supported</li>
                 <li>Auto-scan on pair selection — new data picked up automatically</li>
                 <li>Drag & drop folder support</li>
                 <li>Path remembered across sessions</li>
@@ -439,32 +413,14 @@
             <!-- Section 11: Plateau Detection & Auto-Save -->
             <h2 class="section-title" style="text-align: left; margin-bottom: 16px;">Plateau Detection & Auto-Save</h2>
             <p style="margin-bottom: 24px; line-height: 1.8;">
-                During a run, tire pressures build up from cold to hot and eventually stabilize — they reach a plateau. The app automatically detects when this stabilization has occurred, specifically when pressures have reached 97% of the total expected build-up. Runs that reach this plateau are flagged as "Plateau Reached" in a dedicated section of the Data tab.
+                During a run, tire pressures build up from cold to hot and eventually stabilize — they reach a plateau. The app automatically detects when this stabilization has occurred, specifically when pressures have reached 97% of the total expected build-up. Runs that reach this plateau are listed in the dedicated "Plateau Reached Runs" section of the Session Logs tab.
             </p>
             <p style="margin-bottom: 24px; line-height: 1.8;">
-                Stabilized runs are particularly valuable because they represent the actual steady-state hot pressures for a given set of conditions — no extrapolation needed. The app auto-saves these runs to your Prediction History as verified baselines, tagged with an emerald badge to distinguish them from manual predictions and user-entered data.
+                Stabilized runs are particularly valuable because they represent the actual steady-state hot pressures for a given set of conditions — no extrapolation needed. The app auto-saves these runs to your Session Logs as verified baselines, tagged with an emerald badge to distinguish them from manual predictions and user-entered data.
             </p>
             <p style="margin-bottom: 48px; line-height: 1.8;">
                 This feature is especially useful for building a reliable database of pressure baselines without any manual measurement or entry. Just process your telemetry data, and the system automatically identifies and preserves the most informative runs. The plateau detection uses selective propagation: bleed events invalidate the plateau status for all subsequent laps, while abort events only affect the specific aborted lap.
             </p>
-
-            <!-- Section 12: Track Relations Matrix -->
-            <h2 class="section-title" style="text-align: left; margin-bottom: 16px;">Track Relations Matrix</h2>
-            <p style="margin-bottom: 24px; line-height: 1.8;">
-                When you have data from multiple circuits, the Track Relations Matrix reveals how pressure build-up patterns relate between them. Rather than treating each track independently, this feature generates a matrix of cross-track coefficients that quantify the relationship between any two circuits in your database.
-            </p>
-            <p style="margin-bottom: 24px; line-height: 1.8;">
-                This is more powerful than simple track similarity matching. Instead of comparing track characteristics (corner count, length), the matrix is built from actual pressure data — it captures how tires behave differently at each circuit based on your real-world measurements. The interpolation uses bilinear interpolation within the data range for smooth transitions, and linear extrapolation outside it for reasonable estimates at the boundaries.
-            </p>
-            <p style="margin-bottom: 24px; line-height: 1.8;">
-                Matrices can be exported and imported as JSON files, making it easy to share cross-track knowledge within your team or transfer it between seasons. This is particularly valuable when arriving at a track where you have limited data — the matrix can leverage rich data from other circuits to provide a much better starting point than a cold guess.
-            </p>
-            <ul style="margin-bottom: 48px; color: var(--text-secondary); line-height: 2; padding-left: 24px;">
-                <li>Cross-track coefficients built from actual pressure data</li>
-                <li>Bilinear interpolation within range, linear extrapolation outside</li>
-                <li>Export/import matrices as JSON for team sharing</li>
-                <li>More accurate than generic track similarity matching</li>
-            </ul>
 
             <!-- Inputs / Outputs Table -->
             <h2 class="section-title" style="text-align: left; margin-bottom: 24px;">Inputs and Outputs</h2>
@@ -472,7 +428,7 @@
                 <div class="need-get-card input-card">
                     <h3 style="color: var(--ferrari-red);">Inputs (Hot Targets)</h3>
                     <ul class="need-get-list">
-                        <li><strong>Telemetry files</strong> (ZIP archive or linked folder containing run exports from WinDarab, WinTax4, MoTeC)</li>
+                        <li><strong>Telemetry files</strong> (linked folder containing run exports from WinDarab, WinTax4, MoTeC, PiToolbox)</li>
                         <li><strong>Target hot pressures</strong> (your desired operating pressures)</li>
                         <li><strong>Number of laps</strong> (stint length affects pressure build-up)</li>
                         <li><strong>Track/circuit</strong> (selected from database or new track entry)</li>
@@ -521,12 +477,7 @@
 
                 <details class="faq-item">
                     <summary>How do you calculate formation lap/grid pressure bleed?</summary>
-                    <div class="faq-answer">Engineers start formation laps with higher pressures to prevent bead unseating and aid tire warm-up. On the grid, they bleed down to optimal race pressures. The data-driven bleed correction calculates per-wheel expansion ratios from your telemetry using an exponential pressure build-up model. You specify the race stint length, and the system computes the exact bleed per wheel. Two modes: Constant Bleed and Custom Start Pressure.</div>
-                </details>
-
-                <details class="faq-item">
-                    <summary>Can it predict cold pressure on a new track/circuit I have never raced on?</summary>
-                    <div class="faq-answer">Yes. The track similarity matching feature compares the new circuit's characteristics (corner count, lap length, surface type) against tracks in your database. It finds the most similar tracks and uses their data to provide baseline cold pressure predictions, giving you a reliable starting point for the first session.</div>
+                    <div class="faq-answer">Engineers start formation laps with higher pressures to prevent bead unseating and aid tire warm-up. On the grid, they bleed down to optimal race pressures. The data-driven bleed correction calculates per-wheel expansion ratios from your telemetry using an exponential pressure build-up model. You specify the race stint length, and the system computes the exact bleed per wheel. The Bleed Correction panel is currently marked as experimental while the model is validated against real-world data.</div>
                 </details>
 
                 <details class="faq-item">
@@ -536,7 +487,7 @@
 
                 <details class="faq-item">
                     <summary>What data formats are supported?</summary>
-                    <div class="faq-answer">The predictor accepts telemetry exports as ZIP archives or linked folders containing CSV files organized by track folder. Linked folders auto-scan when you switch pairs and are remembered across sessions. Supported formats: WinTax4, WinDarab, and MoTeC, with auto-detection. For vehicles without TPMS, you can use the Tire Pressure Logs in the Session Logs tab to manually track pressures and calculate K-factors.</div>
+                    <div class="faq-answer">The predictor reads telemetry exports from a linked folder — .csv, .txt, .xls, and .xlsx files organized by track folder. Linked folders auto-scan when you switch pairs and are remembered across sessions. Supported software: WinTax4, WinDarab, MoTeC, and PiToolbox, with auto-detection. For vehicles without TPMS, you can use the Tire Pressure Logs in the Session Logs tab to manually track pressures and calculate K-factors.</div>
                 </details>
 
                 <details class="faq-item">
@@ -556,22 +507,17 @@
 
                 <details class="faq-item">
                     <summary>How does auto-detection of telemetry format work?</summary>
-                    <div class="faq-answer">When you upload a ZIP archive, the app samples multiple files and identifies the telemetry software (WinTax4, WinDarab, MoTeC) by analyzing file content patterns. A majority vote across sampled files determines the format with a confidence percentage. You can override the detection manually if needed, with visual feedback showing the detected vs selected format.</div>
+                    <div class="faq-answer">When you link a telemetry folder, the app samples multiple files and identifies the telemetry software (WinTax4, WinDarab, MoTeC, PiToolbox) by analyzing file content patterns. A majority vote across sampled files determines the format with a confidence percentage. You can override the detection manually if needed, with visual feedback showing the detected vs selected format.</div>
                 </details>
 
                 <details class="faq-item">
-                    <summary>How does Prediction History and verification work?</summary>
+                    <summary>How does Session Logs verification work?</summary>
                     <div class="faq-answer">Every prediction can be saved with metadata (driver, event, session, tire condition, notes) and filtered by track, driver, date, or event type. After the session, you add actual hot pressures and the system compares predictions vs reality with color-coded accuracy feedback. Entries are color-coded: amber for unverified, green for verified, emerald for plateau auto-saved.</div>
                 </details>
 
                 <details class="faq-item">
                     <summary>What is Plateau Detection and how does auto-save work?</summary>
-                    <div class="faq-answer">Plateau Detection automatically identifies runs where tire pressures have stabilized (reached 97% of total build-up). These stabilized runs are auto-saved to your Prediction History as verified baselines marked with an emerald badge, providing reliable reference data without any manual measurement or entry.</div>
-                </details>
-
-                <details class="faq-item">
-                    <summary>How does the Track Relations Matrix transfer data between circuits?</summary>
-                    <div class="faq-answer">The Track Relations Matrix generates cross-track coefficients from your actual pressure data. It uses bilinear interpolation within the data range and linear extrapolation outside it. You can export and import matrices as JSON files, making it easy to share cross-track knowledge within your team or transfer it between seasons.</div>
+                    <div class="faq-answer">Plateau Detection automatically identifies runs where tire pressures have stabilized (reached 97% of total build-up). These stabilized runs are auto-saved to your Session Logs as verified baselines marked with an emerald badge, providing reliable reference data without any manual measurement or entry.</div>
                 </details>
 
                 <details class="faq-item">
@@ -581,12 +527,12 @@
 
                 <details class="faq-item">
                     <summary>How does the data-driven bleed correction work?</summary>
-                    <div class="faq-answer">The bleed correction uses an exponential pressure build-up model to calculate per-wheel expansion ratios from your telemetry data. You select the race stint length in laps, and the system determines the exact bleed for each wheel individually. Two modes: Constant Bleed (same bleed across all wheels) and Custom Start Pressure (independent per wheel). Bleed coefficient columns in Session Logs show the expansion ratio per wheel for each saved entry.</div>
+                    <div class="faq-answer">The bleed correction uses an exponential pressure build-up model to calculate per-wheel expansion ratios from your telemetry data. You select the race stint length in laps, and the system determines the exact bleed for each wheel individually. Bleed coefficient columns in Session Logs show the expansion ratio per wheel for each saved entry. The panel is currently marked as experimental while the model is validated against real-world data.</div>
                 </details>
 
                 <details class="faq-item">
                     <summary>What is the linked folder workflow?</summary>
-                    <div class="faq-answer">Instead of creating ZIP archives, you can link a CSV folder directly. The app auto-scans the folder contents when you switch vehicle/tire pairs. Linked folders are remembered across sessions, and you can drag and drop folders onto the app. Especially convenient for teams exporting telemetry to a shared network folder.</div>
+                    <div class="faq-answer">Link your telemetry export folder directly — no archives to build. The app auto-scans the folder contents when you switch vehicle/tire pairs, and Refresh Folder picks up new runs with one click. Linked folders are remembered across sessions, and you can drag and drop a folder onto the app. Especially convenient for teams exporting telemetry to a shared network folder.</div>
                 </details>
 
             </div>
