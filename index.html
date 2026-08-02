@@ -625,6 +625,10 @@
     </div>
 
 
-    <script src="script.js?v=2.17.0"></script>
+    <!-- Bump this whenever script.js changes: the file is served with
+         max-age=3600, so returning visitors keep running the cached copy until
+         the query string differs. Changing the form endpoint without bumping it
+         left browsers posting to the old service for an hour. -->
+    <script src="script.js?v=2.17.0-forms"></script>
 </body>
 </html>
