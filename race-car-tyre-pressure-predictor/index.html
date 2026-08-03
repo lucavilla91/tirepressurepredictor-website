@@ -115,7 +115,7 @@
           "name": "Does it work with vehicles without TPMS or when using tire heaters?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Yes. For vehicles without TPMS (e.g. F4 or other single-seater cars) or when using tire heaters/blankets, you can use the Tire Pressure Logs in the Session Logs tab to manually record cold/hot pressure pairs, track compounds, and calculate K-factor regression per wheel. The built-in pressure calculator uses the OptimumG gas law formula to recommend cold pressures based on your accumulated data."
+            "text": "Yes. For vehicles without TPMS (e.g. F4 or other single-seater cars) or when using tire heaters/blankets, you can use the Tire Pressure Logs in the Session Logs tab to manually record cold/hot pressure pairs, track compounds, and calculate K-factor regression per wheel. The built-in pressure calculator uses the ideal gas law to recommend cold pressures based on your accumulated data."
           }
         },
         {
@@ -163,7 +163,7 @@
           "name": "What is Training Conditions Correction?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "When current track conditions differ from your training data average, the predictor applies a temperature correction based on the OptimumG ideal gas law formula. A unified temperature bar displays the filtered mean from your data alongside the current target, with a color-coded ΔT indicator (green for small differences, amber for moderate, red for large). This ensures predictions remain accurate even when conditions change significantly between sessions."
+            "text": "When current track conditions differ from your training data average, the predictor applies a temperature correction based on the ideal gas law. A unified temperature bar displays the filtered mean from your data alongside the current target, with a color-coded ΔT indicator (green for small differences, amber for moderate, red for large). This ensures predictions remain accurate even when conditions change significantly between sessions."
           }
         },
         {
@@ -332,7 +332,7 @@
                 Interactive charts visualize pressure build-up patterns. The ΔP vs ΔT chart shows how pressure changes relate to temperature changes, while the ΔP vs Laps chart reveals how pressures evolve over the stint length. Both charts support per-wheel toggle, letting you isolate individual corner behavior or compare all four wheels simultaneously.
             </p>
             <p style="margin-bottom: 24px; line-height: 1.8;">
-                K factors (thermal gain coefficients, k = ΔP/ΔT) are automatically calculated via linear regression across your processed runs, with R² goodness-of-fit displayed so you can assess reliability. These K factors feed directly into the integrated Pressure Calculator, which uses the verified OptimumG ideal gas law algorithm to convert between hot and cold pressures — accounting for tire temperature, atmospheric pressure, and per-wheel averaging with quadratic-weighted combined temperature.
+                K factors (thermal gain coefficients, k = ΔP/ΔT) are automatically calculated via linear regression across your processed runs, with R² goodness-of-fit displayed so you can assess reliability. These K factors feed directly into the integrated Pressure Calculator, which uses a verified physical model built on the ideal gas law to convert between hot and cold pressures — accounting for tire temperature, atmospheric pressure, and per-wheel averaging with quadratic-weighted combined temperature.
             </p>
             <p style="margin-bottom: 24px; line-height: 1.8;">
                 Free-text cells with autocomplete make data entry fast and consistent, with autosave ensuring no work is lost. Keyboard shortcuts (Ctrl+Enter to calculate, Ctrl+S to save) streamline the workflow. An imported run indicator shows which Session Logs entries have already been added to Tire Pressure Logs, preventing duplicate data entry.
@@ -341,7 +341,7 @@
                 <li>Compound management with configurable dropdown and run filtering</li>
                 <li>ΔP vs ΔT and ΔP vs Laps interactive charts with per-wheel toggle</li>
                 <li>Auto-calculated K factors via linear regression with R² quality indicator</li>
-                <li>OptimumG-based pressure calculator using ideal gas law</li>
+                <li>Physical pressure calculator built on the ideal gas law</li>
                 <li>Free-text cells with autocomplete and autosave</li>
                 <li>Keyboard shortcuts: Ctrl+Enter (calculate), Ctrl+S (save)</li>
                 <li>Imported run indicator in Session Logs</li>
@@ -362,14 +362,14 @@
             <!-- Section 10: Training Conditions Correction -->
             <h2 class="section-title" style="text-align: left; margin-bottom: 16px;">Training Conditions Correction</h2>
             <p style="margin-bottom: 24px; line-height: 1.8;">
-                Pressure predictions are only as good as the conditions they were trained on. When current track ambient temperature differs significantly from the mean temperature in your training data, raw predictions may over- or under-estimate the required cold pressures. Training Conditions Correction addresses this by applying the OptimumG ideal gas law formula to adjust predictions for the temperature delta.
+                Pressure predictions are only as good as the conditions they were trained on. When current track ambient temperature differs significantly from the mean temperature in your training data, raw predictions may over- or under-estimate the required cold pressures. Training Conditions Correction addresses this by applying the ideal gas law to adjust predictions for the temperature delta.
             </p>
             <p style="margin-bottom: 24px; line-height: 1.8;">
                 A unified temperature bar displays the filtered mean temperature from your training data alongside the current target temperature. The delta between them (ΔT) is color-coded: green indicates a small difference requiring minimal correction, amber indicates a moderate difference, and red indicates a large difference where the correction is significant and you should verify the prediction carefully.
             </p>
             <ul style="margin-bottom: 48px; color: var(--text-secondary); line-height: 2; padding-left: 24px;">
                 <li>Automatic adjustment when track temperature differs from training data mean</li>
-                <li>OptimumG ideal gas law correction formula</li>
+                <li>Ideal gas law correction formula</li>
                 <li>Unified temperature bar with filtered mean and target triangle</li>
                 <li>Color-coded ΔT status: green (small), amber (moderate), red (large)</li>
             </ul>
@@ -525,7 +525,7 @@
 
                 <details class="faq-item">
                     <summary>What is Training Conditions Correction?</summary>
-                    <div class="faq-answer">When current track conditions differ from your training data average, the predictor applies a temperature correction based on the OptimumG ideal gas law formula. A unified temperature bar displays the filtered mean alongside the current target, with a color-coded ΔT indicator (green/amber/red). This ensures predictions remain accurate when conditions change between sessions.</div>
+                    <div class="faq-answer">When current track conditions differ from your training data average, the predictor applies a temperature correction based on the ideal gas law. A unified temperature bar displays the filtered mean alongside the current target, with a color-coded ΔT indicator (green/amber/red). This ensures predictions remain accurate when conditions change between sessions.</div>
                 </details>
 
                 <details class="faq-item">
