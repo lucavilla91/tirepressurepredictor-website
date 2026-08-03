@@ -5,6 +5,18 @@ Per tornare a una versione precedente: `git revert <commit>` oppure `git checkou
 
 ---
 
+## 2026-08-02 (5) — FAQ ridotte e requisito sui run esportati
+
+**File modificati:** `index.html`, `race-car-tyre-pressure-predictor/index.html`
+
+- **FAQ da 10 a 6**, riordinate come funnel (requisiti → concetto → fiducia → azione). Tolte quelle già raccontate dai blocchi Features con lo screenshot accanto (Run Filter, Plateau Detection, "What is Tire Pressure Logs") e quella sulla bleed correction, funzione marcata sperimentale nell'app. Promossa in pagina *"How accurate are the predictions?"*, che esisteva solo nel markup.
+- **Markup e pagina ora coincidono**: il JSON-LD FAQPage dichiarava 17 domande contro le 10 visibili, cosa che Google può penalizzare. Ora sono 6 e 6. Nessuna perdita SEO: le domande tecniche restano nella pagina secondaria, che ne ospita quindici.
+- **Requisito sui dati esplicitato**: vanno esportati **run interi, non singoli giri**, con un build-up continuo da gomme fredde a calde. Detto nella FAQ (in grassetto), nello step 1 del wizard e nella FAQ formati della pagina tecnica — è l'unico requisito che, se ignorato, rende inutile tutto il resto.
+- Terza FAQ rinominata in *What "lap number" should I enter?*: "how many laps" si leggeva come lunghezza dello stint, cioè il fraintendimento che la risposta deve correggere.
+- Verificato che non resti alcun riferimento a OptimumG: le formulazioni sono uniformi su "the ideal gas law".
+
+---
+
 ## 2026-08-02 (4) — Il numero di giri come input centrale
 
 Il sito non spiegava da nessuna parte il concetto che distingue il prodotto: le pressioni salgono per tutto il run, quindi centrare il target a caldo al giro 4 o al giro 20 richiede pressioni a freddo diverse, e l'app dice statisticamente su quale giro cade il best lap.

@@ -99,7 +99,7 @@
           "name": "What data formats are supported?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "The predictor reads telemetry exports from a linked folder — .csv, .txt, .xls, and .xlsx files organized by track folder. Linked folders auto-scan when you switch pairs and are remembered across sessions. Supported software: WinTax4, WinDarab, MoTeC, and PiToolbox, with auto-detection. For vehicles without TPMS, you can use the Tire Pressure Logs in the Session Logs tab to manually track pressures and calculate K-factors."
+            "text": "The predictor reads telemetry exports from a linked folder — .csv, .txt, .xls, and .xlsx files organized by track folder. Each file must contain a complete run rather than isolated laps: the model is trained on the pressure build-up, so the export has to cover an uninterrupted stint taking the tires from cold to hot. Linked folders auto-scan when you switch pairs and are remembered across sessions. Supported software: WinTax4, WinDarab, MoTeC, and PiToolbox, with auto-detection. For vehicles without TPMS, you can use the Tire Pressure Logs in the Session Logs tab to manually track pressures and calculate K-factors."
           }
         },
         {
@@ -490,7 +490,7 @@
 
                 <details class="faq-item">
                     <summary>What data formats are supported?</summary>
-                    <div class="faq-answer">The predictor reads telemetry exports from a linked folder — .csv, .txt, .xls, and .xlsx files organized by track folder. Linked folders auto-scan when you switch pairs and are remembered across sessions. Supported software: WinTax4, WinDarab, MoTeC, and PiToolbox, with auto-detection. For vehicles without TPMS, you can use the Tire Pressure Logs in the Session Logs tab to manually track pressures and calculate K-factors.</div>
+                    <div class="faq-answer">The predictor reads telemetry exports from a linked folder — .csv, .txt, .xls, and .xlsx files organized by track folder. Each file must contain a complete run rather than isolated laps: the model is trained on the pressure build-up, so the export has to cover an uninterrupted stint taking the tires from cold to hot. Linked folders auto-scan when you switch pairs and are remembered across sessions. Supported software: WinTax4, WinDarab, MoTeC, and PiToolbox, with auto-detection. For vehicles without TPMS, you can use the Tire Pressure Logs in the Session Logs tab to manually track pressures and calculate K-factors.</div>
                 </details>
 
                 <details class="faq-item">

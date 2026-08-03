@@ -6,7 +6,7 @@
 
     <!-- SEO Meta Tags -->
     <meta name="description" content="Tire pressure predictor for race cars: get the cold pressures that put you on your hot target at the lap you actually set your time, while pressures are still building up. Learns from your own telemetry (WinTax4, WinDarab, MoTeC, PiToolbox), corrects for ambient and track temperature, and shows statistically which lap your best lap lands on.">
-    <meta name="keywords" content="tire pressure, tyre pressure, motorsport, racing, telemetry, Ferrari Challenge, prediction, ML, machine learning, racing setup, data analysis, tire pressure logs, session logs, plateau detection, WinDarab, WinTax4, MoTeC, PiToolbox, tire compound, bleed correction, temperature correction, linked folder, cold pressure calculator, run filter, scatter plot, track temperature, laps histogram, run analytics, run metadata, discarded runs, OptimumG">
+    <meta name="keywords" content="tire pressure, tyre pressure, motorsport, racing, telemetry, Ferrari Challenge, prediction, ML, machine learning, racing setup, data analysis, tire pressure logs, session logs, plateau detection, WinDarab, WinTax4, MoTeC, PiToolbox, tire compound, bleed correction, temperature correction, linked folder, cold pressure calculator, run filter, scatter plot, track temperature, laps histogram, run analytics, run metadata, discarded runs">
     <meta name="author" content="LVilla Engineering">
     <meta name="robots" content="index, follow">
     <meta name="language" content="English">
@@ -68,7 +68,7 @@
         "ratingValue": "5",
         "ratingCount": "1"
       },
-      "description": "Desktop application for motorsport teams to predict optimal cold tire pressures from telemetry data. Because tire pressures build up over a run, the prediction is targeted at a specific lap: the app reports statistically which lap the fastest lap lands on across the team's history, and that lap becomes the input, so the hot target is met while pressures are still climbing rather than once they have stabilized. Features interactive scatter plot run filter by ambient temperature and lap time, decomposed temperature corrections (ambient, track surface, tire setup) using OptimumG gas law formula, guided three-step data workflow with channel mapping and run metadata, discarded runs listed with their reason and recoverable, tire pressure logs with compound tracking and auto K-factor regression, auto-detection of telemetry formats (WinTax4, WinDarab, MoTeC, PiToolbox), linked folder workflow, session logs with verification, plateau detection with auto-save, runs summary statistics with laps histogram, and bar/PSI/kPa pressure units.",
+      "description": "Desktop application for motorsport teams to predict optimal cold tire pressures from telemetry data. Because tire pressures build up over a run, the prediction is targeted at a specific lap: the app reports statistically which lap the fastest lap lands on across the team's history, and that lap becomes the input, so the hot target is met while pressures are still climbing rather than once they have stabilized. Features interactive scatter plot run filter by ambient temperature and lap time, decomposed temperature corrections (ambient, track surface, tire setup) using the ideal gas law, guided three-step data workflow with channel mapping and run metadata, discarded runs listed with their reason and recoverable, tire pressure logs with compound tracking and auto K-factor regression, auto-detection of telemetry formats (WinTax4, WinDarab, MoTeC, PiToolbox), linked folder workflow, session logs with verification, plateau detection with auto-save, runs summary statistics with laps histogram, and bar/PSI/kPa pressure units.",
       "screenshot": "https://tirepressurepredictor.com/screenshot.png",
       "author": {
         "@type": "Organization",
@@ -84,146 +84,58 @@
     </script>
     <script type="application/ld+json">
     {
-      "@context": "https://schema.org",
-      "@type": "FAQPage",
-      "mainEntity": [
-        {
-          "@type": "Question",
-          "name": "How do I get started?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Download the app below — fill in the form and you'll get started right away. A license key will be sent to your email after verification."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "What data do I need?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Telemetry exports in a linked folder (WinTAX4, WinDarab, MoTeC, PiToolbox — .csv, .txt, .xls, .xlsx). More sessions = better predictions."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "How does the Run Filter work?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "The Run Filter is an interactive scatter plot showing training runs by ambient temperature (x-axis) and best lap time (y-axis). Drag to select a region, or use step arrows for ±0.5°C and ±0.5s precision. Only selected runs feed into the prediction — exclude outlier sessions or match race-day conditions. Runs Summary Stats below the filter show per-run details, a laps histogram (green = enough laps, amber = fewer), and a warning when your target laps exceed available data."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "How many laps should I enter?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Not the length of your stint — the lap you want to be on target at. Tire pressures build up over a run, so being at your hot target on lap 4 and on lap 20 requires two different sets of cold pressures, and this is exactly where cold pressure selection usually goes wrong: aiming at a stabilized state that a qualifying lap never reaches. The Advanced Statistics panel shows where your fastest laps have actually landed across your history — for example between laps 3 and 5 in 80% of runs, peaking at lap 4. Enter that lap, and the prediction gives you the cold pressures that put you on target while pressures are still climbing. For a race stint, where the stabilized phase is what you care about, enter the full number of laps instead."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "How do temperature corrections work?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "When current conditions differ from your training data, the predictor applies up to three corrections using the OptimumG gas law formula: (1) ambient temperature change (ΔT.Amb), (2) track surface temperature change (ΔT.Track), and (3) tire setup temperature — when tires are pressurized at a different temperature than ambient (T.Tires@Press). Each correction shows per-wheel pressure deltas. A color-coded bar indicates how large the temperature difference is."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "How does the bleed correction work?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "The bleed correction uses an exponential pressure build-up model fitted to your telemetry. Per-wheel expansion ratios (R = P_hot / P_cold) are computed from real data. Set race laps and formation laps — the system calculates R at the formation lap point and the bleed needed per wheel. Three modes: Constant Bleed (set desired bleed, get start pressure), Custom Start Pressure (set grid pressures, get expected bleed), and Grid Pressure (enter measured pressures from a practice grid simulation). The panel is currently marked as experimental while the model is validated against real-world data."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Does it work for long runs vs qualifying?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Yes. Training runs (qualifying, practice) feed the ML model for cold pressure prediction. Long runs and race stints are handled by Tire Pressure Logs, which tracks stabilized pressures and calculates K-factors per wheel."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "What is Plateau Detection?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Plateau Detection automatically identifies when tire pressures have stabilized during a run (reached 97% of total build-up). These stabilized runs are auto-saved to your Session Logs as verified baselines, giving you reliable reference data without manual work."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Can I use it without TPMS?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Yes. If you record pressures manually (pre-session cold, post-session hot), you can use the Tire Pressure Logs in the Session Logs tab to track compounds, calculate K-factors, and get cold pressure recommendations."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "What is Tire Pressure Logs?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Tire Pressure Logs lets you track tire compounds, build ΔP vs ΔT charts with trend lines, and auto-calculate K-factor regression per wheel. It includes a pressure calculator with OptimumG gas law formula for hot/cold conversion. Free-text cells with autocomplete and autosave."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "How do you predict cold pressures from real data analysis?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "The predictor builds a statistical model from your historical sessions. It analyzes the relationship between cold starting pressures and resulting hot pressures across different tracks, compounds, and conditions. When you input a target hot pressure, the model calculates the cold pressure needed to reach that target based on patterns learned from your actual data."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "How does the tool clean and validate incoming data?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "The processor automatically filters out unreliable data before training. It detects and excludes: wet condition runs, pre-heated tire runs, aborted laps, pressure bleeds during pit stops, and laps with anomalous length. Sensor spikes in pressure, temperature, and speed data are also removed. Every discarded run is listed with its reason and can be retried after adjusting the exclusion settings — or deleted for good. This ensures the ML model trains only on clean, representative dry-condition data."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "How accurate are the pressure predictions?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Accuracy depends on data quality and quantity. With sufficient historical sessions (typically 5+ per track), predictions typically fall within 0.02-0.05 bar of actual results. The system provides confidence intervals showing prediction reliability and warns when data is insufficient for reliable predictions."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "What telemetry formats are supported?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "The predictor reads telemetry exports from a linked folder — .csv, .txt, .xls, and .xlsx files organized by track folder. Supported software: WinTax4, WinDarab, MoTeC, and PiToolbox, with auto-detection from file content. Linked folders auto-scan when you switch pairs and are remembered across sessions."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Does it work with vehicles without TPMS or when using tire heaters?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Yes. For vehicles without TPMS or when using tire heaters/blankets, you can use the Tire Pressure Logs in the Session Logs tab to manually record cold/hot pressure pairs, track compounds, and calculate K-factor regression per wheel. The built-in pressure calculator uses the OptimumG gas law formula to recommend cold pressures."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "How does the linked folder workflow work?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Link your telemetry export folder directly — no archives to build. The app auto-scans the folder contents when you switch vehicle/tire pairs, and Refresh Folder picks up new runs with one click. Linked folders are remembered across sessions, and you can drag and drop a folder onto the app. Especially convenient for teams exporting telemetry to a shared network folder."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "How does Session Logs verification work?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Every prediction can be saved with metadata (driver, event, session, tire condition, notes) and filtered by track, driver, date, or event type. After the session, add actual hot pressures and the system compares predictions vs reality with color-coded accuracy feedback. Expandable bleed coefficient columns show per-wheel expansion ratio R for each entry."
-          }
-        }
-      ]
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          "mainEntity": [
+                {
+                      "@type": "Question",
+                      "name": "What data do I need?",
+                      "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "Telemetry exports in a linked folder — WinTAX4, WinDarab, MoTeC or PiToolbox, as .csv, .txt, .xls or .xlsx. What matters is what you export: whole runs, not single laps. The model learns from the way pressure builds up, so each file has to cover an uninterrupted stint that takes the tires from cold to hot. A handful of fast laps exported on their own carry no build-up, and there is nothing to learn from them. The app recognises the format on its own, and every session you have already driven counts."
+                      }
+                },
+                {
+                      "@type": "Question",
+                      "name": "Can I use it without TPMS?",
+                      "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "Yes. Record the pressures you measure at the car — cold before the session, hot after it — in the Tire Pressure Logs, and you get cold pressure recommendations from the same gas-law maths, with per-wheel K-factors calculated from your own entries. The same applies when you run tire warmers, where telemetry alone would not tell the whole story."
+                      }
+                },
+                {
+                      "@type": "Question",
+                      "name": "What \"lap number\" should I enter?",
+                      "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "Not the length of your stint — the lap you want to be on target at. Tire pressures build up over a run, so being at your hot target on lap 4 and on lap 20 requires two different sets of cold pressures, and this is exactly where cold pressure selection usually goes wrong: aiming at a stabilized state that a qualifying lap never reaches. The Advanced Statistics panel shows where your fastest laps have actually landed across your history — for example between laps 3 and 5 in 80% of runs, peaking at lap 4. Enter that lap, and the prediction gives you the cold pressures that put you on target while pressures are still climbing. For a race stint, where the stabilized phase is what you care about, enter the full number of laps instead."
+                      }
+                },
+                {
+                      "@type": "Question",
+                      "name": "What if conditions are different from when I trained the model?",
+                      "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "The prediction is corrected for the gap, using the ideal gas law, on three counts: ambient temperature, track surface temperature, and tires inflated at a temperature other than ambient — a warm garage on a cold morning. Each correction reports its own per-wheel delta, so you can see how much of the recommendation is measurement and how much is adjustment."
+                      }
+                },
+                {
+                      "@type": "Question",
+                      "name": "How accurate are the predictions?",
+                      "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "It depends on how much data stands behind them. With a handful of sessions per track, predictions typically fall within 0.02–0.05 bar of the actual result. Every corner comes with the range to expect around it, and the statistics panel tells you when the runs behind a number are too few to trust it — the app never hides thin data behind a confident-looking figure."
+                      }
+                },
+                {
+                      "@type": "Question",
+                      "name": "How do I get started?",
+                      "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "Fill in the form below and the download starts right away. A license key reaches your email after verification, and it includes a six-month free trial."
+                      }
+                }
+          ]
     }
     </script>
     <!-- JSON-LD Article (SEO — invisible to users, indexed by search engines) -->
@@ -233,7 +145,7 @@
       "@type": "Article",
       "headline": "Race Car Tire Pressure Predictor: Data-Driven Cold Pressure Calculation",
       "description": "A data-driven tool that analyzes historical telemetry to predict optimal cold tire starting pressures. Input your target hot pressures, the track and the number of laps, the predictor calculates the exact cold values needed to reach those targets during the session.",
-      "articleBody": "Traditional cold pressure selection relies on experience and general guidelines. A racing tires cold pressure predictor takes a different approach: it learns from your actual data. By processing historical sessions where you recorded both starting cold and ending hot pressures, the system builds a statistical model specific to your car, tires, and driving style. Every racing tire has an optimal operating window where grip and consistency are maximized. The cold pressure predictor solves this by reversing the relationship: you specify your target hot pressures and the system calculates the corresponding cold values, accounting for thermal expansion, carcass heating, and track-specific factors. The number of laps is the input that decides everything else. Tire pressures build up progressively over a run, so being at the hot target on lap 4 and being at it on lap 20 require different cold pressures — and aiming at a stabilized state that a qualifying lap never reaches is the most common way cold pressure selection goes wrong. The statistics panel reports where the fastest lap has actually landed across the accumulated history, for example between laps 3 and 5 in 80% of runs with a peak at lap 4; that lap becomes the target, and the predictor returns the cold pressures that meet the hot target exactly there. The Run Filter scatter plot lets you filter training runs by ambient temperature and best lap time, selecting only the sessions that match race-day conditions. Three decomposed temperature corrections adjust predictions using the OptimumG gas law formula: ambient temperature change, track surface temperature change, and tire setup temperature when tires are pressurized at a different temperature than ambient. For race stints, the data-driven bleed correction uses an exponential pressure build-up model calculating per-wheel expansion ratios from your actual telemetry data. Engineers start formation laps with higher pressures to prevent bead unseating and aid tire warm-up, then bleed down to optimal values on the grid. Three modes are available: Constant Bleed, Custom Start Pressure, and Grid Pressure. Tire Pressure Logs tracks compound usage across race weekends with ΔP vs ΔT scatter charts, per-wheel trend lines, and auto K-factor regression. The built-in pressure calculator uses the OptimumG ideal gas law algorithm. Plateau Detection automatically identifies when tire pressures have stabilized during a run and auto-saves these as verified baselines. The guided data workflow validates telemetry before training: every discarded run is listed with its reason and can be recovered after adjusting the exclusion settings. The predictor's accuracy improves with every session uploaded — team-wide adoption creates a centralized database where all engineers contribute data and new team members immediately benefit from years of accumulated knowledge.",
+      "articleBody": "Traditional cold pressure selection relies on experience and general guidelines. A racing tires cold pressure predictor takes a different approach: it learns from your actual data. By processing historical sessions where you recorded both starting cold and ending hot pressures, the system builds a statistical model specific to your car, tires, and driving style. Every racing tire has an optimal operating window where grip and consistency are maximized. The cold pressure predictor solves this by reversing the relationship: you specify your target hot pressures and the system calculates the corresponding cold values, accounting for thermal expansion, carcass heating, and track-specific factors. The number of laps is the input that decides everything else. Tire pressures build up progressively over a run, so being at the hot target on lap 4 and being at it on lap 20 require different cold pressures — and aiming at a stabilized state that a qualifying lap never reaches is the most common way cold pressure selection goes wrong. The statistics panel reports where the fastest lap has actually landed across the accumulated history, for example between laps 3 and 5 in 80% of runs with a peak at lap 4; that lap becomes the target, and the predictor returns the cold pressures that meet the hot target exactly there. The Run Filter scatter plot lets you filter training runs by ambient temperature and best lap time, selecting only the sessions that match race-day conditions. Three decomposed temperature corrections adjust predictions using the ideal gas law: ambient temperature change, track surface temperature change, and tire setup temperature when tires are pressurized at a different temperature than ambient. For race stints, the data-driven bleed correction uses an exponential pressure build-up model calculating per-wheel expansion ratios from your actual telemetry data. Engineers start formation laps with higher pressures to prevent bead unseating and aid tire warm-up, then bleed down to optimal values on the grid. Three modes are available: Constant Bleed, Custom Start Pressure, and Grid Pressure. Tire Pressure Logs tracks compound usage across race weekends with ΔP vs ΔT scatter charts, per-wheel trend lines, and auto K-factor regression. The built-in pressure calculator uses a physical model built on the ideal gas law. Plateau Detection automatically identifies when tire pressures have stabilized during a run and auto-saves these as verified baselines. The guided data workflow validates telemetry before training: every discarded run is listed with its reason and can be recovered after adjusting the exclusion settings. The predictor's accuracy improves with every session uploaded — team-wide adoption creates a centralized database where all engineers contribute data and new team members immediately benefit from years of accumulated knowledge.",
       "author": {
         "@type": "Organization",
         "name": "LVilla Engineering",
@@ -377,7 +289,7 @@
                         </div>
                         <div class="flow-copy">
                             <h4>Link the folder, not the files</h4>
-                            <p>Point the app at the folder your logger already exports to. It scans it, works out which software produced the files, and lists what is new since last time.</p>
+                            <p>Point the app at the folder your logger already exports to. It scans it, works out which software produced the files, and lists what is new since last time. Export whole runs, cold tires to hot &mdash; that build-up is what the model learns from.</p>
                             <div class="feature-detail">
                                 <strong>It recognises your software</strong>
                                 <p>WinTax4, WinDarab, MoTeC or PiToolbox, identified from the content of the files themselves. Reads .csv, .txt, .xls and .xlsx.</p>
@@ -568,72 +480,44 @@
 
             <div class="faq-simple">
                 <details class="faq-item">
-                    <summary>How do I get started?</summary>
-                    <div class="faq-answer">
-                        Download the app below &mdash; fill in the form and you'll get started right away. A license key will be sent to your email after verification.
-                    </div>
-                </details>
-
-                <details class="faq-item">
                     <summary>What data do I need?</summary>
                     <div class="faq-answer">
-                        Telemetry exports in a linked folder (WinTAX4, WinDarab, MoTeC, PiToolbox &mdash; .csv, .txt, .xls, .xlsx). More sessions = better predictions.
-                    </div>
-                </details>
-
-                <details class="faq-item">
-                    <summary>How does the Run Filter work?</summary>
-                    <div class="faq-answer">
-                        The Run Filter is an interactive scatter plot showing training runs by ambient temperature (x-axis) and best lap time (y-axis). Drag to select a region, or use step arrows for &plusmn;0.5&deg;C and &plusmn;0.5s precision. Only selected runs feed into the prediction &mdash; exclude outlier sessions or match race-day conditions. Runs Summary Stats below the filter show per-run details, a laps histogram (green = enough laps, amber = fewer), and a warning when your target laps exceed available data.
-                    </div>
-                </details>
-
-                <details class="faq-item">
-                    <summary>How many laps should I enter?</summary>
-                    <div class="faq-answer">
-                        Not the length of your stint &mdash; the lap you want to be on target at. Tire pressures build up over a run, so being at your hot target on lap 4 and on lap 20 requires two different sets of cold pressures, and this is exactly where cold pressure selection usually goes wrong: aiming at a stabilized state that a qualifying lap never reaches. The Advanced Statistics panel shows where your fastest laps have actually landed across your history &mdash; for example between laps 3 and 5 in 80% of runs, peaking at lap 4. Enter that lap, and the prediction gives you the cold pressures that put you on target while pressures are still climbing. For a race stint, where the stabilized phase is what you care about, enter the full number of laps instead.
-                    </div>
-                </details>
-
-                <details class="faq-item">
-                    <summary>How do temperature corrections work?</summary>
-                    <div class="faq-answer">
-                        When current conditions differ from your training data, the predictor applies up to three corrections using the OptimumG gas law formula: (1) ambient temperature change (&Delta;T.Amb), (2) track surface temperature change (&Delta;T.Track), and (3) tire setup temperature &mdash; when tires are pressurized at a different temperature than ambient (T.Tires@Press). Each correction shows per-wheel pressure deltas. A color-coded bar indicates how large the temperature difference is.
-                    </div>
-                </details>
-
-                <details class="faq-item">
-                    <summary>How does the bleed correction work?</summary>
-                    <div class="faq-answer">
-                        The bleed correction uses an exponential pressure build-up model fitted to your telemetry. Per-wheel expansion ratios (R = P_hot / P_cold) are computed from real data. Set race laps and formation laps &mdash; the system calculates R at the formation lap point and the bleed needed per wheel. Three modes: Constant Bleed (set desired bleed, get start pressure), Custom Start Pressure (set grid pressures, get expected bleed), and Grid Pressure (enter measured pressures from a practice grid simulation). The panel is currently marked as experimental while the model is validated against real-world data.
-                    </div>
-                </details>
-
-                <details class="faq-item">
-                    <summary>Does it work for long runs vs qualifying?</summary>
-                    <div class="faq-answer">
-                        Yes. Training runs (qualifying, practice) feed the ML model for cold pressure prediction. Long runs and race stints are handled by Tire Pressure Logs, which tracks stabilized pressures and calculates K-factors per wheel.
-                    </div>
-                </details>
-
-                <details class="faq-item">
-                    <summary>What is Plateau Detection?</summary>
-                    <div class="faq-answer">
-                        Plateau Detection automatically identifies when tire pressures have stabilized during a run (reached 97% of total build-up). These stabilized runs are auto-saved to your Session Logs as verified baselines, giving you reliable reference data without manual work.
+                        Telemetry exports in a linked folder &mdash; WinTAX4, WinDarab, MoTeC or PiToolbox, as .csv, .txt, .xls or .xlsx. What matters is <strong>what you export: whole runs, not single laps</strong>. The model learns from the way pressure builds up, so each file has to cover an uninterrupted stint that takes the tires from cold to hot. A handful of fast laps exported on their own carry no build-up, and there is nothing to learn from them. The app recognises the format on its own, and every session you have already driven counts.
                     </div>
                 </details>
 
                 <details class="faq-item">
                     <summary>Can I use it without TPMS?</summary>
                     <div class="faq-answer">
-                        Yes. If you record pressures manually (pre-session cold, post-session hot), you can use the Tire Pressure Logs in the Session Logs tab to track compounds, calculate K-factors, and get cold pressure recommendations.
+                        Yes. Record the pressures you measure at the car &mdash; cold before the session, hot after it &mdash; in the Tire Pressure Logs, and you get cold pressure recommendations from the same gas-law maths, with per-wheel K-factors calculated from your own entries. The same applies when you run tire warmers, where telemetry alone would not tell the whole story.
                     </div>
                 </details>
 
                 <details class="faq-item">
-                    <summary>What is Tire Pressure Logs?</summary>
+                    <summary>What &ldquo;lap number&rdquo; should I enter?</summary>
                     <div class="faq-answer">
-                        Tire Pressure Logs lets you track tire compounds, build &Delta;P vs &Delta;T charts with trend lines, and auto-calculate K-factor regression per wheel. It includes a pressure calculator with OptimumG gas law formula for hot/cold conversion. Free-text cells with autocomplete and autosave.
+                        Not the length of your stint &mdash; the lap you want to be on target at. Tire pressures build up over a run, so being at your hot target on lap 4 and on lap 20 requires two different sets of cold pressures, and this is exactly where cold pressure selection usually goes wrong: aiming at a stabilized state that a qualifying lap never reaches. The Advanced Statistics panel shows where your fastest laps have actually landed across your history &mdash; for example between laps 3 and 5 in 80% of runs, peaking at lap 4. Enter that lap, and the prediction gives you the cold pressures that put you on target while pressures are still climbing. For a race stint, where the stabilized phase is what you care about, enter the full number of laps instead.
+                    </div>
+                </details>
+
+                <details class="faq-item">
+                    <summary>What if conditions are different from when I trained the model?</summary>
+                    <div class="faq-answer">
+                        The prediction is corrected for the gap, using the ideal gas law, on three counts: ambient temperature, track surface temperature, and tires inflated at a temperature other than ambient &mdash; a warm garage on a cold morning. Each correction reports its own per-wheel delta, so you can see how much of the recommendation is measurement and how much is adjustment.
+                    </div>
+                </details>
+
+                <details class="faq-item">
+                    <summary>How accurate are the predictions?</summary>
+                    <div class="faq-answer">
+                        It depends on how much data stands behind them. With a handful of sessions per track, predictions typically fall within 0.02&ndash;0.05 bar of the actual result. Every corner comes with the range to expect around it, and the statistics panel tells you when the runs behind a number are too few to trust it &mdash; the app never hides thin data behind a confident-looking figure.
+                    </div>
+                </details>
+
+                <details class="faq-item">
+                    <summary>How do I get started?</summary>
+                    <div class="faq-answer">
+                        Fill in the form below and the download starts right away. A license key reaches your email after verification, and it includes a six-month free trial.
                     </div>
                 </details>
             </div>
