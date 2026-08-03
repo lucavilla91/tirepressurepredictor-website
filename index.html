@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- SEO Meta Tags -->
-    <meta name="description" content="Tire pressure predictor for race cars. Filter training runs by ambient temperature and lap time, get optimal cold pressures with decomposed temperature corrections (ambient, track surface, tire setup) and confidence intervals. Guided data workflow with channel mapping, run metadata, and recoverable discarded runs. Features run filter scatter plot, tire pressure logs with K-factor regression, session logs, and plateau detection. Supports WinTax4, WinDarab, MoTeC, and PiToolbox.">
+    <meta name="description" content="Tire pressure predictor for race cars: get the cold pressures that put you on your hot target at the lap you actually set your time, while pressures are still building up. Learns from your own telemetry (WinTax4, WinDarab, MoTeC, PiToolbox), corrects for ambient and track temperature, and shows statistically which lap your best lap lands on.">
     <meta name="keywords" content="tire pressure, tyre pressure, motorsport, racing, telemetry, Ferrari Challenge, prediction, ML, machine learning, racing setup, data analysis, tire pressure logs, session logs, plateau detection, WinDarab, WinTax4, MoTeC, PiToolbox, tire compound, bleed correction, temperature correction, linked folder, cold pressure calculator, run filter, scatter plot, track temperature, laps histogram, run analytics, run metadata, discarded runs, OptimumG">
     <meta name="author" content="LVilla Engineering">
     <meta name="robots" content="index, follow">
@@ -16,7 +16,7 @@
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://tirepressurepredictor.com">
     <meta property="og:title" content="Tire Pressure Predictor for Race Cars">
-    <meta property="og:description" content="Filter training runs by temperature and lap time, get optimal cold pressures with decomposed temperature corrections and confidence intervals. Guided data workflow, run filter scatter plot, tire pressure logs, and session logs. Supports WinTax4, WinDarab, MoTeC, and PiToolbox.">
+    <meta property="og:description" content="Get the cold pressures that put you on your hot target at the lap you actually set your time, while pressures are still building up. Learns from your telemetry, corrects for ambient and track temperature, and shows which lap your best lap really lands on.">
     <meta property="og:image" content="https://tirepressurepredictor.com/og-image.png">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
@@ -27,7 +27,7 @@
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:url" content="https://tirepressurepredictor.com">
     <meta name="twitter:title" content="Tire Pressure Predictor for Race Cars">
-    <meta name="twitter:description" content="Filter training runs by temperature and lap time, get optimal cold pressures with decomposed temperature corrections and confidence intervals. Guided data workflow, run filter scatter plot, tire pressure logs, and session logs. Supports WinTax4, WinDarab, MoTeC, and PiToolbox.">
+    <meta name="twitter:description" content="Get the cold pressures that put you on your hot target at the lap you actually set your time, while pressures are still building up. Learns from your telemetry, corrects for ambient and track temperature, and shows which lap your best lap really lands on.">
     <meta name="twitter:image" content="https://tirepressurepredictor.com/og-image.png">
 
     <!-- Canonical URL -->
@@ -47,7 +47,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-    <link rel="stylesheet" href="styles.css?v=2.17.1">
+    <link rel="stylesheet" href="styles.css?v=2.17.1b">
 
     <!-- JSON-LD Structured Data -->
     <script type="application/ld+json">
@@ -68,7 +68,7 @@
         "ratingValue": "5",
         "ratingCount": "1"
       },
-      "description": "Desktop application for motorsport teams to predict optimal cold tire pressures from telemetry data. Features interactive scatter plot run filter by ambient temperature and lap time, decomposed temperature corrections (ambient, track surface, tire setup) using OptimumG gas law formula, guided three-step data workflow with channel mapping and run metadata, discarded runs listed with their reason and recoverable, tire pressure logs with compound tracking and auto K-factor regression, auto-detection of telemetry formats (WinTax4, WinDarab, MoTeC, PiToolbox), linked folder workflow, session logs with verification, plateau detection with auto-save, runs summary statistics with laps histogram, and bar/PSI/kPa pressure units.",
+      "description": "Desktop application for motorsport teams to predict optimal cold tire pressures from telemetry data. Because tire pressures build up over a run, the prediction is targeted at a specific lap: the app reports statistically which lap the fastest lap lands on across the team's history, and that lap becomes the input, so the hot target is met while pressures are still climbing rather than once they have stabilized. Features interactive scatter plot run filter by ambient temperature and lap time, decomposed temperature corrections (ambient, track surface, tire setup) using OptimumG gas law formula, guided three-step data workflow with channel mapping and run metadata, discarded runs listed with their reason and recoverable, tire pressure logs with compound tracking and auto K-factor regression, auto-detection of telemetry formats (WinTax4, WinDarab, MoTeC, PiToolbox), linked folder workflow, session logs with verification, plateau detection with auto-save, runs summary statistics with laps histogram, and bar/PSI/kPa pressure units.",
       "screenshot": "https://tirepressurepredictor.com/screenshot.png",
       "author": {
         "@type": "Organization",
@@ -109,6 +109,14 @@
           "acceptedAnswer": {
             "@type": "Answer",
             "text": "The Run Filter is an interactive scatter plot showing training runs by ambient temperature (x-axis) and best lap time (y-axis). Drag to select a region, or use step arrows for ±0.5°C and ±0.5s precision. Only selected runs feed into the prediction — exclude outlier sessions or match race-day conditions. Runs Summary Stats below the filter show per-run details, a laps histogram (green = enough laps, amber = fewer), and a warning when your target laps exceed available data."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How many laps should I enter?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Not the length of your stint — the lap you want to be on target at. Tire pressures build up over a run, so being at your hot target on lap 4 and on lap 20 requires two different sets of cold pressures, and this is exactly where cold pressure selection usually goes wrong: aiming at a stabilized state that a qualifying lap never reaches. The Advanced Statistics panel shows where your fastest laps have actually landed across your history — for example between laps 3 and 5 in 80% of runs, peaking at lap 4. Enter that lap, and the prediction gives you the cold pressures that put you on target while pressures are still climbing. For a race stint, where the stabilized phase is what you care about, enter the full number of laps instead."
           }
         },
         {
@@ -225,7 +233,7 @@
       "@type": "Article",
       "headline": "Race Car Tire Pressure Predictor: Data-Driven Cold Pressure Calculation",
       "description": "A data-driven tool that analyzes historical telemetry to predict optimal cold tire starting pressures. Input your target hot pressures, the track and the number of laps, the predictor calculates the exact cold values needed to reach those targets during the session.",
-      "articleBody": "Traditional cold pressure selection relies on experience and general guidelines. A racing tires cold pressure predictor takes a different approach: it learns from your actual data. By processing historical sessions where you recorded both starting cold and ending hot pressures, the system builds a statistical model specific to your car, tires, and driving style. Every racing tire has an optimal operating window where grip and consistency are maximized. The cold pressure predictor solves this by reversing the relationship: you specify your target hot pressures and the system calculates the corresponding cold values, accounting for thermal expansion, carcass heating, and track-specific factors. The Run Filter scatter plot lets you filter training runs by ambient temperature and best lap time, selecting only the sessions that match race-day conditions. Three decomposed temperature corrections adjust predictions using the OptimumG gas law formula: ambient temperature change, track surface temperature change, and tire setup temperature when tires are pressurized at a different temperature than ambient. For race stints, the data-driven bleed correction uses an exponential pressure build-up model calculating per-wheel expansion ratios from your actual telemetry data. Engineers start formation laps with higher pressures to prevent bead unseating and aid tire warm-up, then bleed down to optimal values on the grid. Three modes are available: Constant Bleed, Custom Start Pressure, and Grid Pressure. Tire Pressure Logs tracks compound usage across race weekends with ΔP vs ΔT scatter charts, per-wheel trend lines, and auto K-factor regression. The built-in pressure calculator uses the OptimumG ideal gas law algorithm. Plateau Detection automatically identifies when tire pressures have stabilized during a run and auto-saves these as verified baselines. The guided data workflow validates telemetry before training: every discarded run is listed with its reason and can be recovered after adjusting the exclusion settings. The predictor's accuracy improves with every session uploaded — team-wide adoption creates a centralized database where all engineers contribute data and new team members immediately benefit from years of accumulated knowledge.",
+      "articleBody": "Traditional cold pressure selection relies on experience and general guidelines. A racing tires cold pressure predictor takes a different approach: it learns from your actual data. By processing historical sessions where you recorded both starting cold and ending hot pressures, the system builds a statistical model specific to your car, tires, and driving style. Every racing tire has an optimal operating window where grip and consistency are maximized. The cold pressure predictor solves this by reversing the relationship: you specify your target hot pressures and the system calculates the corresponding cold values, accounting for thermal expansion, carcass heating, and track-specific factors. The number of laps is the input that decides everything else. Tire pressures build up progressively over a run, so being at the hot target on lap 4 and being at it on lap 20 require different cold pressures — and aiming at a stabilized state that a qualifying lap never reaches is the most common way cold pressure selection goes wrong. The statistics panel reports where the fastest lap has actually landed across the accumulated history, for example between laps 3 and 5 in 80% of runs with a peak at lap 4; that lap becomes the target, and the predictor returns the cold pressures that meet the hot target exactly there. The Run Filter scatter plot lets you filter training runs by ambient temperature and best lap time, selecting only the sessions that match race-day conditions. Three decomposed temperature corrections adjust predictions using the OptimumG gas law formula: ambient temperature change, track surface temperature change, and tire setup temperature when tires are pressurized at a different temperature than ambient. For race stints, the data-driven bleed correction uses an exponential pressure build-up model calculating per-wheel expansion ratios from your actual telemetry data. Engineers start formation laps with higher pressures to prevent bead unseating and aid tire warm-up, then bleed down to optimal values on the grid. Three modes are available: Constant Bleed, Custom Start Pressure, and Grid Pressure. Tire Pressure Logs tracks compound usage across race weekends with ΔP vs ΔT scatter charts, per-wheel trend lines, and auto K-factor regression. The built-in pressure calculator uses the OptimumG ideal gas law algorithm. Plateau Detection automatically identifies when tire pressures have stabilized during a run and auto-saves these as verified baselines. The guided data workflow validates telemetry before training: every discarded run is listed with its reason and can be recovered after adjusting the exclusion settings. The predictor's accuracy improves with every session uploaded — team-wide adoption creates a centralized database where all engineers contribute data and new team members immediately benefit from years of accumulated knowledge.",
       "author": {
         "@type": "Organization",
         "name": "LVilla Engineering",
@@ -278,6 +286,7 @@
                     Train the model on the telemetry you already have, and get the cold pressure for every corner &mdash; corrected for the conditions of the day, for qualifying as for a race.
                 </p>
                 <ul class="hero-outcomes">
+                    <li><strong>On target on the lap that counts</strong> &mdash; pressures are still building when you set your time, so the prediction aims at that lap, not at a settled state</li>
                     <li><strong>Cold pressures per corner</strong> corrected for ambient, track surface, and tire setup temperature</li>
                     <li><strong>Run Filter</strong> &mdash; pick the runs that match the session ahead, by driver, temperature and lap time</li>
                     <li><strong>Transparent data pipeline</strong> &mdash; every run stored or discarded with its reason, recoverable in one click</li>
@@ -464,22 +473,22 @@
                 <div class="feature-block">
                     <div class="feature-block-text">
                         <h3>Cold Pressure Prediction</h3>
-                        <p>Keep the runs that look like the session ahead, and read the four numbers. The corrections, the range and the build-up curve all come from your own data.</p>
+                        <p>Pressures climb for the whole run, and your fastest lap does not wait for them to settle. Tell the app which lap you are aiming at, and it works backwards to the cold pressures that put you on target exactly there.</p>
+                        <div class="feature-detail">
+                            <strong>Number of laps &mdash; the input that decides the rest</strong>
+                            <p>Being on target at lap 4 and being on target at lap 20 need different cold pressures. Set the lap you actually race for and the prediction is built for that point of the build-up, not for a stabilized state you may never reach.</p>
+                        </div>
+                        <div class="feature-detail">
+                            <strong>Watch it reach the target</strong>
+                            <p>The curve shows each corner climbing towards your hot target lap after lap, against the target line &mdash; so you can see whether you arrive early, late or right on it.</p>
+                        </div>
                         <div class="feature-detail">
                             <strong>Only the runs that matter</strong>
                             <p>Filter by driver, ambient temperature and lap time. What you keep is what feeds the prediction &mdash; match race-day conditions instead of averaging a whole season.</p>
                         </div>
                         <div class="feature-detail">
                             <strong>Corrected for the day you are having</strong>
-                            <p>Colder or hotter than when you trained? The prediction is adjusted for air, for track surface, and for tires inflated in a warm garage.</p>
-                        </div>
-                        <div class="feature-detail">
-                            <strong>A range, not a lone number</strong>
-                            <p>Every corner carries the minimum and maximum to expect, so you can see when the data behind it is thin. In bar, PSI or kPa.</p>
-                        </div>
-                        <div class="feature-detail">
-                            <strong>The build-up, lap by lap</strong>
-                            <p>Watch the pressures climb towards your target across the stint, and see where they settle &mdash; per corner, against the target line.</p>
+                            <p>Colder or hotter than when you trained? The prediction is adjusted for air, for track surface, and for tires inflated in a warm garage. Every corner carries the range to expect, in bar, PSI or kPa.</p>
                         </div>
                     </div>
                     <div class="feature-block-image">
@@ -495,10 +504,14 @@
                         <img src="images/statistics-light.jpg" width="1225" height="1447" alt="Advanced statistics (Light)" loading="lazy" class="screenshot-clickable screenshot-light" style="display:none">
                     </div>
                     <div class="feature-block-text">
-                        <h3>Know What Your Data Is Worth</h3>
-                        <p>Before you trust a number, look at what produced it. The statistics panel opens up the runs sitting behind the prediction &mdash; and tells you when there are not enough of them.</p>
+                        <h3>Know Which Lap to Aim At</h3>
+                        <p>Your fastest lap is not random: across a season it keeps landing on the same lap of the run. This panel tells you which one &mdash; and that number is what you feed back into the prediction.</p>
                         <div class="feature-detail">
-                            <strong>TPMS at the best lap</strong>
+                            <strong>Where your best lap actually falls</strong>
+                            <p>Across the selected runs it lands between laps 3 and 5 four times out of five, peaking at lap 4. Enter that lap, and the cold pressures are built to be on target when you are on it.</p>
+                        </div>
+                        <div class="feature-detail">
+                            <strong>TPMS at that lap</strong>
                             <p>Pressure and temperature per corner at the fastest lap of your selection: the reference every setup ends up being judged against.</p>
                         </div>
                         <div class="feature-detail">
@@ -507,7 +520,7 @@
                         </div>
                         <div class="feature-detail">
                             <strong>Laps per run</strong>
-                            <p>Green when a run is long enough for the stint you asked for, amber when it is not &mdash; so you never extrapolate without knowing that you are.</p>
+                            <p>Green when a run is long enough for the lap you asked for, amber when it is not &mdash; so you never extrapolate without knowing that you are.</p>
                         </div>
                     </div>
                 </div>
@@ -572,6 +585,13 @@
                     <summary>How does the Run Filter work?</summary>
                     <div class="faq-answer">
                         The Run Filter is an interactive scatter plot showing training runs by ambient temperature (x-axis) and best lap time (y-axis). Drag to select a region, or use step arrows for &plusmn;0.5&deg;C and &plusmn;0.5s precision. Only selected runs feed into the prediction &mdash; exclude outlier sessions or match race-day conditions. Runs Summary Stats below the filter show per-run details, a laps histogram (green = enough laps, amber = fewer), and a warning when your target laps exceed available data.
+                    </div>
+                </details>
+
+                <details class="faq-item">
+                    <summary>How many laps should I enter?</summary>
+                    <div class="faq-answer">
+                        Not the length of your stint &mdash; the lap you want to be on target at. Tire pressures build up over a run, so being at your hot target on lap 4 and on lap 20 requires two different sets of cold pressures, and this is exactly where cold pressure selection usually goes wrong: aiming at a stabilized state that a qualifying lap never reaches. The Advanced Statistics panel shows where your fastest laps have actually landed across your history &mdash; for example between laps 3 and 5 in 80% of runs, peaking at lap 4. Enter that lap, and the prediction gives you the cold pressures that put you on target while pressures are still climbing. For a race stint, where the stabilized phase is what you care about, enter the full number of laps instead.
                     </div>
                 </details>
 
@@ -712,6 +732,6 @@
          max-age=3600, so returning visitors keep running the cached copy until
          the query string differs. Changing the form endpoint without bumping it
          left browsers posting to the old service for an hour. -->
-    <script src="script.js?v=2.17.1"></script>
+    <script src="script.js?v=2.17.1b"></script>
 </body>
 </html>

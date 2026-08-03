@@ -201,6 +201,9 @@ a:hover {
     display: flex;
     align-items: center;
     justify-content: center;
+    /* The header is fixed and opaque: without this the hero centres against
+       the whole viewport and slides its first lines underneath it. */
+    padding-top: 71px;
     background: radial-gradient(ellipse at bottom, #0a0a0a 0%, #000 100%);
     z-index: 1;
     will-change: transform, opacity;
@@ -310,6 +313,52 @@ a:hover {
 
 .btn-link:hover {
     color: var(--ferrari-red);
+}
+
+/* Small phones (360x640 and the like) leave ~570px under the header: not
+   enough for headline, subtitle, list and buttons. The list goes — it stays
+   in the DOM — because a hero whose Download button is cut off is useless. */
+@media (max-width: 768px) and (max-height: 720px) {
+    .hero h1 {
+        font-size: 24px;
+        margin-bottom: 12px;
+    }
+
+    .hero-subtitle {
+        font-size: 14px;
+        margin-bottom: 20px;
+    }
+
+    .hero-outcomes {
+        display: none;
+    }
+}
+
+/* Laptops at 768px tall have ~700px left once the header is accounted for.
+   Tighten the type rather than let the hero overflow its own viewport. */
+@media (max-height: 860px) and (min-width: 1025px) {
+    .hero h1 {
+        font-size: 34px;
+        margin-bottom: 14px;
+    }
+
+    .hero-subtitle {
+        font-size: 16px;
+        margin-bottom: 18px;
+    }
+
+    .hero-outcomes {
+        margin-bottom: 20px;
+    }
+
+    .hero-outcomes li {
+        font-size: 15px;
+        margin-bottom: 8px;
+    }
+
+    .hero-figure img {
+        max-height: 54vh;
+    }
 }
 
 /* Scroll spacer pushes content below the fixed hero */
@@ -1939,16 +1988,39 @@ a:hover {
         transform: rotate(-45deg) translate(5px, -5px);
     }
 
+    /* Keeps the 71px header clearance from the base rule — a bare
+       `padding: 0 20px` here used to wipe it and slide the title under. */
     .hero {
-        padding: 0 20px;
+        padding: 71px 20px 0;
     }
 
     .hero h1 {
-        font-size: 32px;
+        font-size: 27px;
+        margin-bottom: 14px;
     }
 
     .hero-subtitle {
-        font-size: 17px;
+        font-size: 15px;
+        margin-bottom: 18px;
+    }
+
+    /* The hero is fixed and one viewport tall, so anything that does not fit
+       is cut off rather than scrolled to — which on a phone was swallowing
+       the Download button. Trim the list to the three claims that sell, and
+       keep the rest in the DOM for search engines. */
+    .hero-outcomes {
+        margin-bottom: 20px;
+    }
+
+    .hero-outcomes li {
+        font-size: 14px;
+        line-height: 1.5;
+        margin-bottom: 8px;
+    }
+
+    .hero-outcomes li:nth-child(3),
+    .hero-outcomes li:nth-child(4) {
+        display: none;
     }
 
     .hero-cta {

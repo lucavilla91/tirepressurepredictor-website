@@ -91,7 +91,7 @@
           "name": "Does it handle long run vs short run pressure build-up differences?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Yes. Pressure build-up behavior differs between qualifying (short runs with cool-down laps) and race stints (continuous long runs). The predictor accounts for session type when calculating cold pressures, ensuring accurate predictions whether you're setting up for a 15-minute qualifying or a 30-minute race stint."
+            "text": "Yes, through the Number of Laps input — which is not the length of the session but the lap you want to be on target at. Pressures build up progressively over a run, so being at the hot target on lap 4 and on lap 20 requires two different sets of cold pressures; aiming at a stabilized state that a qualifying lap never reaches is the most common mistake. The Advanced Statistics panel reports where the fastest lap has actually landed across your history, for example between laps 3 and 5 in 80% of runs peaking at lap 4, and that lap is what you enter for qualifying. For a race stint the full stint length is the right input instead."
           }
         },
         {
@@ -295,10 +295,13 @@
             <!-- Section 6: Long run vs short run -->
             <h2 class="section-title" style="text-align: left; margin-bottom: 16px;">Pressure Build-Up: Long Run vs Short Run</h2>
             <p style="margin-bottom: 24px; line-height: 1.8;">
-                Race car pressure build-up differs substantially between session types.
+                Race car pressure build-up differs substantially between session types, and this is where cold pressure selection most often goes wrong. Pressures climb progressively from the moment the car leaves the pits: they do not reach their stabilized value until well into a run. A qualifying lap is set long before that point, so a cold pressure chosen for the stabilized state simply never applies to the lap that sets your time.
             </p>
             <p style="margin-bottom: 24px; line-height: 1.8;">
-                The pressure prediction for long run vs short runs accounts for these differences. You can select the Number of Laps to account for qualifying, race, or practice, the model applies the appropriate pressure build-up curves. This ensures your cold pressure recommendations are calibrated for whether you're chasing a single flying lap or managing tire performance over a race stint.
+                The <strong>Number of Laps</strong> input exists for exactly this reason: it is not the length of the session, it is the lap you want to be on target at. Being at the hot target on lap 4 and being at it on lap 20 require two different sets of cold pressures, and the predictor works backwards from the lap you name to the cold values that meet the target precisely there.
+            </p>
+            <p style="margin-bottom: 24px; line-height: 1.8;">
+                Which lap should that be? Not a guess: the Advanced Statistics panel reports where the fastest lap has actually landed across your accumulated history — for instance between laps 3 and 5 in 80% of runs, peaking at lap 4. That is the lap the engineer should enter for qualifying, so the tires arrive at the target pressure while they are still building up. For a race stint, where the stabilized phase is what matters, the full stint length is the right input instead.
             </p>
             <p style="margin-bottom: 48px; line-height: 1.8;">
                 Understanding this distinction is critical: setting qualifying pressures for a race will leave you over-inflated by mid-stint, while race pressures in qualifying will compromise single-lap grip because of the under-inflation.

@@ -5,7 +5,23 @@ Per tornare a una versione precedente: `git revert <commit>` oppure `git checkou
 
 ---
 
-## 2026-08-02 (3) — Home come l'app: Telemetry | Session Logs *(non ancora pubblicata)*
+## 2026-08-02 (4) — Il numero di giri come input centrale
+
+Il sito non spiegava da nessuna parte il concetto che distingue il prodotto: le pressioni salgono per tutto il run, quindi centrare il target a caldo al giro 4 o al giro 20 richiede pressioni a freddo diverse, e l'app dice statisticamente su quale giro cade il best lap.
+
+**File modificati:** `index.html`, `styles.css`, `race-car-tyre-pressure-predictor/index.html`
+
+- **Hero**: nuovo primo bullet sul giro-obiettivo (5 bullet totali).
+- **Blocco Prediction** riscritto attorno al numero di giri, che diventa il primo dettaglio ("the input that decides the rest").
+- **Blocco Statistics**: titolo da "Know What Your Data Is Worth" a **"Know Which Lap to Aim At"**, con i numeri reali dello screenshot (giri 3-5 nell'80% dei run, picco al giro 4). I due blocchi ora si rimandano a vicenda.
+- **FAQ nuova** "How many laps should I enter?" (pagina + JSON-LD), che distingue il caso qualifica dal race stint.
+- **SEO**: meta description, Open Graph/Twitter e corpo dell'Article riscritti sul concetto; sulla pagina secondaria ampliata la sezione "Long Run vs Short Run".
+- **Fix layout dell'hero**: essendo `fixed` e alto un viewport, ciò che eccede viene tagliato e non scrollato — il quinto bullet mandava il titolo sotto l'header su laptop 1366×768 e il pulsante Download fuori schermo su telefono. Aggiunto il rientro per l'header (una regola mobile lo azzerava) e due soglie di compattamento: 3 bullet sotto i 768px, solo titolo/sottotitolo/CTA sotto i 720px di altezza. Le voci nascoste restano nel DOM.
+- Cache-buster a `2.17.1b`: il CSS era già stato servito online come `2.17.1`.
+
+---
+
+## 2026-08-02 (3) — Home come l'app: Telemetry | Session Logs
 
 **File modificati:** `index.html`, `styles.css`, `script.js`, `images/settings-*.jpg`
 
