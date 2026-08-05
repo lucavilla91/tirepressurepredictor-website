@@ -611,7 +611,9 @@ function calculate() {
 function configureUnits(pUnit, tUnit) {
   IS_PSI = pUnit === 'psi';
   IS_KPA = pUnit === 'kpa';
-  IS_F = tUnit === 'fahrenheit';
+  // Two apps write these sessions and they do not share a vocabulary:
+  // Tire Pressure Predictor sends 'celsius'/'fahrenheit', Car Setup Tool 'c'/'f'.
+  IS_F = tUnit === 'fahrenheit' || tUnit === 'f';
   P_DECIMALS = IS_PSI ? 1 : (IS_KPA ? 0 : 2);
   P_STEP = IS_PSI ? '0.1' : (IS_KPA ? '1' : '0.01');
   T_STEP = IS_F ? '1' : '0.5';
@@ -685,11 +687,18 @@ function loadSession() {
     return;
   }
 
-  fetch(SUPABASE_URL + '/rest/v1/mobile_sessions?id=eq.' + encodeURIComponent(sessionId) + '&select=*', {
+  // Reads go through a SECURITY DEFINER function that takes an id and returns
+  // at most one non-expired row. A direct SELECT on the table would return
+  // every row to anyone holding the (public) anon key, id or no id.
+  // The function still answers with an array, so the code below is unchanged.
+  fetch(SUPABASE_URL + '/rest/v1/rpc/get_mobile_session', {
+    method: 'POST',
     headers: {
       'apikey': SUPABASE_ANON_KEY,
       'Authorization': 'Bearer ' + SUPABASE_ANON_KEY,
-    }
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ p_id: sessionId })
   })
   .then(function(res) {
     if (!res.ok) throw new Error('HTTP ' + res.status);
