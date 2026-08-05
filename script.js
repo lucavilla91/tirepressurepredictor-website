@@ -60,11 +60,11 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // ==================== DOWNLOAD / FORM ====================
-    const RELEASE_FALLBACK = 'https://github.com/lucavilla91/TirePressurePredictor/releases/latest';
+    const RELEASE_FALLBACK = 'https://github.com/MotorsportSoftware/TirePressurePredictor/releases/latest';
 
     // Resolve latest .exe download URL from GitHub API (cached for the session)
     let resolvedDownloadUrl = null;
-    fetch('https://api.github.com/repos/lucavilla91/TirePressurePredictor/releases/latest')
+    fetch('https://api.github.com/repos/MotorsportSoftware/TirePressurePredictor/releases/latest')
         .then(function(r) { return r.json(); })
         .then(function(release) {
             var exe = release.assets.find(function(a) { return a.name.endsWith('.exe') && a.name.includes('Setup'); });
